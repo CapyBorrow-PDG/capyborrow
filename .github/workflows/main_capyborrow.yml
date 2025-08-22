@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read # This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -24,6 +24,7 @@ jobs:
           node-version: '22.x'
 
       - name: npm install, build, and test
+        working-directory: ./backend
         run: |
           npm install
           npm run build --if-present
@@ -33,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: backend
 
   deploy:
     runs-on: ubuntu-latest
@@ -51,5 +52,9 @@ jobs:
         with:
           app-name: 'capyborrow'
           slot-name: 'Production'
+          package: ./backend
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C4A305B2F1624048A449A3C2B069FE1A }}
+
           package: .
+
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C4A305B2F1624048A449A3C2B069FE1A }}
