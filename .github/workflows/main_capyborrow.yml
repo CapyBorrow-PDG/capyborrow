@@ -7,10 +7,15 @@ on:
   push:
     branches:
       - main
+    pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
   build:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     permissions:
       contents: read # This is required for actions/checkout
