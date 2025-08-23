@@ -1,59 +1,78 @@
+:root {
+  --off-white: #fffffa;
+  --dark-turquoise: #0d5c63;
+  --light-turquoise: #247b7b;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .header {
-  background-color: aquamarine;
-  align-content: center;
-  justify-content: right;
+  background-color: var(--off-white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   height: 70px;
 }
 
-.header #searchbar {
-  width: 500px;
-  height: 30px;
-  margin: 10px;
+#logoandmenu {
+  display: flex;
 }
 
-.header #headerButton {
-  width: 200px;
-  height: 50px;
-  background-color: #589991;
+.logo {
+  height: 70px;
+}
+
+.nav {
+  display: flex;
+  color: var(--dark-turquoise);
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0px;
+}
+
+.nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.header #buttons {
+  display: flex;
+  gap: 10px;
+  padding-right: 20px;
+}
+
+.headerbutton {
+  width: 70px;
+  height: 40px;
+  border: 3px solid var(--light-turquoise);
+  border-radius: 7px;
+}
+
+.header #loginButton {
+  background-color: var(--light-turquoise);
+  color: var(--off-white);
+}
+
+.header #loginButton:hover {
+  background-color: var(--off-white);
+  color: var(--dark-turquoise);
+}
+
+.header #signupButton {
+  background-color: var(--off-white);
+  color: var(--dark-turquoise);
+}
+
+.header #signupButton:hover {
+  background-color: var(--light-turquoise);
+  color: var(--off-white);
 }
 
 #title {
