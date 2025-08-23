@@ -52,20 +52,6 @@ jobs:
         with:
           name: node-app
           path: backend-deploy
-
-      - name: Set Azure Web App settings
-        uses: azure/appservice-settings@v1
-        with:
-          app-name: 'capyborrow'
-          slot-name: 'Production'
-          app-settings-json: |
-            [
-              {
-                "name": "DATABASE_URL",
-                "value": "${{ secrets.DATABASE_URL }}",
-                "slotSetting": false
-              }
-            ]
       
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
