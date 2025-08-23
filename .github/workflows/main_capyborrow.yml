@@ -66,8 +66,6 @@ jobs:
                 "slotSetting": false
               }
             ]
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C4A305B2F1624048A449A3C2B069FE1A }}
-
       
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
