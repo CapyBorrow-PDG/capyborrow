@@ -24,10 +24,10 @@ const NavBar = () => {
           </div>
         </div>
         <div id="buttons">
-          <button className="headerbutton" id="loginButton"> 
+          <button className="headerbutton darkbutton"> 
             Log in
           </button>
-          <button className="headerbutton" id="signupButton"> 
+          <button className="headerbutton lightbutton"> 
             Sign up
           </button>
         </div>

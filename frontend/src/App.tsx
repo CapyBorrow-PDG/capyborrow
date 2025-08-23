@@ -8,6 +8,7 @@ import About from './pages/About.tsx';
 import Contact from './pages/Contact.tsx';
 import Questions from './pages/Questions.tsx';
 import Terms from './pages/Terms.tsx';
+import Shop from './pages/Shop.tsx';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/questions" element={<Questions />} />
           <Route path="/termsandservices" element={<Terms />} />
+          <Route path="/shop" element={<Shop />} />
         </Routes>
       </div>
       <Footer />

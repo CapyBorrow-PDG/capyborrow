@@ -6,6 +6,7 @@
 }
 
 .App {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
 }
 
@@ -53,31 +54,73 @@
   padding-right: 20px;
 }
 
-.headerbutton {
+button {
   width: 70px;
   height: 40px;
   border: 3px solid var(--light-turquoise);
   border-radius: 7px;
 }
 
-.header #loginButton {
+button.darkbutton {
   background-color: var(--light-turquoise);
   color: var(--off-white);
 }
 
-.header #loginButton:hover {
+button.darkbutton:hover {
   background-color: var(--off-white);
   color: var(--dark-turquoise);
 }
 
-.header #signupButton {
+button.lightbutton {
   background-color: var(--off-white);
   color: var(--dark-turquoise);
 }
 
-.header #signupButton:hover {
+button.lightbutton:hover {
   background-color: var(--light-turquoise);
   color: var(--off-white);
+}
+
+/*******
+ * landing page part 1
+ ********/
+
+#title {
+  position: relative;
+}
+
+#title #titleimage {
+  width: 100%;
+}
+
+#title .titletext {
+  color: var(--off-white);
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 10px;
+}
+
+.titletext h1 {
+  font-size: 64px;
+  margin: 0px;
+}
+
+.titletext h3 {
+  font-weight: normal;
+  font-size: 20px;
+  margin: 0px;
+}
+
+.titletext button {
+  width: 20%;
+  height: 70px;
+  font-size: 24px;
+  margin-top: 20px;
 }
 
 /*******
@@ -85,11 +128,11 @@
  ********/
 
  .footer {
-  position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   color: var(--dark-turquoise);
+  background-color: var(--off-white);
   border-top: 2px solid var(--dark-turquoise);
   display: flex;
   justify-content: space-around;
