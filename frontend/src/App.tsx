@@ -1,11 +1,13 @@
 import React from 'react';
 import './App.css';
 import NavBar from './components/NavBar.tsx';
+import Footer from './components/Footer.tsx';
 import { Routes, Route } from 'react-router-dom';
 import Landing from './pages/Landing.tsx';
 import About from './pages/About.tsx';
 import Contact from './pages/Contact.tsx';
 import Questions from './pages/Questions.tsx';
+import Terms from './pages/Terms.tsx';
 
 const App = () => {
   return (
@@ -17,8 +19,10 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/questions" element={<Questions />} />
+          <Route path="/termsandservices" element={<Terms />} />
         </Routes>
       </div>
+      <Footer />
     </div>
   );
 }
