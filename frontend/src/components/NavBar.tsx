@@ -24,7 +24,7 @@ const NavBar = () => {
             </ul>
           </div>
         </div>
-        <div id="buttons">
+        <div className="buttons">
           <button className="headerbutton darkbutton" onClick={() => alert("can't log in yet :(")}> 
             Log in
           </button>

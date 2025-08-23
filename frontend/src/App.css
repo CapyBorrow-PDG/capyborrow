@@ -52,7 +52,7 @@
   text-decoration: none;
 }
 
-.header #buttons {
+.buttons {
   display: flex;
   gap: 10px;
   padding-right: 20px;
@@ -89,16 +89,15 @@ button.lightbutton:hover {
  * landing page part 1
  ********/
 
-#title {
+#segment1 {
   position: relative;
 }
 
-#title #titleimage {
+#segment1 #titleimage {
   width: 100%;
 }
 
-#title .titletext {
-  color: var(--off-white);
+.titletext {
   position: absolute;
   top: 45%;
   left: 50%;
@@ -109,12 +108,16 @@ button.lightbutton:hover {
   row-gap: 10px;
 }
 
-.titletext h1 {
+.lighttext {
+  color: var(--off-white);
+}
+
+h1 {
   font-size: 64px;
   margin: 0px;
 }
 
-.titletext h3 {
+h3 {
   font-weight: normal;
   font-size: 20px;
   margin: 0px;
@@ -126,6 +129,28 @@ button.lightbutton:hover {
   font-size: 24px;
   margin-top: 20px;
 }
+
+/*******
+ * landing page part 4
+ ********/
+
+ .darktext {
+  color: var(--dark-turquoise);
+ }
+
+ #segment4 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 150px;
+ }
+
+ #segment4 button {
+  width: 100px;
+  height: 50px;
+  font-size: 16px;
+ }
 
 /*******
  * footer
