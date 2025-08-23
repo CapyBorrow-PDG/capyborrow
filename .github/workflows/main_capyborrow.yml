@@ -18,7 +18,7 @@ jobs:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     permissions:
-      contents: read # This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -35,6 +35,13 @@ jobs:
           npm install -g @medusajs/cli
           npm run build --if-present
           npm run test --if-present
+
+      # ✅ Ajouter les migrations et le seed
+      - name: Run Medusa migrations and seed
+        working-directory: ./backend
+        run: |
+          medusa migrations run
+          npm run seed
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
