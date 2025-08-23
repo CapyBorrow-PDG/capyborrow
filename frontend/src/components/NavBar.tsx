@@ -3,6 +3,7 @@ import capylogo from '../images/logoCapyBorrow.png';
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
+
   return(
     <div className="header">
         <div id="logoandmenu">
@@ -24,10 +25,10 @@ const NavBar = () => {
           </div>
         </div>
         <div id="buttons">
-          <button className="headerbutton darkbutton"> 
+          <button className="headerbutton darkbutton" onClick={() => alert("can't log in yet :(")}> 
             Log in
           </button>
-          <button className="headerbutton lightbutton"> 
+          <button className="headerbutton lightbutton" onClick={() => alert("can't sign up yet :(")}> 
             Sign up
           </button>
         </div>

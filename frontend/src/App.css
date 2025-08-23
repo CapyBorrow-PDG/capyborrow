@@ -15,6 +15,10 @@
  ********/
 
 .header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 3000;
   background-color: var(--off-white);
   display: flex;
   align-items: center;

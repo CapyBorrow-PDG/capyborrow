@@ -1,5 +1,5 @@
 import handshake from '../images/handshake.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Landing = () => {
   const navigate = useNavigate();
