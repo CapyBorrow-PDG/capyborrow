@@ -16,7 +16,7 @@
     "build": "node ./node_modules/@medusajs/cli/cli.js build",
     "build:admin": "medusa-admin build --deployment",
     "seed": "medusa exec ./src/scripts/seed.ts",
-    "start": "node ./node_modules/@medusajs/cli/cli.js start",
+    "start": "node ./node_modules/@medusajs/cli/cli.js migrations && node ./node_modules/@medusajs/cli/cli.js start",
     "dev": "medusa develop",
     "test:integration:http": "TEST_TYPE=integration:http NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
     "test:integration:modules": "TEST_TYPE=integration:modules NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
