@@ -1,6 +1,10 @@
 import handshake from '../images/handshake.png';
 import example from '../images/exampleitem.png';
 import { useNavigate } from 'react-router-dom';
+import AnimatedText from '../components/AnimatedText.tsx';
+import illu1 from '../images/ecommerce.png';
+import illu2 from '../images/localization.jpg';
+import illu3 from '../images/messagerie.jpg';
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -21,6 +25,11 @@ const Landing = () => {
           <h3><b>CapyBorrow</b> is a platform that helps you borrow items from others and lend your own. Rent out items for <b>free</b> thanks to our Points system !</h3>
         </div>
         <img src={example} alt="example item" />
+      </div>
+      <div id="segment3">
+        <AnimatedText image={illu1} title="Lend" desc="Add objects to your page, set their price and availability, earn points"/>
+        <AnimatedText image={illu2} title="Find" desc="Filter by location, type or price, bookmark in a collection for later"/>
+        <AnimatedText image={illu3} title="Borrow" desc="Contact the lender, spend points, borrow the object, give it back before the deadline"/>
       </div>
       <div id="segment4">
         <h1 className='darktext'>Try it out for free now !</h1>

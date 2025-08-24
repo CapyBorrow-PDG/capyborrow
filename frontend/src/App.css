@@ -1,6 +1,6 @@
 :root {
   --off-white: #fffffa;
-  --dark-turquoise: #0d5c63;
+  --dark-turquoise: rgb(13, 92, 99);
   --light-turquoise: #247b7b;
   background-color: var(--off-white);
 }
@@ -140,7 +140,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 100px;
+  margin: 150px;
   gap: 40px;
  }
 
@@ -167,6 +167,63 @@ h3 {
  * landing page part 3
  ********/
 
+ #segment3 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ }
+
+ .animatedsegment {
+  width: 100%;
+  height: 230px;
+  position: relative;
+ }
+
+ .animatedsegment img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+ }
+
+ .animatedtext {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(13, 92, 99, 0.8);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 0.6s;
+ }
+
+ .animatedtext:hover {
+  background-color: rgba(13, 92, 99, 0.6);
+ }
+
+ .animatedtext h1 {
+  font-size: 48px;
+ }
+
+ .animatedtext:hover h1 {
+  font-size: 64px;
+ }
+
+ .animatedtext h3 {
+  font-size: 16px;
+ }
+
+ .animatedtext:hover h3 {
+  font-size: 20px;
+ }
+
+ .animatedtext > * {
+  transition: 0.5s;
+ }
 
 /*******
  * landing page part 4
