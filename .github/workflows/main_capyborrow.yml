@@ -7,13 +7,18 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
   build:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     permissions:
-      contents: read # This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -27,6 +32,7 @@ jobs:
         working-directory: ./backend
         run: |
           npm install
+          npm install -g @medusajs/cli
           npm run build --if-present
           npm run test --if-present
 
@@ -45,6 +51,26 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
+          path: backend-deploy
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set Azure App Settings
+        uses: azure/appservice-settings@v1
+        with:
+          app-name: 'capyborrow'
+          slot-name: 'Production'
+          app-settings-json: |
+            [
+              {
+                "name": "DATABASE_URL",
+                "value": "${{ secrets.DATABASE_URL }}",
+                "slotSetting": false
+              }
+            ]
       
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -52,9 +78,5 @@ jobs:
         with:
           app-name: 'capyborrow'
           slot-name: 'Production'
-          package: ./backend
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C4A305B2F1624048A449A3C2B069FE1A }}
-
-          package: .
-
+          package: ./backend-deploy
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C4A305B2F1624048A449A3C2B069FE1A }}
