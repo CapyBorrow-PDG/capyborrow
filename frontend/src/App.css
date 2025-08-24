@@ -131,6 +131,44 @@ h3 {
 }
 
 /*******
+ * landing page part 2
+ ********/
+
+ #segment2 {
+  position: relative;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 100px;
+  gap: 40px;
+ }
+
+ #segment2 div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 50%;
+ }
+
+ #segment2 h1 {
+  font-size: 48px;
+ }
+
+ #segment2 h3 {
+  font-size: 20px;
+ }
+
+ #segment2 img {
+  border: 3px solid var(--dark-turquoise);
+ }
+
+ /*******
+ * landing page part 3
+ ********/
+
+
+/*******
  * landing page part 4
  ********/
 

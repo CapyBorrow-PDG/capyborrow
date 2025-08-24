@@ -1,4 +1,5 @@
 import handshake from '../images/handshake.png';
+import example from '../images/exampleitem.png';
 import { useNavigate } from 'react-router-dom';
 
 const Landing = () => {
@@ -13,6 +14,13 @@ const Landing = () => {
           <h3>Borrow instead of buying, lend instead of throwing away</h3>
           <button className="darkbutton" onClick={() => navigate('/shop')}>Discover</button>
         </div>
+      </div>
+      <div id="segment2">
+        <div className="darktext">
+          <h1>Save money by renting items</h1>
+          <h3><b>CapyBorrow</b> is a platform that helps you borrow items from others and lend your own. Rent out items for <b>free</b> thanks to our Points system !</h3>
+        </div>
+        <img src={example} alt="example item" />
       </div>
       <div id="segment4">
         <h1 className='darktext'>Try it out for free now !</h1>
