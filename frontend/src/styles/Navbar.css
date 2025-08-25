@@ -48,14 +48,6 @@
   padding: 10px;
 }
 
-button {
-  width: calc(40px + 2.5vw);
-  height: calc(25px + 1.5vw);
-  font-size: calc((20% + 0.3vw) * 2);
-  border: 3px solid var(--light-turquoise);
-  border-radius: 7px;
-}
-
 button.darkbutton {
   background-color: var(--light-turquoise);
   color: var(--off-white);
