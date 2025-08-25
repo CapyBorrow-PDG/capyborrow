@@ -1,3 +1,4 @@
+import '../styles/Landing.css';
 import handshake from '../images/handshake.png';
 import example from '../images/exampleitem.png';
 import { useNavigate } from 'react-router-dom';
