@@ -14,7 +14,7 @@ const Landing = () => {
       <div id="segment1">
         <img src={handshake} id="titleimage" alt="handshake" />
         <div className="titletext lighttext">
-          <h1>Encourage sustainability PDG</h1>
+          <h1>Encourage sustainability</h1>
           <h3>Borrow instead of buying, lend instead of throwing away</h3>
           <button className="darkbutton" onClick={() => navigate('/shop')}>Discover</button>
         </div>
