@@ -1,4 +1,5 @@
 import React from "react";
+import '../styles/Navbar.css';
 import capylogo from '../images/logoCapyBorrow.png';
 import { Link } from 'react-router-dom';
 
