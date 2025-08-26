@@ -1,3 +1,25 @@
+
+#article {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 10px;
+}
+
 #article img {
-  width: 300px;
+  width: 200px;
+}
+
+#article h2 {
+  margin: 0;
+  font-weight: normal;
+}
+
+#article p {
+  margin: 0;
+  color: lightslategray;
+}
+
+#article .price {
+  color: black;
 }
