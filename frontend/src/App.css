@@ -15,6 +15,11 @@ h1 {
   margin: 0px;
 }
 
+h2 {
+  font-size: calc((75% + 0.5vw) * 2);
+  margin: 0px;
+}
+
 h3 {
   font-weight: normal;
   font-size: calc((30% + 0.5vw) * 2);
