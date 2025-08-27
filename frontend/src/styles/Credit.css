@@ -1,0 +1,29 @@
+#section1 {
+	margin-top: calc(10px + 5%);
+	position: relative;
+}
+
+#section1 #buttonSection {
+	display: flex;
+	align-items: center;
+	position: relative;
+	justify-content: center;
+	margin-top: calc(10px + 10%);
+	margin-bottom: calc(10px + 10%);
+	@media (max-width: 1200px) {
+		flex-direction: column;
+	}
+}
+
+#buttonSection .creditButton {
+	width: calc(200px + 4vw);
+	height: calc(75px + 2.5vw);
+	border: solid 2px var(--dark-turquoise);
+	border-radius: 7px;
+	padding-bottom: calc(3px + 0.5vh);
+	margin: 10px;
+}
+
+.creditButton button {
+	width: 80%;
+}
