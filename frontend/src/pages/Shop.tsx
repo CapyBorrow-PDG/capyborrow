@@ -4,6 +4,7 @@ import MySlider from '../components/Slider.tsx';
 import Article from '../components/Article.tsx';
 import charger from '../images/chargeur.jpg';
 import Dropdown from '../components/Dropdown/Dropdown.tsx';
+import LocationFilter from '../components/LocationFilter.tsx';
 
 const options = [
   {value: 'cat1', label: 'Cat1'},
@@ -37,10 +38,13 @@ const Shop = () => {
   return(
     <div>
       <div className="filterslist">
-        <Dropdown buttontext="Availability" content={<p>oups</p>} />
-        <Dropdown buttontext="price" content={<MySlider />} />
-        <Dropdown buttontext="State" content={<p>oups</p>} />
-        <Dropdown buttontext="Category" content={<p>oups</p>} />
+        <LocationFilter />
+        <div className="filterslist__buttons">
+          <Dropdown buttontext="Availability" content={<p>oups</p>} />
+          <Dropdown buttontext="price" content={<MySlider />} />
+          <Dropdown buttontext="State" content={<p>oups</p>} />
+          <Dropdown buttontext="Category" content={<p>oups</p>} />
+        </div>
       </div>
     </div>
   );

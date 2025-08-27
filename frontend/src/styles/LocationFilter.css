@@ -1,0 +1,18 @@
+.location-filter__button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--dark-turquoise);
+  cursor: pointer;
+}
+
+.location-filter__content {
+  background-color: var(--off-white);
+  width: 40vw;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}

@@ -1,9 +1,9 @@
 import '../../styles/Dropdown.css';
 
 const DropdownContent = ({children, open}) => {
-  return(
-    <div className={`dropdown-content ${open ? 'content-open' : ''}`}>{children}</div>
-  );
+  return (open) ? (
+    <div className={`dropdown-content`}>{children}</div>
+  ) : null;
 };
 
 export default DropdownContent;

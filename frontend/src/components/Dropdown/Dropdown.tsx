@@ -7,7 +7,7 @@ const Dropdown = (props) => {
   const [open, setOpen] = useState(false);
 
   const toggleOpen = () => {
-    setOpen((open) => !open);
+    setOpen(!open);
   }
 
   return(

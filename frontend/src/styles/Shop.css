@@ -1,7 +1,23 @@
 .filterslist {
-  margin-top: 200px;
-  margin-bottom: 200px;
-  width: 100%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: 80px;
+  margin-right: 80px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
+  @media (max-width: 850px) {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.filterslist__buttons {
+  display: flex;
+  gap: calc(10px + 2.5vw);
+  @media (max-width: 650px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
 }
