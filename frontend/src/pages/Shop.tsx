@@ -1,3 +1,4 @@
+import '../styles/Shop.css'
 import Select from 'react-select';
 import MySlider from '../components/Slider.tsx';
 import Article from '../components/Article.tsx';
@@ -33,10 +34,14 @@ const customStyles = {
 };
 
 const Shop = () => {
-  
   return(
     <div>
-      <Dropdown buttontext="price" content={<MySlider />} />
+      <div className="filterslist">
+        <Dropdown buttontext="Availability" content={<p>oups</p>} />
+        <Dropdown buttontext="price" content={<MySlider />} />
+        <Dropdown buttontext="State" content={<p>oups</p>} />
+        <Dropdown buttontext="Category" content={<p>oups</p>} />
+      </div>
     </div>
   );
 };

@@ -1,0 +1,7 @@
+.filterslist {
+  margin-top: 200px;
+  margin-bottom: 200px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
