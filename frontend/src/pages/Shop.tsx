@@ -1,56 +1,66 @@
-import '../styles/Shop.css'
-import Select from 'react-select';
+import '../styles/Shop.css';
 import MySlider from '../components/Slider.tsx';
 import Article from '../components/Article.tsx';
 import charger from '../images/chargeur.jpg';
 import Dropdown from '../components/Dropdown/Dropdown.tsx';
 import LocationFilter from '../components/LocationFilter.tsx';
+import Checkbox from '../components/Checkbox.tsx';
+import Searchbar from '../components/Searchbar.tsx';
 
-const options = [
-  {value: 'cat1', label: 'Cat1'},
-  {value: 'cat2', label: 'Cat2'},
-  {value: 'cat3', label: 'Cat3'}
-]
+/*
+ * Checkbox and Article elements are hard coded for now,
+ * replace with javascript code when linked to db
+ * for example:
+ */
 
-const customStyles = {
-  control: (provided) => ({
-    ...provided,
-    backgroundColor: 'var(--off-white)',
-    padding: '5px 10px',
-    border: '2px solid var(--dark-turquoise)',
-    borderRadius: '20px',
-    width: '50%'
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    borderBottom: '1px dotted var(--dark-turquoise)',
-    color: state.isFocused ? 'var(--off-white)' : 'var(--dark-turquoise)',
-    backgroundColor: state.isFocused ? 'var(--light-turquoise)' : 'var(--off-white)'
-  }),
-  menu: (provided) => ({
-    ...provided,
-    width: '50%',
-    border: '2px solid var(--dark-turquoise)'
-  })
-};
+/* const addToList = () => {
+  const data = "";//get list of states here
+  for(const res of data) {
+    const sp = document.createElement("span");
+    sp.innerHTML = `<CheckBox id=${theId} val=${theStateName} />`;
+    document.getElementById("state-list")?.appendChild(sp);
+  }
+} */
+
+/*
+ * Checking a checkbox event does nothing for now, add when connected to db for filter
+ * -> add every checked element to a list, use for sql command
+ */
 
 const Shop = () => {
   return(
     <div>
+      <Searchbar />
       <div className="filterslist">
         <LocationFilter />
         <div className="filterslist__buttons">
           <Dropdown buttontext="Availability" content={<p>oups</p>} />
           <Dropdown buttontext="price" content={<MySlider />} />
-          <Dropdown buttontext="State" content={<p>oups</p>} />
-          <Dropdown buttontext="Category" content={<p>oups</p>} />
+          <Dropdown buttontext="State" content={<div id="state-list" className="checkbox-list">
+            <Checkbox id="very-good" val="very good" />
+            <Checkbox id="good" val="good" />
+            <Checkbox id="used" val="used" />
+          </div>} />
+          <Dropdown buttontext="Category" content={<div id="cat-list" className="checkbox-list">
+            <Checkbox id="electronics" val="Electronics" />
+            <Checkbox id="books" val="Books" />
+            <Checkbox id="music" val="Music" />
+          </div>} />
         </div>
+      </div>
+      <div className="info-text darktext">
+        <h3>"Search Result here"</h3>
+        <p>x results</p>
+      </div>
+      <div className="articles">
+        <Article image={charger} title="Phone charger" location="Martigny, VS" state="very good" price="50" unav={false} />
+        <Article image={charger} title="Phone charger" location="Martigny, VS" state="very good" price="50" unav={false} />
+        <Article image={charger} title="Phone charger" location="Martigny, VS" state="very good" price="50" unav={false} />
+        <Article image={charger} title="Phone charger" location="Martigny, VS" state="very good" price="50" unav={true} />
+        <Article image={charger} title="Phone charger" location="Martigny, VS" state="very good" price="50" unav={false} />
       </div>
     </div>
   );
 };
 
 export default Shop;
-
-/*<Select options={options} isMulti styles={customStyles} placeholder={'Category'} />
-      <Article image={charger} title="Phone charger" location="Martigny, VS" desc="Phone charger 20W USB-C" price="50" />*/

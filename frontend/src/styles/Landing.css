@@ -22,10 +22,6 @@
   row-gap: calc(3px + 0.5vh);
 }
 
-.lighttext {
-  color: var(--off-white);
-}
-
 .titletext button {
   width: calc(100px + 2.5vw);
   height: calc(50px + 1.5vw);
@@ -128,10 +124,6 @@
 /*******
  * landing page part 4
  ********/
-
- .darktext {
-  color: var(--dark-turquoise);
- }
 
  #segment4 {
   display: flex;

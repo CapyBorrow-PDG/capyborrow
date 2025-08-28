@@ -1,21 +1,42 @@
 .filterslist {
-  margin-top: 50px;
-  margin-bottom: 50px;
-  margin-left: 80px;
-  margin-right: 80px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 44px;
+  margin-right: 44px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media (max-width: 850px) {
-    flex-direction: column;
-    gap: 20px;
-  }
 }
 
 .filterslist__buttons {
   display: flex;
   gap: calc(10px + 2.5vw);
-  @media (max-width: 650px) {
+}
+
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.info-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding-left: 44px;
+  padding-top: 20px;
+  border-top: 2px solid var(--dark-turquoise);
+}
+
+@media (max-width: 850px) {
+  .filterslist {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 650px) {
+  .filterslist__buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
