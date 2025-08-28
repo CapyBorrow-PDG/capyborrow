@@ -33,3 +33,8 @@ button {
   border: 3px solid var(--light-turquoise);
   border-radius: 7px;
 }
+
+.articles {
+  display: flex;
+  flex-wrap: wrap;
+}
