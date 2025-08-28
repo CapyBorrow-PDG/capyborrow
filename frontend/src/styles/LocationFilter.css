@@ -8,11 +8,52 @@
 
 .location-filter__content {
   background-color: var(--off-white);
-  width: 40vw;
-  height: 60vh;
+  width: 35vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  overflow-y: scroll;
+}
+
+#map-container {
+  height: 300px;
+  width: 400px;
+}
+
+.search {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+}
+
+#resultlist {
+  position: absolute;
+  top: 60%;
+  z-index: 4500;
+  display: flex;
+  width: 30vw;
+  height: 20vh;
+  overflow-y: scroll;
+  flex-direction: column;
+  padding: 0;
+  margin: 10px;
+  border: 1px solid var(--dark-turquoise);
+}
+
+.search-result {
+  list-style-type: none;
+  border-bottom: 1px solid var(--dark-turquoise);
+  color: var(--dark-turquoise);
+  background-color: var(--off-white);
+  padding: 5px;
+}
+
+#resultlist.content-closed {
+  display: none;
 }

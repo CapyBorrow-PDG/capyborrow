@@ -34,6 +34,26 @@ h3 {
   color: var(--dark-turquoise);
 }
 
+.darkbutton {
+  background-color: var(--dark-turquoise);
+  color: var(--off-white);
+}
+
+.darkbutton:hover {
+  background-color: var(--off-white);
+  color: var(--dark-turquoise);
+}
+
+.lightbutton {
+  background-color: var(--off-white);
+  color: var(--dark-turquoise);
+}
+
+.lightbutton:hover {
+  background-color: var(--dark-turquoise);
+  color: var(--off-white);
+}
+
 button {
   width: calc(40px + 2.5vw);
   height: calc(25px + 1.5vw);
@@ -47,4 +67,8 @@ button {
   flex-wrap: wrap;
   width: calc(100% - 80px);
   margin: 40px;
+}
+
+.clickable {
+  cursor: pointer;
 }
