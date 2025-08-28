@@ -26,6 +26,14 @@ h3 {
   margin: 0px;
 }
 
+.lighttext {
+  color: var(--off-white);
+}
+
+.darktext {
+  color: var(--dark-turquoise);
+}
+
 button {
   width: calc(40px + 2.5vw);
   height: calc(25px + 1.5vw);
@@ -37,4 +45,6 @@ button {
 .articles {
   display: flex;
   flex-wrap: wrap;
+  width: calc(100% - 80px);
+  margin: 40px;
 }
