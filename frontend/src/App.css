@@ -26,10 +26,53 @@ h3 {
   margin: 0px;
 }
 
+.lighttext {
+  color: var(--off-white);
+}
+
+.darktext {
+  color: var(--dark-turquoise);
+}
+
+.darkbutton {
+  background-color: var(--dark-turquoise);
+  color: var(--off-white);
+}
+
+.darkbutton:hover {
+  background-color: var(--off-white);
+  color: var(--dark-turquoise);
+}
+
+.lightbutton {
+  background-color: var(--off-white);
+  color: var(--dark-turquoise);
+}
+
+.lightbutton:hover {
+  background-color: var(--dark-turquoise);
+  color: var(--off-white);
+}
+
 button {
   width: calc(40px + 2.5vw);
   height: calc(25px + 1.5vw);
   font-size: calc((20% + 0.3vw) * 2);
   border: 3px solid var(--light-turquoise);
   border-radius: 7px;
+}
+
+.articles {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100% - 80px);
+  margin: 40px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.input[type="date"] {
+  border: 1px solid var(--dark-turquoise);
 }

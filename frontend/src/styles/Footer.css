@@ -6,6 +6,7 @@
   left: 0;
   bottom: 0;
   width: 100%;
+  z-index: 3000;
   color: var(--dark-turquoise);
   background-color: var(--off-white);
   border-top: 2px solid var(--dark-turquoise);
