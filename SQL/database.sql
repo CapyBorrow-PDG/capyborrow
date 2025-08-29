@@ -16,8 +16,6 @@ CREATE TABLE Capyborrow.user (
     email VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(30) NOT NULL,
     --localisation VARCHAR(20) NOT NULL,
-    longitude REAL NOT NULL,
-    latitude REAL NOT NULL,
     description VARCHAR(200),
     points INT NOT NULL DEFAULT 200 -- 200 points à la création
     --profile_picture VARCHAR(200) --URL de l'image
@@ -34,7 +32,10 @@ CREATE TABLE Capyborrow.item (
     mean_rating REAL,
     owner_id INT NOT NULL REFERENCES Capyborrow.user(user_id),
     --is_available BOOLEAN NOT NULL DEFAULT true,
-    category VARCHAR(20)
+    category1 VARCHAR(20),
+    category2 VARCHAR(20),
+    longitude REAL NOT NULL,
+    latitude REAL NOT NULL
     --image VARCHAR(200) 
 
 );
@@ -65,12 +66,16 @@ CREATE TABLE Capyborrow.borrow (
 
 );
 
+-- LIKE
+
 CREATE TABLE Capyborrow.like (
     like_id SERIAL PRIMARY KEY,
     item_id INT NOT NULL REFERENCES Capyborrow.item(item_id),
     liker_id INT NOT NULL REFERENCES Capyborrow.user(user_id)
 
 );
+
+-- PICTURE
 
 CREATE TABLE Capyborrow.picture (
     picture_id SERIAL PRIMARY KEY,
@@ -86,6 +91,9 @@ CREATE TABLE Capyborrow.item_picture ( -- pour l'instant pas de limite du nombre
     picture_id INT PRIMARY KEY REFERENCES Capyborrow.picture(picture_id),
     item_id INT REFERENCES Capyborrow.item(item_id)
 );
+
+
+-- ADD people,items...
 
 INSERT INTO Capyborrow.user(firstname, lastname, email, password, longitude, latitude, description)
 VALUES('David', 'Berger', 'david.berger@heig-vd.ch', 'admin', 46.3100, 6.3200, 'Je vous prete mes objets');
@@ -139,3 +147,13 @@ SELECT
     end_date
 FROM Capyborrow.borrow
 WHERE end_date >= CURRENT_DATE;
+
+-- Filtrer par categorie
+-- query js : SELECT item_id FROM Capyborrow.filter_item_by_category WHERE category1 = $1 OR category2 = $1
+CREATE OR REPLACE VIEW Capyborrow.filter_item_by_category AS
+SELECT 
+    item_id,
+    name,
+    category1,
+    category2
+FROM Capyborrow.item
