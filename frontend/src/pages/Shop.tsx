@@ -34,7 +34,14 @@ const Shop = () => {
       <div className="filterslist">
         <LocationFilter />
         <div className="filterslist__buttons">
-          <Dropdown buttontext="Availability" content={<p>oups</p>} />
+          <Dropdown buttontext="Availability" content={
+            <div className="datepicker">
+              <span className="darktext">from:</span>
+              <input aria-label="Date" type="date" className="darktext" />
+              <span className="darktext">to:</span>
+              <input aria-label="Date" type="date" className="darktext" />
+            </div>
+          } />
           <Dropdown buttontext="price" content={<MySlider />} />
           <Dropdown buttontext="State" content={<div id="state-list" className="checkbox-list">
             <Checkbox id="very-good" val="very good" />

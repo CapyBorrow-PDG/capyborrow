@@ -72,3 +72,7 @@ button {
 .clickable {
   cursor: pointer;
 }
+
+.input[type="date"] {
+  border: 1px solid var(--dark-turquoise);
+}

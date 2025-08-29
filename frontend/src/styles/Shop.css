@@ -28,6 +28,11 @@
   border-top: 2px solid var(--dark-turquoise);
 }
 
+.datepicker {
+  display: flex;
+  gap: 5px;
+}
+
 @media (max-width: 850px) {
   .filterslist {
     flex-direction: column;
