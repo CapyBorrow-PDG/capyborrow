@@ -28,15 +28,16 @@ CREATE TABLE Capyborrow.item (
     name VARCHAR(100) NOT NULL,
     description VARCHAR(200),
     price INT NOT NULL,
-    state INT NOT NULL CHECK (state > 0 AND state <= 5),
+    --state INT NOT NULL CHECK (state > 0 AND state <= 5),
+    state VARCHAR(15) NOT NULL,
     mean_rating REAL,
     owner_id INT NOT NULL REFERENCES Capyborrow.user(user_id),
-    --is_available BOOLEAN NOT NULL DEFAULT true,
+    is_available BOOLEAN NOT NULL DEFAULT true, -- l'utilisateur peut le rendre imprêtable
     category1 VARCHAR(20),
     category2 VARCHAR(20),
     longitude REAL NOT NULL,
     latitude REAL NOT NULL
-    --image VARCHAR(200) 
+    --image VARCHAR(200)
 
 );
 
@@ -117,7 +118,7 @@ VALUES(1, 1, 2, '2025-08-29', '2025-08-31');
 -- Voir tous les objets d'un utilisateur
 -- query js : SELECT item_id FROM Capyborrow.user_items WHERE user_id = $1;
 CREATE OR REPLACE VIEW Capyborrow.user_items AS
-SELECT 
+SELECT
     owner_id AS user_id,
     item_id
 FROM Capyborrow.item;
@@ -156,4 +157,26 @@ SELECT
     name,
     category1,
     category2
-FROM Capyborrow.item
+FROM Capyborrow.item;
+
+-- Filtrer par date
+-- query js : SELECT item_id FROM Capyborrow.filter_item_by_date WHERE end_date < $1 AND start_date > $2  !!!! il checker 2 emprunt différents
+CREATE OR REPLACE VIEW Capyborrow.filter_item_by_date AS
+SELECT
+    i.item_id,
+    i.name,
+    b.start_date,
+    b.end_date
+FROM Capyborrow.item AS i
+JOIN Capyborrow.borrow AS b ON b.item_id = i.item_id;
+
+-- Filtrer par prix
+-- query js : SELECT item_id FROM Capyborrow.filter_item_by_price WHERE price >= $1 AND price <= $2
+CREATE OR REPLACE VIEW Capyborrow.filter_item_by_price AS
+SELECT
+    item_id,
+    name,
+    price
+FROM Capyborrow.item;
+
+-- Filtrer par état
