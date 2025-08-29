@@ -38,7 +38,7 @@
   z-index: 4500;
   display: flex;
   width: 30vw;
-  height: 20vh;
+  max-height: 20vh;
   overflow-y: scroll;
   flex-direction: column;
   padding: 0;

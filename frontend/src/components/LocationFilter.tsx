@@ -6,7 +6,7 @@ import Dropdown from './Dropdown/Dropdown.tsx';
 import { useEffect, useState } from 'react';
 
 const LocationFilter = (props) => {
-  const [open, setOpen] = useState(true); //fix display results
+  const [open, setOpen] = useState(false); //fix display results
   const [searchListOpen, setSearchListOpen] = useState(false);
   const [city, setCity] = useState('city');
   const [canton, setCanton] = useState('state');
@@ -47,14 +47,12 @@ const LocationFilter = (props) => {
         const li = document.createElement('li');
         li.className = "search-result clickable";
         li.onclick = () => {
-          //turn into separate function
           setLat(result.lat);
           setLong(result.lon);
           (document.getElementById("resultlist") as HTMLElement).innerHTML ='';
           setSearchListOpen(false);
-          const name = result.display_name.split(", ");
-          setCity(name[0]);
-          setCanton(name[1]);
+          setCity(result.address.town);
+          setCanton(result.address.state);
         };
         li.innerHTML = JSON.stringify(result.display_name);
         document.getElementById("resultlist")?.appendChild(li);
@@ -69,7 +67,7 @@ const LocationFilter = (props) => {
         searchLoc();
       }
     })
-  }, [])
+  }, [open])
 
   return(
     <div className="location-filter">
