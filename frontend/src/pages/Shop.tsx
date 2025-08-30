@@ -1,32 +1,11 @@
 import '../styles/Shop.css';
 import MySlider from '../components/Slider.tsx';
 import Article from '../components/Article.tsx';
-//import charger from '../images/chargeur.jpg';
 import Dropdown from '../components/Dropdown/Dropdown.tsx';
 import LocationFilter from '../components/LocationFilter.tsx';
 import Checkbox from '../components/Checkbox.tsx';
 import Searchbar from '../components/Searchbar.tsx';
 import {useEffect, useState} from "react";
-
-/*
- * Checkbox and Article elements are hard coded for now,
- * replace with javascript code when linked to db
- * for example:
- */
-
-/* const addToList = () => {
-  const data = "";//get list of states here
-  for(const res of data) {
-    const sp = document.createElement("span");
-    sp.innerHTML = `<CheckBox id=${theId} val=${theStateName} />`;
-    document.getElementById("state-list")?.appendChild(sp);
-  }
-} */
-
-/*
- * Checking a checkbox event does nothing for now, add when connected to db for filter
- * -> add every checked element to a list, use for sql command
- */
 
 const Shop = () => {
 

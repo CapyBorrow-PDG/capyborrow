@@ -1,6 +1,4 @@
-import React from "react";
 import '../styles/Navbar.css';
-import capylogo from '../images/logoCapyBorrow.png';
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
@@ -11,7 +9,7 @@ const NavBar = () => {
           <div className="nav">
             <ul>
               <li>
-                <Link to="/"><img src={capylogo} className="logo" alt="logo" /></Link>
+                <Link to="/"><img src={"../assets/images/logoCapyBorrow.png"} className="logo" alt="logo" /></Link>
               </li>
               <li>
                 <Link to="/about">About</Link>

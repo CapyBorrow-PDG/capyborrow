@@ -46,6 +46,8 @@
   height: 100%;
   border-radius: 10px;
   margin: 0;
+  object-fit: cover;
+  object-position: center;
 }
 
 .article .unavailable-text {
