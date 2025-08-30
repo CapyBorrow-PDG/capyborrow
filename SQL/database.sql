@@ -16,6 +16,8 @@ CREATE TABLE Capyborrow.user (
     email VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(30) NOT NULL,
     --localisation VARCHAR(20) NOT NULL,
+    longitude REAL NOT NULL,
+    latitude REAL NOT NULL,
     description VARCHAR(200),
     points INT NOT NULL DEFAULT 200 -- 200 points à la création
     --profile_picture VARCHAR(200) --URL de l'image
@@ -34,9 +36,9 @@ CREATE TABLE Capyborrow.item (
     owner_id INT NOT NULL REFERENCES Capyborrow.user(user_id),
     is_available BOOLEAN NOT NULL DEFAULT true, -- l'utilisateur peut le rendre imprêtable
     category1 VARCHAR(20),
-    category2 VARCHAR(20),
-    longitude REAL NOT NULL,
-    latitude REAL NOT NULL
+    category2 VARCHAR(20)
+    --longitude REAL NOT NULL,
+    --latitude REAL NOT NULL
     --image VARCHAR(200)
 
 );
@@ -102,14 +104,34 @@ VALUES('David', 'Berger', 'david.berger@heig-vd.ch', 'admin', 46.3100, 6.3200, '
 INSERT INTO Capyborrow.user(firstname, lastname, email, password, longitude, latitude)
 VALUES('firstname', 'lastname', 'firstname.lastname@heig-vd.ch', 'password', 46.3100, 6.3200);
 
-INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category)
-VALUES('aspirateur', 'ca nettoie ici', 50, 4, 1, 'menage');
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1)
+VALUES('Aspirateur', 'ca nettoie ici', 50, 'very good', 1, 'Electronics');
 
-INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category)
-VALUES('appareil à raclette', 'miam', 40, 3, 2, 'nourriture');
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1)
+VALUES('Appareil à Raclette', 'miam', 40, 'good', 2, 'Cooking');
+
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1)
+VALUES('Chargeur USB-C', 'ca charge ici', 20, 'very good', 1, 'Electronics');
+
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id)
+VALUES('Balai', 'ca nettoie ici', 10, 'used', 2);
+
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1)
+VALUES('Rice Cooker', 'riz', 50, 'good', 1, 'Electronics');
 
 INSERT INTO Capyborrow.borrow(item_id, owner_id, borrower_id, start_date, end_date)
-VALUES(1, 1, 2, '2025-08-29', '2025-08-31');
+VALUES(1, 1, 2, '2025-09-05', '2025-09-07');
+
+
+INSERT INTO capyborrow.picture(picture_url)
+VALUES('../images/aspirateur.png');
+INSERT INTO capyborrow.item_picture(picture_id, item_id)
+VALUES(1, 1); 
+
+INSERT INTO capyborrow.picture(picture_url)
+VALUES('../images/raclette.jpg');
+INSERT INTO capyborrow.item_picture(picture_id, item_id)
+VALUES(2, 2);
 
 
 
@@ -180,3 +202,25 @@ SELECT
 FROM Capyborrow.item;
 
 -- Filtrer par état
+
+
+
+-- ALL ITEM
+--DROP VIEW Capyborrow.all_items_display;
+CREATE OR REPLACE VIEW Capyborrow.all_items_display AS
+SELECT DISTINCT ON (i.item_id)
+    i.item_id,
+    i.name,
+    i.description,
+    i.price,
+    i.state,
+    i.mean_rating,
+    i.is_available,
+    i.owner_id,
+    i.category1,
+    i.category2,
+    p.picture_url
+FROM Capyborrow.item AS i
+LEFT JOIN Capyborrow.item_picture AS ip ON ip.item_id = i.item_id
+LEFT JOIN Capyborrow.picture AS p ON p.picture_id = ip.picture_id
+ORDER BY i.item_id, p.picture_id;

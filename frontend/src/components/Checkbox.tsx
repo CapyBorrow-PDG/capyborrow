@@ -3,7 +3,7 @@ import '../styles/Checkbox.css';
 const Checkbox = (props) => {
   return(
     <div className="checkbox">
-      <input type="checkbox" id={props.id} name={props.name} value={props.val} />
+      <input type="checkbox" id={props.id} name={props.name} value={props.val} onChange={props.onChange} checked={props.checked} />
       <label htmlFor={props.id}>{props.val}</label>
     </div>
   );
