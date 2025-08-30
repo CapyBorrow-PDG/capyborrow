@@ -60,6 +60,7 @@ button {
   font-size: calc((20% + 0.3vw) * 2);
   border: 3px solid var(--light-turquoise);
   border-radius: 7px;
+  cursor: pointer;
 }
 
 .articles {
