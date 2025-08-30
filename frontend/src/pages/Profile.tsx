@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import '../styles/Profile.css';
 import MyPopup from '../components/Popup.tsx';
 import userFile from '../tempUserFile.json'; //temporary local json file for tests
-import { Navigate } from 'react-router-dom';
 
 const Profile = () => {
 
