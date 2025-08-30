@@ -1,7 +1,7 @@
 import '../styles/Shop.css';
 import MySlider from '../components/Slider.tsx';
 import Article from '../components/Article.tsx';
-import charger from '../images/chargeur.jpg';
+import charger from '../assets/images/chargeur.jpg';
 import Dropdown from '../components/Dropdown/Dropdown.tsx';
 import LocationFilter from '../components/LocationFilter.tsx';
 import Checkbox from '../components/Checkbox.tsx';

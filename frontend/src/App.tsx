@@ -10,6 +10,7 @@ import Questions from './pages/Questions.tsx';
 import Terms from './pages/Terms.tsx';
 import Shop from './pages/Shop.tsx';
 import Credit from './pages/Credit.tsx';
+import Profile from './pages/Profile.tsx';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/termsandservices" element={<Terms />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/credit" element={<Credit />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
       <Footer />
