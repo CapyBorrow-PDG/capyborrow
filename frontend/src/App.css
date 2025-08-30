@@ -35,18 +35,20 @@ h3 {
 }
 
 .darkbutton {
-  background-color: var(--dark-turquoise);
+  background-color: var(--light-turquoise);
   color: var(--off-white);
+  border: 2px solid var(--light-turquoise);
 }
 
 .darkbutton:hover {
-  background-color: var(--off-white);
+  background-color: var(--dark-turquoise);
   color: var(--dark-turquoise);
 }
 
 .lightbutton {
   background-color: var(--off-white);
   color: var(--dark-turquoise);
+  border: 2px solid var(--light-turquoise);
 }
 
 .lightbutton:hover {
@@ -58,8 +60,9 @@ button {
   width: calc(40px + 2.5vw);
   height: calc(25px + 1.5vw);
   font-size: calc((20% + 0.3vw) * 2);
-  border: 3px solid var(--light-turquoise);
+  border: 2px solid var(--light-turquoise);
   border-radius: 7px;
+  cursor: pointer;
 }
 
 .articles {
@@ -71,6 +74,10 @@ button {
 
 .clickable {
   cursor: pointer;
+}
+
+.rounded {
+  border-radius: 7px;
 }
 
 .input[type="date"] {

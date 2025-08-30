@@ -1,11 +1,11 @@
 import '../styles/Landing.css';
-import handshake from '../images/handshake.png';
-import example from '../images/exampleitem.png';
+import handshake from '../assets/images/handshake.png';
+import example from '../assets/images/exampleitem.png';
 import { useNavigate } from 'react-router-dom';
 import AnimatedText from '../components/AnimatedText.tsx';
-import illu1 from '../images/ecommerce.png';
-import illu2 from '../images/localization.jpg';
-import illu3 from '../images/messagerie.jpg';
+import illu1 from '../assets/images/ecommerce.png';
+import illu2 from '../assets/images/localization.jpg';
+import illu3 from '../assets/images/messagerie.jpg';
 
 const Landing = () => {
   const navigate = useNavigate();
