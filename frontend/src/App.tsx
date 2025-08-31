@@ -11,24 +11,27 @@ import Terms from './pages/Terms.tsx';
 import Shop from './pages/Shop.tsx';
 import Credit from './pages/Credit.tsx';
 import Profile from './pages/Profile.tsx';
+import { Auth0Provider } from "@auth0/auth0-react";
 
 const App = () => {
   return (
     <div className="App">
-      <NavBar />
-      <div>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/questions" element={<Questions />} />
-          <Route path="/termsandservices" element={<Terms />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/credit" element={<Credit />} />
-          <Route path="/profile" element={<Profile />} />
-        </Routes>
-      </div>
-      <Footer />
+      <Auth0Provider domain="capyborrow-test.eu.auth0.com" clientId="5nYl1ok0EU7tw60OBQalfZmHYnIYNXkb" authorizationParams={{ redirect_uri: "http://localhost:3000" }}>
+        <NavBar />
+        <div>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/questions" element={<Questions />} />
+            <Route path="/termsandservices" element={<Terms />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/credit" element={<Credit />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </div>
+        <Footer />
+      </Auth0Provider>
     </div>
   );
 }

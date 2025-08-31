@@ -52,19 +52,23 @@
 button.darkbutton {
   background-color: var(--light-turquoise);
   color: var(--off-white);
+  width: fit-content;
 }
 
 button.darkbutton:hover {
   background-color: var(--off-white);
   color: var(--dark-turquoise);
+  width: fit-content;
 }
 
 button.lightbutton {
   background-color: var(--off-white);
   color: var(--dark-turquoise);
+  width: fit-content;
 }
 
 button.lightbutton:hover {
   background-color: var(--light-turquoise);
   color: var(--off-white);
+  width: fit-content;
 }

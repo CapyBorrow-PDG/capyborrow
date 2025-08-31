@@ -1,5 +1,7 @@
 import '../styles/Navbar.css';
 import { Link } from 'react-router-dom';
+import { Auth0Provider } from "@auth0/auth0-react";
+import Login from './Login.tsx';
 
 const NavBar = () => {
 
@@ -24,12 +26,7 @@ const NavBar = () => {
           </div>
         </div>
         <div className="buttons">
-          <button className="headerbutton darkbutton" onClick={() => alert("can't log in yet :(")}> 
-            Log in
-          </button>
-          <button className="headerbutton lightbutton" onClick={() => alert("can't sign up yet :(")}> 
-            Sign up
-          </button>
+          <Login/>
         </div>
       </div>
   );
