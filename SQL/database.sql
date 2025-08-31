@@ -11,16 +11,12 @@ DROP TABLE IF EXISTS Capyborrow.item_picture CASCADE;
 
 CREATE TABLE Capyborrow.user (
     user_id SERIAL PRIMARY KEY,
-    firstname VARCHAR(20) NOT NULL,
-    lastname VARCHAR(20) NOT NULL,
+    username VARCHAR(20),
+    firstname VARCHAR(20),
+    lastname VARCHAR(20),
     email VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(30) NOT NULL,
-    --localisation VARCHAR(20) NOT NULL,
-    longitude REAL NOT NULL,
-    latitude REAL NOT NULL,
     description VARCHAR(200),
     points INT NOT NULL DEFAULT 200 -- 200 points à la création
-    --profile_picture VARCHAR(200) --URL de l'image
 );
 
 -- ITEM
@@ -98,11 +94,14 @@ CREATE TABLE Capyborrow.item_picture ( -- pour l'instant pas de limite du nombre
 
 -- ADD people,items...
 
-INSERT INTO Capyborrow.user(firstname, lastname, email, password, longitude, latitude, description)
-VALUES('David', 'Berger', 'david.berger@heig-vd.ch', 'admin', 46.3100, 6.3200, 'Je vous prete mes objets');
+INSERT INTO Capyborrow.user(username, firstname, lastname, email, description)
+VALUES('Davtek', 'David', 'Berger', 'david.berger@heig-vd.ch', 'Je vous prete mes objets');
 
-INSERT INTO Capyborrow.user(firstname, lastname, email, password, longitude, latitude)
-VALUES('firstname', 'lastname', 'firstname.lastname@heig-vd.ch', 'password', 46.3100, 6.3200);
+INSERT INTO Capyborrow.user(firstname, lastname, email)
+VALUES('firstname', 'lastname', 'firstname.lastname@heig-vd.ch');
+
+INSERT INTO Capyborrow.user(email)
+VALUES('test@gmail.com');
 
 INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1)
 VALUES('Aspirateur', 'ca nettoie ici', 50, 'very good', 1, 'Electronics');
