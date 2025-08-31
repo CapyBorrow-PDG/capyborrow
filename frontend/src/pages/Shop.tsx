@@ -9,14 +9,23 @@ import {useEffect, useState} from "react";
 
 const Shop = () => {
 
+  type article = {
+    item_id: number,
+    picture_url: string,
+    name: string,
+    state: string,
+    price: number,
+    is_available: boolean
+  }
+
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
   const [minPrice, setMinPrice] = useState(null);
   const [maxPrice, setMaxPrice] = useState(null);
   const [states, setStates] = useState<string[]>([]); 
   const [categories, setCategories] = useState<string[]>([]);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState<string>();
+  const [endDate, setEndDate] = useState<string>();
   const [loading, setLoading] = useState(true);
 
   const toggleFilter = (list: string[], value: string, setList: (val: string[]) => void) => {
@@ -42,11 +51,10 @@ const Shop = () => {
           categories.forEach(c => params.append("category", c));
         }
         
-        if (startDate && endDate) {
-          params.append("startDate", startDate);
-          params.append("endDate", endDate);
-        }
-          
+        if(startDate) params.append("startDate", startDate);
+        if (endDate) params.append("endDate", endDate);
+
+        console.log(params.toString());
 
         const res = await fetch(`http://localhost:8888/item?${params.toString()}`); //http://localhost:8888/item?${params.toString()}
         const data = await res.json();
@@ -70,12 +78,12 @@ const Shop = () => {
           <Dropdown buttontext="Availability" content={
             <div className="datepicker">
               <span className="darktext">from:</span>
-              <input aria-label="Date" type="date" className="darktext"/>
+              <input aria-label="Date" type="date" className="darktext" value={startDate} onChange={e => {setStartDate(e.target.value)}}/>
               <span className="darktext">to:</span>
-              <input aria-label="Date" type="date" className="darktext"/>
+              <input aria-label="Date" type="date" className="darktext" value={endDate} onChange={e => setEndDate(e.target.value)}/>
             </div>
           } />
-          <Dropdown buttontext="price" content={<MySlider/>} />
+          <Dropdown buttontext="price" content={<MySlider onChange={(val) => {setMinPrice(val[0]);setMaxPrice(val[1])}} />} />
           <Dropdown buttontext="State" content={<div id="state-list" className="checkbox-list">
             <Checkbox id="very-good" val="very good" onChange={() => toggleFilter(states, "very good", setStates)} checked={states.includes("very good")}/>
             <Checkbox id="good" val="good" onChange={() => toggleFilter(states, "good", setStates)} checked={states.includes("good")} />
@@ -97,7 +105,7 @@ const Shop = () => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            items.map((item) => (
+            items.map((item: article) => (
               <Article 
                 key={item.item_id} //évite une erreur dans la console 
                 image={item.picture_url} 
@@ -105,7 +113,7 @@ const Shop = () => {
                 location={"Martigny, VS"}
                 state={item.state}
                 price={item.price}
-                unav={item.is_available}>
+                av={item.is_available}>
                 </Article>
             ))
           )}
