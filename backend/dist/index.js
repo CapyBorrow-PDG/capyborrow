@@ -157,6 +157,65 @@ app.get('/', (req, res) => {
 });
 
 /*USER*/
+app.get('/users', async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM capyborrow.user");
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({
+      error: err.message
+    });
+  }
+});
+app.post('/users', async (req, res) => {
+  const {
+    email,
+    username
+  } = req.body;
+  try {
+    const result = await pool.query(`INSERT INTO Capyborrow.user(email, username)
+        VALUES($1, $2)`, [email, username]);
+    if (!rows[0]) {
+      return res.status(500).json({
+        error: "Utilisateur non créé"
+      });
+    }
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.log("la");
+    res.status(500).json({
+      error: err.message
+    });
+  }
+});
+app.put('/users/:id', async (req, res) => {
+  const {
+    id
+  } = req.params;
+  const {
+    username,
+    fname,
+    lname
+  } = req.body;
+  try {
+    const result = await pool.query(`UPDATE Capyborrow.user
+        SET username = $1,
+            firstname = $2,
+            lastname = $3
+        WHERE user_id = $4
+        RETURNING *;`, [username, fname, lname, id]);
+    if (!result.rows[0]) {
+      return res.status(404).json({
+        error: "Utilisateur introuvable"
+      });
+    }
+    res.status(200).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({
+      error: err.message
+    });
+  }
+});
 
 /*ITEM*/
 
