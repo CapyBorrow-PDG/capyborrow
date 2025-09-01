@@ -42,9 +42,9 @@ const Profile = () => {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(form)
-    })
+    }).then(data => data.json());
 
-    const updatedUser = res.json();
+    const updatedUser = res;
     console.log("updatedUser : ", updatedUser);
     setCurrentUser({
       ...currentUser!,
@@ -65,7 +65,7 @@ const Profile = () => {
         console.log("user", user);
         const res = await fetch(`http://localhost:8888/users`);
         const data = await res.json();
-        const dbUser = data.find((u) => u.email == user.email);
+        const dbUser = data.find((u) => u.email === user.email);
         console.log("dbUser", dbUser)
         if (dbUser) {
           setCurrentUser({
@@ -89,7 +89,7 @@ const Profile = () => {
       }
     }
     fetchUser();
-  }, [user, isAuthenticated])
+  }, [user, currentUser, isAuthenticated])
 
   return(
     <div className="profile">

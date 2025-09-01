@@ -17,7 +17,7 @@ const MySlider = (props) => {
 
   useEffect(() => {
     props.onChange([MIN, MAX]);
-  }, []);
+  }, [props]);
 
   return(
     <div>

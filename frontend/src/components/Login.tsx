@@ -1,8 +1,7 @@
 import '../styles/Navbar.css'
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { data, useNavigate } from 'react-router-dom';
-import { json } from 'stream/consumers';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
@@ -17,7 +16,7 @@ function Login() {
             const res = await fetch(`http://localhost:8888/users`);
             const data = await res.json();
 
-            const exist = data.some(u => u.email == user.email);
+            const exist = data.some(u => u.email === user.email);
 
             if (!exist) {
                 console.log("New user");

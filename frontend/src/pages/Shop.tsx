@@ -6,8 +6,12 @@ import LocationFilter from '../components/LocationFilter.tsx';
 import Checkbox from '../components/Checkbox.tsx';
 import Searchbar from '../components/Searchbar.tsx';
 import {useEffect, useState} from "react";
+import {useLocation} from "react-router-dom";
 
 const Shop = () => {
+
+  const location = useLocation();
+  const {currSearch} = location.state || {};
 
   type article = {
     item_id: number,
@@ -19,7 +23,7 @@ const Shop = () => {
   }
 
   const [items, setItems] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(currSearch);
   const [minPrice, setMinPrice] = useState(null);
   const [maxPrice, setMaxPrice] = useState(null);
   const [states, setStates] = useState<string[]>([]); 
@@ -37,6 +41,9 @@ const Shop = () => {
   };
 
   useEffect(() => {
+
+    console.log(currSearch);
+
     const fetchItems = async () => {
       try {
         
@@ -54,8 +61,6 @@ const Shop = () => {
         if(startDate) params.append("startDate", startDate);
         if (endDate) params.append("endDate", endDate);
 
-        console.log(params.toString());
-
         const res = await fetch(`http://localhost:8888/item?${params.toString()}`); //http://localhost:8888/item?${params.toString()}
         const data = await res.json();
         console.log("Fetched data :", data);
@@ -67,7 +72,7 @@ const Shop = () => {
       }
     };
     fetchItems();
-  }, [search, minPrice, maxPrice, states, categories, startDate, endDate]);
+  }, [currSearch, search, minPrice, maxPrice, states, categories, startDate, endDate]);
 
   return(
     <div>
@@ -98,7 +103,7 @@ const Shop = () => {
         </div>
       </div>
       <div className="info-text darktext">
-        <h3>"Search Result here"</h3>
+        <h3>"{search || "result"}"</h3>
         <p>{items.length} results</p>
       </div>
       <div className="articles">
