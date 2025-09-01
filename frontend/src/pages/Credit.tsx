@@ -1,10 +1,10 @@
 import '../styles/Credit.css';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import CreditButton from "../components/CreditButton.tsx";
 
 const Credit = () => {
 
-	const navigate = useNavigate();
+	//const navigate = useNavigate();
 
     return(
         <div id="section1">

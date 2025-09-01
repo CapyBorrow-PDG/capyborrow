@@ -4,7 +4,7 @@ const Article = (props) => {
   return(
     <div className="article">
       <div className="article-img">
-        <p className={`unavailable-text ${props.unav ? 'unavailable' : ''}`}>Unavailable</p>
+        <p className={`unavailable-text ${props.av ? '' : 'unavailable'}`}>Unavailable</p>
         <img src={props.image} alt="article" />
       </div>
       <h2>{props.title}</h2>
