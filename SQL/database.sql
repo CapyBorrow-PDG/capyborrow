@@ -16,7 +16,8 @@ CREATE TABLE Capyborrow.user (
     lastname VARCHAR(20),
     email VARCHAR(50) UNIQUE NOT NULL,
     description VARCHAR(200),
-    points INT NOT NULL DEFAULT 200 -- 200 points à la création
+    points INT NOT NULL DEFAULT 200, -- 200 points à la création
+    picture VARCHAR(200)
 );
 
 -- ITEM
@@ -26,7 +27,6 @@ CREATE TABLE Capyborrow.item (
     name VARCHAR(100) NOT NULL,
     description VARCHAR(200),
     price INT NOT NULL,
-    --state INT NOT NULL CHECK (state > 0 AND state <= 5),
     state VARCHAR(15) NOT NULL,
     mean_rating REAL,
     owner_id INT NOT NULL REFERENCES Capyborrow.user(user_id),
@@ -34,7 +34,8 @@ CREATE TABLE Capyborrow.item (
     category1 VARCHAR(20),
     category2 VARCHAR(20),
     start_date DATE,
-    end_date DATE
+    end_date DATE,
+    picture VARCHAR(200) NOT NULL
     --longitude REAL NOT NULL,
     --latitude REAL NOT NULL
     --image VARCHAR(200)
@@ -76,23 +77,6 @@ CREATE TABLE Capyborrow.like (
 
 );
 
--- PICTURE
-
-CREATE TABLE Capyborrow.picture (
-    picture_id SERIAL PRIMARY KEY,
-    picture_URL VARCHAR(200) NOT NULL
-);
-
-CREATE TABLE Capyborrow.profile_picture (
-    picture_id INT PRIMARY KEY REFERENCES Capyborrow.picture(picture_id),
-    user_id INT UNIQUE REFERENCES Capyborrow.user(user_id) -- UNIQUE car 1 seul pp
-);
-
-CREATE TABLE Capyborrow.item_picture ( -- pour l'instant pas de limite du nombre d'image par objet
-    picture_id INT PRIMARY KEY REFERENCES Capyborrow.picture(picture_id),
-    item_id INT REFERENCES Capyborrow.item(item_id)
-);
-
 
 -- ADD people,items...
 
@@ -105,34 +89,23 @@ VALUES('firstname', 'lastname', 'firstname.lastname@heig-vd.ch');
 INSERT INTO Capyborrow.user(email)
 VALUES('test@gmail.com');
 
-INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date)
-VALUES('Aspirateur', 'ca nettoie ici', 50, 'very good', 1, 'Electronics', '2025-04-05', '2025-11-08');
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture)
+VALUES('Aspirateur', 'ca nettoie ici', 50, 'very good', 1, 'Electronics', '2025-04-05', '2025-11-08', '../assets/images/aspirateur.png');
 
-INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date)
-VALUES('Appareil à Raclette', 'miam', 40, 'good', 2, 'Cooking', '2025-06-05', '2025-09-08');
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture)
+VALUES('Appareil à Raclette', 'miam', 40, 'good', 2, 'Cooking', '2025-06-05', '2025-09-08', '../assets/images/raclette.jpg');
 
-INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date)
-VALUES('Chargeur USB-C', 'ca charge ici', 20, 'very good', 1, 'Electronics', '2025-05-05', '2025-10-08');
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture)
+VALUES('Chargeur USB-C', 'ca charge ici', 20, 'very good', 1, 'Electronics', '2025-05-05', '2025-10-08', '../assets/images/chargeur.jpg');
 
-INSERT INTO Capyborrow.item(name, description, price, state, owner_id, start_date, end_date)
-VALUES('Balai', 'ca nettoie ici', 10, 'used', 2, '2025-08-30', '2025-09-12');
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, start_date, end_date, picture)
+VALUES('Balai', 'ca nettoie ici', 10, 'used', 2, '2025-08-30', '2025-09-12', '../assets/images/balai.jpg');
 
-INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date)
-VALUES('Rice Cooker', 'riz', 50, 'good', 1, 'Electronics', '2025-09-05', '2025-09-08');
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture)
+VALUES('Rice Cooker', 'riz', 50, 'good', 1, 'Electronics', '2025-09-05', '2025-09-08', '../assets/images/rice-cooker.jpg');
 
 INSERT INTO Capyborrow.borrow(item_id, owner_id, borrower_id, start_date, end_date)
 VALUES(1, 1, 2, '2025-09-05', '2025-09-07');
-
-
-INSERT INTO capyborrow.picture(picture_url)
-VALUES('../assets/images/aspirateur.png');
-INSERT INTO capyborrow.item_picture(picture_id, item_id)
-VALUES(1, 1); 
-
-INSERT INTO capyborrow.picture(picture_url)
-VALUES('../assets/images/raclette.jpg');
-INSERT INTO capyborrow.item_picture(picture_id, item_id)
-VALUES(2, 2);
 
 
 
@@ -222,8 +195,5 @@ SELECT DISTINCT ON (i.item_id)
     i.category2,
     i.start_date,
     i.end_date,
-    p.picture_url
-FROM Capyborrow.item AS i
-LEFT JOIN Capyborrow.item_picture AS ip ON ip.item_id = i.item_id
-LEFT JOIN Capyborrow.picture AS p ON p.picture_id = ip.picture_id
-ORDER BY i.item_id, p.picture_id;
+    i.picture
+FROM Capyborrow.item AS i;

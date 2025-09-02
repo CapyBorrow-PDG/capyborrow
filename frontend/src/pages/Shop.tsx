@@ -15,7 +15,7 @@ const Shop = () => {
 
   type article = {
     item_id: number,
-    picture_url: string,
+    picture: string,
     name: string,
     state: string,
     price: number,
@@ -46,7 +46,6 @@ const Shop = () => {
 
     const fetchItems = async () => {
       try {
-        
         const params = new URLSearchParams();
         if (search) params.append("search", search);
         if (minPrice) params.append("minPrice", minPrice);
@@ -61,7 +60,7 @@ const Shop = () => {
         if(startDate) params.append("startDate", startDate);
         if (endDate) params.append("endDate", endDate);
 
-        const res = await fetch(`http://localhost:8888/item?${params.toString()}`); //http://localhost:8888/item?${params.toString()}
+        const res = await fetch(`http://localhost:8888/item?${params.toString()}`);
         const data = await res.json();
         console.log("Fetched data :", data);
         setItems(data);
@@ -113,7 +112,7 @@ const Shop = () => {
             items.map((item: article) => (
               <Article 
                 key={item.item_id} //évite une erreur dans la console 
-                image={item.picture_url} 
+                image={item.picture} 
                 title={item.name} 
                 location={"Martigny, VS"}
                 state={item.state}

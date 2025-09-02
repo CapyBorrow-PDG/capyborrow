@@ -1,0 +1,30 @@
+.post-form {
+  background-color: var(--off-white);
+  width: 30vw;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  overflow-y: scroll;
+}
+
+.post-category {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-picture {
+  max-width: 40%;
+  border-radius: 10px;
+  border: 2px solid var(--dark-turquoise);
+}
+
+.item-picture.no-image {
+  opacity: 0;
+}
+
+.category-buttons {
+  display: flex;
+  gap: 5px;
+}
