@@ -16,7 +16,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 const App = () => {
   return (
     <div className="App">
-      <Auth0Provider domain="capyborrow-test.eu.auth0.com" clientId="5nYl1ok0EU7tw60OBQalfZmHYnIYNXkb" authorizationParams={{ redirect_uri: "http://localhost:3000" }}>
+      <Auth0Provider domain="capyborrow-test.eu.auth0.com" clientId="5nYl1ok0EU7tw60OBQalfZmHYnIYNXkb" authorizationParams={{ redirect_uri: window.location.origin }}>
         <NavBar />
         <div>
           <Routes>

@@ -1,11 +1,9 @@
 const { Pool } = require("pg");
+require('dotenv').config();
 
 const pool = new Pool({
-  user: "admin",
-  host: "localhost",
-  database: "capyborrow-db",
-  password: "admin",
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
 });
 
 module.exports = pool;

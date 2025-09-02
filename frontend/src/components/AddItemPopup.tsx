@@ -51,7 +51,7 @@ const AddItemPopup = (props) => {
 
       console.log("form: ", form);
       
-      fetch(`http://localhost:8888/item`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/item`, {
         method: "POST",
         headers: {
           "Content-type": "application/json; charset=UTF-8"
