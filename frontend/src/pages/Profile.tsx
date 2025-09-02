@@ -50,7 +50,7 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     //save data from form on user
     e.preventDefault();
-    const res = await fetch(`http://localhost:8888/users/${currentUser?.id}`, {
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${currentUser?.id}`, {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(form)
@@ -71,7 +71,7 @@ const Profile = () => {
     if (!isAuthenticated || !user) return;
     
     const fetchUser = async () => {
-      fetch(`http://localhost:8888/users`)
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/users`)
         .then(res => res.json())
         .then(data => {
           const dbUser = data.find((u) => u.email === user.email);
@@ -101,7 +101,7 @@ const Profile = () => {
       const params = new URLSearchParams();
       if (currentUser) params.append("user", currentUser.id.toString());
 
-      fetch(`http://localhost:8888/item?${params.toString()}`)
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/item?${params.toString()}`)
       .then(data => data.json())
       .then(res => setItemsUser(res))
       .catch(err => console.log(err));

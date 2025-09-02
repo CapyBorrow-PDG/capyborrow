@@ -60,7 +60,7 @@ const Shop = () => {
         if(startDate) params.append("startDate", startDate);
         if (endDate) params.append("endDate", endDate);
 
-        const res = await fetch(`http://localhost:8888/item?${params.toString()}`);
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/item?${params.toString()}`);
         const data = await res.json();
         console.log("Fetched data :", data);
         setItems(data);
