@@ -1,6 +1,6 @@
-import React from "react";
-import capylogo from '../images/logoCapyBorrow.png';
+import '../styles/Navbar.css';
 import { Link } from 'react-router-dom';
+import Login from './Login.tsx';
 
 const NavBar = () => {
 
@@ -10,7 +10,7 @@ const NavBar = () => {
           <div className="nav">
             <ul>
               <li>
-                <Link to="/"><img src={capylogo} className="logo" alt="logo" /></Link>
+                <Link to="/"><img src={"../assets/images/logoCapyBorrow.png"} className="logo" alt="logo" /></Link>
               </li>
               <li>
                 <Link to="/about">About</Link>
@@ -25,12 +25,7 @@ const NavBar = () => {
           </div>
         </div>
         <div className="buttons">
-          <button className="headerbutton darkbutton" onClick={() => alert("can't log in yet :(")}> 
-            Log in
-          </button>
-          <button className="headerbutton lightbutton" onClick={() => alert("can't sign up yet :(")}> 
-            Sign up
-          </button>
+          <Login/>
         </div>
       </div>
   );

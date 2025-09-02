@@ -1,0 +1,8 @@
+.checkbox * {
+  color: var(--dark-turquoise);
+  cursor: pointer;
+}
+
+.checkbox input[type="checkbox"] {
+  accent-color: var(--dark-turquoise);
+}

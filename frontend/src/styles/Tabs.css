@@ -1,0 +1,21 @@
+.tab-headers {
+  display: flex;
+  justify-content: center;
+}
+
+.tab-headers .tab-header {
+  padding: 10px;
+}
+
+.tab-headers .tab-header:not(:first-child) {
+  border-left: 2px solid var(--light-turquoise);
+}
+
+.tab-headers .tab-header.active {
+  color: var(--off-white);
+  background-color: var(--light-turquoise);
+}
+
+.tab-content {
+  padding: 20px;
+}

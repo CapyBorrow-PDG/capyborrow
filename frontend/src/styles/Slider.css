@@ -1,0 +1,45 @@
+.slider {
+  width: 200px;
+  height: 10px;
+  background-color: #ddd;
+}
+
+.slider .thumb {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  background-color: var(--light-turquoise);
+  border-radius: 50%;
+  position: relative;
+  top: 50%;
+}
+
+.slider .thumb-0 {
+  transform: translate(-50%, -50%);
+}
+
+.slider .thumb-1 {
+  transform: translate(50%, -50%);
+}
+
+.slider .thumb.active {
+  outline: 2px solid var(--dark-turquoise);
+}
+
+.slider .track {
+  height: 100%;
+}
+
+.slider .track-1 {
+  background-color: var(--light-turquoise);
+}
+
+.values {
+  padding-bottom: 10px;
+}
+
+.values input[type="number"] {
+  -moz-appearance: textfield;
+  width: 40px;
+  border: 1px solid var(--dark-turquoise);
+}

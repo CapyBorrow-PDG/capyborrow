@@ -1,0 +1,35 @@
+/*******
+ * footer
+ ********/
+
+ .footer {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 3000;
+  color: var(--dark-turquoise);
+  background-color: var(--off-white);
+  border-top: 2px solid var(--dark-turquoise);
+  display: flex;
+  justify-content: space-around;
+ }
+
+ .footer .footercategory {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+ }
+
+ .footercategory p {
+  font-weight: bold;
+  font-size: calc((25% + 0.5vw) * 2);
+ }
+
+ .footercategory a {
+  color: inherit;
+  text-decoration: none;
+  font-size: calc((15% + 0.5vw) * 2);
+ }

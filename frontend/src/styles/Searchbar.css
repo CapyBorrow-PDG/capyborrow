@@ -1,0 +1,19 @@
+.searchbar {
+  position: relative;
+  padding: 1vw;
+  background-color: var(--dark-turquoise);
+}
+
+.searchbar input {
+  width: calc(100px + 30vw);
+  border: 2px solid var(--dark-turquoise);
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.searchbar .search-icon {
+  position: absolute;
+  top: 50%;
+  transform: translate(-25px, -50%);
+  color: var(--dark-turquoise);
+}

@@ -10,114 +10,13 @@
   text-align: center;
 }
 
-/*******
- * navbar
- ********/
-
-.header {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: calc(50px + 3vh);
-  z-index: 3000;
-  background-color: var(--off-white);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-#logoandmenu {
-  display: flex;
-  height: 100%;
-}
-
-.logo {
-  height: calc(50px + 3vh);
-}
-
-.nav {
-  display: flex;
-  color: var(--dark-turquoise);
-}
-
-.nav ul {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0px;
-}
-
-.nav a {
-  color: inherit;
-  text-decoration: none;
-  font-size: calc((30% + 0.3vw) * 2);
-}
-
-.buttons {
-  display: flex;
-  gap: 10px;
-  padding: 10px;
-}
-
-button {
-  width: calc(40px + 2.5vw);
-  height: calc(25px + 1.5vw);
-  font-size: calc((20% + 0.3vw) * 2);
-  border: 3px solid var(--light-turquoise);
-  border-radius: 7px;
-}
-
-button.darkbutton {
-  background-color: var(--light-turquoise);
-  color: var(--off-white);
-}
-
-button.darkbutton:hover {
-  background-color: var(--off-white);
-  color: var(--dark-turquoise);
-}
-
-button.lightbutton {
-  background-color: var(--off-white);
-  color: var(--dark-turquoise);
-}
-
-button.lightbutton:hover {
-  background-color: var(--light-turquoise);
-  color: var(--off-white);
-}
-
-/*******
- * landing page part 1
- ********/
-
-#segment1 {
-  position: relative;
-}
-
-#segment1 #titleimage {
-  width: 100%;
-}
-
-.titletext {
-  position: absolute;
-  width: 100%;
-  top: calc(40% + 6vh);
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  row-gap: calc(3px + 0.5vh);
-}
-
-.lighttext {
-  color: var(--off-white);
-}
-
 h1 {
   font-size: calc((100% + 0.5vw) * 2);
+  margin: 0px;
+}
+
+h2 {
+  font-size: calc((75% + 0.5vw) * 2);
   margin: 0px;
 }
 
@@ -127,161 +26,60 @@ h3 {
   margin: 0px;
 }
 
-.titletext button {
-  width: calc(100px + 2.5vw);
-  height: calc(50px + 1.5vw);
-  font-size: calc((35% + 0.5vw) * 2);
-  margin-top: 20px;
+.lighttext {
+  color: var(--off-white);
 }
 
-/*******
- * landing page part 2
- ********/
-
- #segment2 {
-  position: relative;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 150px;
-  margin-bottom: 150px;
-  gap: 40px;
-  @media (max-width: 750px) {
-    flex-direction: column;
-  }
- }
-
- #segment2 div {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 50%;
-  @media (max-width: 750px) {
-    width: 80%;
-    text-align: center;
-  }
- }
-
- #segment2 img {
-  width: calc(200px + 0.5vw);
-  border: 3px solid var(--dark-turquoise);
- }
-
- /*******
- * landing page part 3
- ********/
-
- #segment3 {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
- }
-
- .animatedsegment {
-  width: 100%;
-  height: calc((200px + 0.5vw));
-  position: relative;
- }
-
- .animatedsegment img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
- }
-
- .animatedtext {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(13, 92, 99, 0.8);
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: 0.6s;
- }
-
- .animatedtext:hover {
-  background-color: rgba(13, 92, 99, 0.6);
- }
-
- .animatedtext:hover h1 {
-  font-size: calc((150% + 0.5vw) * 2);
- }
-
- .animatedtext h3 {
-  font-size: calc((15% + 0.5vw) * 2);
- }
-
- .animatedtext:hover h3 {
-  font-size: calc((20% + 0.5vw) * 2);
- }
-
- .animatedtext > * {
-  transition: 0.5s;
- }
-
-/*******
- * landing page part 4
- ********/
-
- .darktext {
+.darktext {
   color: var(--dark-turquoise);
- }
+}
 
- #segment4 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  margin-top: 150px;
-  margin-bottom: 150px;
-  margin-left: 20px;
-  margin-right: 20px;
- }
+.darkbutton {
+  background-color: var(--light-turquoise);
+  color: var(--off-white);
+  border: 2px solid var(--light-turquoise);
+}
 
- #segment4 button {
-  width: calc(60px + 2vw);
-  height: calc(40px + 1vw);
-  font-size: calc((25% + 0.3vw) * 2);
- }
-
-/*******
- * footer
- ********/
-
- .footer {
-  left: 0;
-  bottom: 0;
-  width: 100%;
+.darkbutton:hover {
+  background-color: var(--dark-turquoise);
   color: var(--dark-turquoise);
+}
+
+.lightbutton {
   background-color: var(--off-white);
-  border-top: 2px solid var(--dark-turquoise);
+  color: var(--dark-turquoise);
+  border: 2px solid var(--light-turquoise);
+}
+
+.lightbutton:hover {
+  background-color: var(--dark-turquoise);
+  color: var(--off-white);
+}
+
+button {
+  width: calc(40px + 2.5vw);
+  height: calc(25px + 1.5vw);
+  font-size: calc((20% + 0.3vw) * 2);
+  border: 2px solid var(--light-turquoise);
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.articles {
   display: flex;
-  justify-content: space-around;
- }
+  flex-wrap: wrap;
+  width: calc(100% - 80px);
+  margin: 40px;
+}
 
- .footer .footercategory {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  row-gap: 10px;
-  margin-top: 20px;
-  margin-bottom: 50px;
- }
+.clickable {
+  cursor: pointer;
+}
 
- .footercategory p {
-  font-weight: bold;
-  font-size: calc((25% + 0.5vw) * 2);
- }
+.rounded {
+  border-radius: 7px;
+}
 
- .footercategory a {
-  color: inherit;
-  text-decoration: none;
-  font-size: calc((15% + 0.5vw) * 2);
- }
+.input[type="date"] {
+  border: 1px solid var(--dark-turquoise);
+}
