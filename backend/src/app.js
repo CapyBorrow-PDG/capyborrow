@@ -85,7 +85,7 @@ const convertQueryToString = (el) => {
 
 app.get('/item', async (req, res) => {
   let {
-    search, minPrice, maxPrice, state, category, startDate, endDate,
+    id, search, user, minPrice, maxPrice, state, category, startDate, endDate,
   } = req.query;
 
   state = convertQueryToString(state);
@@ -97,19 +97,43 @@ app.get('/item', async (req, res) => {
     const result = await pool.query(`SELECT *
                                       FROM Capyborrow.all_items_display AS i
                                       WHERE ($1::text IS NULL OR i.name ILIKE '%' || $1 || '%')
-                                        AND ($2::int  IS NULL OR i.price >= $2)
-                                        AND ($3::int  IS NULL OR i.price <= $3)
+                                        AND ((${id || null})::int IS NULL OR i.item_id = (${id || null}))
+                                        AND ($2::int IS NULL OR i.owner_id = $2)
+                                        AND ($3::int  IS NULL OR i.price >= $3)
+                                        AND ($4::int  IS NULL OR i.price <= $4)
                                         AND ((${state || null}) IS NULL OR i.state IN (${state || null}))
                                         AND ((${category || null}) IS NULL OR i.category1 IN (${category || null}))
                                         AND ((${startDate || null}) IS NULL OR i.start_date <= (${startDate || null}))
                                         AND ((${endDate || null}) IS NULL OR i.end_date >= (${endDate || null}))
-                                        `, [search || null, minPrice || null, maxPrice || null]);
+                                        `, [search || null, user || null, minPrice || null, maxPrice || null]);
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// post pour créer un item
+app.post('/item', async (req, res) => {
+  const {
+    name, description, price, state, ownerId, category1, category2, picture,
+  } = req.body;
+  try {
+    const result = await pool.query(
+      `INSERT INTO
+      Capyborrow.item(name, description, price, state, owner_id, category1, category2, picture)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8);`,
+      [name, description || null, price, state, ownerId,
+        category1 || null, category2 || null, picture],
+    );
+
+    if (!result.rows[0]) {
+      return res.status(500).json({ error: 'Item non créé' });
+    }
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+
+  return null;
+});
 
 module.exports = app;
