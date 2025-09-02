@@ -50,10 +50,16 @@ const ArticleInfo = () => {
 					<h3>Disponibility</h3>
 					<Calendar disponibility={availableDates} mode={false} />
 				</div>
-
-				<h2 id="review-title">Reviews</h2>
-				<h4 id="total-reviews"><b>Total Reviews:</b> 2</h4>
-				<hr id="review-divider" />
+				
+				<div id="review-header">
+					<div id="review-title">
+						<h2>Reviews</h2>
+					</div>
+					<div id="total-reviews">
+						<h4>Total Reviews: 2</h4>
+					</div>
+					<hr id="review-divider" />
+				</div>
 
 
 				<div id="review-section">

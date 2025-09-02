@@ -1,3 +1,7 @@
+/*
+ * Container section
+ */
+
 #container {
 	grid-template-columns: 50% 50%;
 	grid-template-rows: auto;
@@ -11,12 +15,12 @@
 
 #container p {
 	
-	color: black
+	color: black;
 }
 
 #container img {
 	justify-self: center;
-	width: calc(500px + 2vw);
+	width: calc(450px + 2vw);
 	border-radius: 7px;
 	margin: 5%;
 }
@@ -28,7 +32,7 @@
 #compact-section {
 	margin: 5%;
 	gap: 50px;
-	width: 80%;
+	width: 90%;
 	align-self: center;
 }
 
@@ -41,7 +45,7 @@
 }
 
 #compact-section #top-button {
-	margin-top: 100px;
+	margin-top: 8vw;
 	display: flex;
 	gap: 4%;
 	justify-content: center;
@@ -54,110 +58,41 @@
 #compact-section #bottom-button {
 	margin-top: calc(5px + 0.5vw);
 	width: 100%;
-}
-
-#description-section {
-	text-align: justify;
-	margin: 2% 5% 2% 5%;
-}
-
-#review-title {
-	text-align: left;
-}
-
-#total-reviews {
-	text-align: right;
-	color: var(--dark-turquoise);
-}
-
-#review-divider {
-	border: none;
-	grid-column-start: 1;
-	grid-column-end: 3;
-	border-bottom: 2px solid var(--dark-turquoise);
-	margin: 5px 0;
-}
-
-#review-section {
-	margin: 2% 5%;
-	text-align: left;
-}
-
-
-.review {
-	padding: 10px 0;
-	color: var(--dark-turquoise);
-	font-size: 1.1em;
-	font-weight: bold;
-}
-
-.comment {
-	color: black;
-	font-weight: normal;
-}
-
-#container {
-	grid-template-columns: 50% 50%;
-	grid-template-rows: auto;
-	display: grid;
-	position: relative;
-	justify-content: center;
-	margin: 2% 5% 2% 5%;
-
-}
-
-
-#container img {
-	justify-self: center;
-	width: calc(500px + 2vw);
-	border-radius: 7px;
-	margin: 5%;
+	margin-bottom: 4vw;;
 }
 
 /*
- * Compact section
+ * Description section
  */
-
-#compact-section {
-	margin: 5%;
-	gap: 50px;
-	width: 80%
-}
-
-#compact-section #text-section {
-	text-align: left;
-}
-
-#compact-section #top-button {
-	margin-top: 100px;
-	display: flex;
-	gap: 4%;
-	justify-content: center;
-}
-
-#compact-section #top-button button {
-	width: 48%;
-}
-
-#compact-section #bottom-button {
-	margin-top: calc(5px + 0.5vw);
-	width: 100%;
-}
 
 #description-section {
 	text-align: justify;
 	margin: 2% 5% 2% 5%;
+}
 
+/*
+ * Calendar section
+ */
+#calendar-section h3{
+	font-weight: bold;
+}
+
+/* Review header */
+
+#review-header {
+	display: grid;
+	grid-column-start: 1;
+	grid-column-end: 3;
+	color: var(--dark-turquoise);
+	align-items: end;
 }
 
 #review-title {
 	text-align: left;
-	color: var(--dark-turquoise);
 }
 
 #total-reviews {
 	text-align: right;
-	color: var(--dark-turquoise);
 }
 
 #review-divider {
@@ -168,23 +103,30 @@
 	margin: 5px 0;
 }
 
+/*
+ * Review section: Comment section, left side
+ */
+
 #review-section {
 	margin: 2% 5%;
 	text-align: left;
 }
 
-
-.review {
+#review-section .review {
 	padding: 10px 0;
 	color: var(--dark-turquoise);
 	font-size: 1.1em;
 	font-weight: bold;
 }
 
-.comment {
+#review-section .comment {
 	color: black;
 	font-weight: normal;
 }
+
+/*
+ * Review section: Rating summary, right side
+ */
 
 #rating-summary {
 	margin-top: 15px;
@@ -212,7 +154,6 @@
 
 .middle {
 	flex: 1;
-	/* prend tout l'espace restant */
 }
 
 .side.right {
@@ -260,19 +201,54 @@
 	background-color: var(--dark-turquoise);
 }
 
-@media (max-width: 1000px) {
+/*
+ * Responsivity settings
+ */
+
+@media (max-width: 1175px) {
 	#container {
-		grid-template-columns: 100%;
+		gap: 0.5vh;
+	}
+
+	#container img {
+		width: 70%;
+		align-self: center;
+	}
+
+	#compact-section #text-section h2{
+		width: 95%;
+	}
+
+}
+
+
+@media (max-width: 700px) {
+	
+	#container {
+		display: block;
+		gap: 0vh;
 	}
 
 	#container img {
 		width: 60%;
 		margin: 0%;
+		margin-top: 5%;	
 	}
 
 	#compact-section {
 		margin: 2%;
 	}
 
+	#rating-summary {
+		margin-bottom: 5vh;
+	}
 
+	#global-rating {
+		margin-top: 0vh;
+		margin-bottom: 0vh;;
+	}
+
+	h4 {
+		font-size: calc((30% + 0.5vw) * 2);
+	}
 }
