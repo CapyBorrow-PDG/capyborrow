@@ -26,6 +26,12 @@ h3 {
   margin: 0px;
 }
 
+h4 {
+  font-weight: bold;
+  font-size: calc((20% + 0.5vw) * 2);
+  margin: 0px;
+}
+
 .lighttext {
   color: var(--off-white);
 }

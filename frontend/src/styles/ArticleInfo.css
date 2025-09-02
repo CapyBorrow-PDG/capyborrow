@@ -1,0 +1,254 @@
+/*
+ * Container section
+ */
+
+#container {
+	grid-template-columns: 50% 50%;
+	grid-template-rows: auto;
+	display: grid;
+	position: relative;
+	justify-content: center;
+	margin: 2% 5% 2% 5%;
+
+	color: var(--dark-turquoise);
+}
+
+#container p {
+	
+	color: black;
+}
+
+#container img {
+	justify-self: center;
+	width: calc(450px + 2vw);
+	border-radius: 7px;
+	margin: 5%;
+}
+
+/*
+ * Compact section
+ */
+
+#compact-section {
+	margin: 5%;
+	gap: 50px;
+	width: 90%;
+	align-self: center;
+}
+
+#compact-section #text-section {
+	text-align: left;
+}
+
+#compact-section #text-section h3 {
+	color: black;
+}
+
+#compact-section #top-button {
+	margin-top: 8vw;
+	display: flex;
+	gap: 4%;
+	justify-content: center;
+}
+
+#compact-section #top-button button {
+	width: 48%;
+}
+
+#compact-section #bottom-button {
+	margin-top: calc(5px + 0.5vw);
+	width: 100%;
+	margin-bottom: 4vw;;
+}
+
+/*
+ * Description section
+ */
+
+#description-section {
+	text-align: justify;
+	margin: 2% 5% 2% 5%;
+}
+
+/*
+ * Calendar section
+ */
+#calendar-section h3{
+	font-weight: bold;
+}
+
+/* Review header */
+
+#review-header {
+	display: grid;
+	grid-column-start: 1;
+	grid-column-end: 3;
+	color: var(--dark-turquoise);
+	align-items: end;
+}
+
+#review-title {
+	text-align: left;
+}
+
+#total-reviews {
+	text-align: right;
+}
+
+#review-divider {
+	border: none;
+	grid-column-start: 1;
+	grid-column-end: 3;
+	border-bottom: 2px solid var(--dark-turquoise);
+	margin: 5px 0;
+}
+
+/*
+ * Review section: Comment section, left side
+ */
+
+#review-section {
+	margin: 2% 5%;
+	text-align: left;
+}
+
+#review-section .review {
+	padding: 10px 0;
+	color: var(--dark-turquoise);
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+#review-section .comment {
+	color: black;
+	font-weight: normal;
+}
+
+/*
+ * Review section: Rating summary, right side
+ */
+
+#rating-summary {
+	margin-top: 15px;
+	color: var(--dark-turquoise);
+}
+
+#global-rating {
+	font-size: 1.5em;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+/* Flex layout pour chaque ligne */
+.rating-line {
+	display: flex;
+	align-items: center;
+	margin: 5px 0;
+}
+
+.side {
+	width: 15%;
+	text-align: right;
+	margin-right: 5px;
+}
+
+.middle {
+	flex: 1;
+}
+
+.side.right {
+	width: 15%;
+	margin-left: 5px;
+	text-align: left;
+}
+
+/* Barres */
+.bar-container {
+	width: 100%;
+	background-color: gainsboro;
+	text-align: center;
+	border: 1px solid darkgrey;
+	overflow: hidden;
+}
+
+.bar-5 {
+	width: 0%;
+	height: 18px;
+	background-color: var(--dark-turquoise);
+}
+
+.bar-4 {
+	width: 50%;
+	height: 18px;
+	background-color: var(--dark-turquoise);
+}
+
+.bar-3 {
+	width: 0%;
+	height: 18px;
+	background-color: var(--dark-turquoise);
+}
+
+.bar-2 {
+	width: 50%;
+	height: 18px;
+	background-color: var(--dark-turquoise);
+}
+
+.bar-1 {
+	width: 0%;
+	height: 18px;
+	background-color: var(--dark-turquoise);
+}
+
+/*
+ * Responsivity settings
+ */
+
+@media (max-width: 1175px) {
+	#container {
+		gap: 0.5vh;
+	}
+
+	#container img {
+		width: 70%;
+		align-self: center;
+	}
+
+	#compact-section #text-section h2{
+		width: 95%;
+	}
+
+}
+
+
+@media (max-width: 700px) {
+	
+	#container {
+		display: block;
+		gap: 0vh;
+	}
+
+	#container img {
+		width: 60%;
+		margin: 0%;
+		margin-top: 5%;	
+	}
+
+	#compact-section {
+		margin: 2%;
+	}
+
+	#rating-summary {
+		margin-bottom: 5vh;
+	}
+
+	#global-rating {
+		margin-top: 0vh;
+		margin-bottom: 0vh;;
+	}
+
+	h4 {
+		font-size: calc((30% + 0.5vw) * 2);
+	}
+}
