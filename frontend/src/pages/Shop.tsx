@@ -10,6 +10,9 @@ import {useLocation} from "react-router-dom";
 
 const Shop = () => {
 
+  const MIN = 0;
+  const MAX = 1000;
+
   const location = useLocation();
   const {currSearch} = location.state || {};
 
@@ -24,8 +27,8 @@ const Shop = () => {
 
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState(currSearch);
-  const [minPrice, setMinPrice] = useState(null);
-  const [maxPrice, setMaxPrice] = useState(null);
+  const [minPrice, setMinPrice] = useState(MIN);
+  const [maxPrice, setMaxPrice] = useState(MAX);
   const [states, setStates] = useState<string[]>([]); 
   const [categories, setCategories] = useState<string[]>([]);
   const [startDate, setStartDate] = useState<string>();
@@ -42,33 +45,26 @@ const Shop = () => {
 
   useEffect(() => {
 
-    console.log(currSearch);
-
     const fetchItems = async () => {
-      try {
-        const params = new URLSearchParams();
-        if (search) params.append("search", search);
-        if (minPrice) params.append("minPrice", minPrice);
-        if (maxPrice) params.append("maxPrice", maxPrice);
-        if (states.length > 0) {
-          states.forEach(s => params.append("state", s));
-        }
-        if (categories.length > 0) {
-          categories.forEach(c => params.append("category", c));
-        }
-        
-        if(startDate) params.append("startDate", startDate);
-        if (endDate) params.append("endDate", endDate);
-
-        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/item?${params.toString()}`);
-        const data = await res.json();
-        console.log("Fetched data :", data);
-        setItems(data);
-      } catch (err) {
-        console.error("Fetch items error:", err);
-      } finally {
-        setLoading(false);
+      const params = new URLSearchParams();
+      if (search) params.append("search", search);
+      if (minPrice) params.append("minPrice", minPrice.toString());
+      if (maxPrice) params.append("maxPrice", maxPrice.toString());
+      if (states.length > 0) {
+        states.forEach(s => params.append("state", s));
       }
+      if (categories.length > 0) {
+        categories.forEach(c => params.append("category", c));
+      }
+      
+      if(startDate) params.append("startDate", startDate);
+      if (endDate) params.append("endDate", endDate);
+
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/item?${params.toString()}`)
+      .then(res => res.json())
+      .then(data => {console.log("Fetched data:", data); setItems(data);})
+      .catch(err => console.log("Fetched items error:", err))
+      .then(() => setLoading(false));
     };
     fetchItems();
   }, [currSearch, search, minPrice, maxPrice, states, categories, startDate, endDate]);
@@ -87,7 +83,7 @@ const Shop = () => {
               <input aria-label="Date" type="date" className="darktext" value={endDate} onChange={e => setEndDate(e.target.value)}/>
             </div>
           } />
-          <Dropdown buttontext="price" content={<MySlider onChange={(val) => {setMinPrice(val[0]);setMaxPrice(val[1])}} />} />
+          <Dropdown buttontext="price" content={<MySlider MIN={MIN} MAX={MAX} startMin={minPrice} startMax={maxPrice} onChange={(val) => {setMinPrice(val[0]);setMaxPrice(val[1])}} />} />
           <Dropdown buttontext="State" content={<div id="state-list" className="checkbox-list">
             <Checkbox id="very-good" val="very good" onChange={() => toggleFilter(states, "very good", setStates)} checked={states.includes("very good")}/>
             <Checkbox id="good" val="good" onChange={() => toggleFilter(states, "good", setStates)} checked={states.includes("good")} />
@@ -102,7 +98,7 @@ const Shop = () => {
         </div>
       </div>
       <div className="info-text darktext">
-        <h3>"{search || "result"}"</h3>
+        <h3>"{search || "All items"}"</h3>
         <p>{items.length} results</p>
       </div>
       <div className="articles">
