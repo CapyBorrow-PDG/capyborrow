@@ -44,7 +44,7 @@ function Login() {
         </div>
       ) : (
         <div>
-          <button className="headerbutton darkbutton" onClick={() => navigate('/profile')}> {user.email} </button>
+          <button className="headerbutton darkbutton" onClick={() => navigate('/profile')}> {user?.email} </button>
           <button className="headerbutton lightbutton" onClick={() => logout({ returnTo: window.location.origin })}>
             Logout
           </button>
