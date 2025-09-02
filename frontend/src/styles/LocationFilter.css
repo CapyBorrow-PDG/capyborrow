@@ -8,7 +8,7 @@
 
 .location-filter__content {
   background-color: var(--off-white);
-  width: 35vw;
+  width: fit-content;
   height: 80vh;
   display: flex;
   flex-direction: column;

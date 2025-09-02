@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import '../styles/Profile.css';
-import MyPopup from '../components/Popup.tsx';
 import { useAuth0 } from '@auth0/auth0-react';
 import Tabs from '../components/Tabs.tsx';
 import Article from '../components/Article.tsx';
 import AddItemPopup from '../components/AddItemPopup.tsx';
+import UpdateProfilePopup from '../components/UpdateProfilePopup.tsx';
 
 
 const Profile = () => {
@@ -33,39 +33,8 @@ const Profile = () => {
 
   //set default as current stored user info
   const [currentUser, setCurrentUser] = useState<User>();
-  //temporary image to display on profile modification
-  const [tempImage, setTempImage] = useState<any>();
   const [open, setOpen] = useState(false);
   const [itemOpen, setItemOpen] = useState(false);
-  const [form, setForm] = useState( {
-    username: "",
-    fname: "",
-    lname: ""
-  });
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value});
-  }
-
-  const handleSubmit = async (e) => {
-    //save data from form on user
-    e.preventDefault();
-    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${currentUser?.id}`, {
-      method: "PUT",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(form)
-    }).then(data => data.json()).catch(err => console.log(err));
-
-    const updatedUser = res;
-    setCurrentUser({
-      ...currentUser!,
-      username: updatedUser.username,
-      fname: updatedUser.firstname,
-      lname: updatedUser.lastname
-    });
-    setOpen(false);
-    window.location.reload();
-  }
 
   useEffect(() => {
     if (!isAuthenticated || !user) return;
@@ -115,37 +84,12 @@ const Profile = () => {
       <p className="username">{currentUser?.username}</p>
       <p>{currentUser?.fname} {currentUser?.lname}</p>
       <p>{currentUser?.points} points</p>
-      
       <div className="profile-buttons">
         <button className="darkbutton" onClick={()=>{}}>+ purchase points</button>
         <div className="update-button">
           <button className="lightbutton" onClick={() => {setOpen(true)}}>update profile</button>
-          {/*create separate component ?*/}
-          <MyPopup open={open}>
-            <form className="update-form" onSubmit={handleSubmit}>
-              <img className="profile-picture" src={tempImage || blankProfile} alt="profile" />
-              <label htmlFor="avatar" className="lightbutton rounded upload-file">Upload image</label>
-              <input type="file" id="avatar" name="avatar" accept="image/png, image/jpg" onChange={(e) => setTempImage(URL.createObjectURL(e.target.files![0]))} />
-              
-              <div className="form-input" >
-                <label htmlFor="username">username</label><br/>
-                <input type="text" id="username" name="username" value={form.username} placeholder={currentUser?.username} onChange={handleChange}/>
-              </div>
-              <div className="form-input">
-                <label htmlFor="fname">first name</label><br/>
-                <input type="text" id="fname" name="fname" value={form.fname} placeholder={currentUser?.fname} onChange={handleChange}/>
-              </div>
-              <div className="form-input">
-                <label htmlFor="lname">last name</label><br/>
-                <input type="text" id="lname" name="lname" value={form.lname} placeholder={currentUser?.lname} onChange={handleChange} />
-              </div>
-              <div className="update-form-buttons">
-                <input className="darkbutton rounded" type="submit" value="Submit" />
-                <button className="lightbutton" onClick={() => {setTempImage(currentUser?.image);setOpen(false);}}>cancel</button>
-              </div>
-            </form>
-          </MyPopup>
-
+          <UpdateProfilePopup open={open} close={() => setOpen(false)}
+          user={currentUser} setUser={setCurrentUser} blank={blankProfile} />
         </div>
       </div>
 

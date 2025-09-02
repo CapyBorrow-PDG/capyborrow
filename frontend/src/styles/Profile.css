@@ -76,3 +76,9 @@ input[type="file"] {
   font-size: calc((20% + 0.3vw) * 2);
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.update-form-buttons input:hover {
+  font-size: calc((20% + 0.3vw) * 2);
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--off-white);
+}
