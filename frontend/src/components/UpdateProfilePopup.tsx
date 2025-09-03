@@ -1,5 +1,5 @@
 import MyPopup from "./Popup.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const UpdateProfilePopup = (props) => {
 
@@ -34,6 +34,15 @@ const UpdateProfilePopup = (props) => {
     props.close();
     window.location.reload();
   }
+
+  useEffect(() => {
+    setTempImage(props.user?.profile_picture);
+    setForm({
+      username: props.user?.username || "",
+      fname: props.user?.firstname || "",
+      lname: props.user?.lastname || "",
+    })
+  }, [])
 
   return(
     <div>
