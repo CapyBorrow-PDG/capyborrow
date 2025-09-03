@@ -201,6 +201,10 @@
 	background-color: var(--dark-turquoise);
 }
 
+.username:hover {
+  text-decoration-line: underline;
+}
+
 /*
  * Responsivity settings
  */

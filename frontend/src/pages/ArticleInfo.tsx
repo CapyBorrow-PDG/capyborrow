@@ -1,5 +1,5 @@
 import '../styles/ArticleInfo.css';
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Searchbar from '../components/Searchbar.tsx';
 import Calendar from '../components/Calendar.tsx';
@@ -15,33 +15,28 @@ const ArticleInfo = () => {
 		new Date(2025, 10, 22)
 	];
 
-	const navigate = useNavigate();
-	const location = useLocation();
+  type article = {
+    name: string,
+    description: string,
+    price: number,
+    username: string,
+    state: string,
+    picture: string,
+    location: string
+  }
 
 	const params = useParams();
-
-	const { currSearch } = location.state || {};
-	//Add Search bar
-	const [search, setSearch] = useState(currSearch);
 	const {articleId} = params.id ? {articleId: params.id} : {articleId: "1"};
 
-	const [article, setArticle] = useState();
-	const [loading, setLoading] = useState(true);
-
-
+	const [currArticle, setCurrArticle] = useState<article>();
 
 	useEffect(() => {
 		const fetchArticle = async () => {
-			setLoading(true);
-			try {
-				const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/item/${articleId}`);
-				const data = await res.json();
-				setArticle(data);
-			} catch (err) {
-				console.error("Error fetching article:", err);
-			} finally {
-				setLoading(false);
-			}
+      console.log(articleId);
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/item/${articleId}`)
+      .then(data => data.json())
+      .then(res => {console.log(res);setCurrArticle(res[0])})
+      .catch(err => console.log(err));
 		};
 
 		if (articleId) fetchArticle();
@@ -50,16 +45,16 @@ const ArticleInfo = () => {
 
 	return (
 		<div>
-			<Searchbar onChange={(e) => setSearch(e)} />
+			<Searchbar onChange={() => {}} />
 			<div id="container">
-				<img src={"../assets/images/chargeur.jpg"} alt="Article" />
+				<img src={currArticle?.picture} alt="Article" />
 				<div id="compact-section">
 					<div id="text-section">
-						<h2>{article?.name}</h2>
-						<h3><b>Price: </b>{article?.price}p/day</h3>
-						<p>Posted by <i>{article?.owner}</i></p>
-						<p><b>State: </b>{article?.state}</p>
-						<p><b>Localisation: </b>{article?.location}</p>
+						<h2>{currArticle?.name}</h2>
+						<h3><b>Price: </b>{currArticle?.price}p/day</h3>
+						<p>Posted by <i className="username clickable" onClick={() => {}} >{currArticle?.username}</i></p>
+						<p><b>State: </b>{currArticle?.state}</p>
+						<p><b>Location: </b>{currArticle?.location}</p>
 					</div>
 					<div id="top-button">
 						<button className="darkbutton" onClick={() => alert("Prout")}>Contact Owner</button>
@@ -70,7 +65,7 @@ const ArticleInfo = () => {
 
 				<div id="description-section">
 					<h2>Description</h2>
-					<p>{article?.description}</p>
+					<p>{currArticle?.description}</p>
 				</div>
 				<div id="calendar-section">
 					<h3>Disponibility</h3>

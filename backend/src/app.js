@@ -91,20 +91,26 @@ const convertQueryToString = (el) => {
   return newel;
 };
 
-app.get('/item', async (req, res) => {
+app.get('/item{/:id}', async (req, res) => {
   let {
     search, user, minPrice, maxPrice, state, category, startDate, endDate,
   } = req.query;
+  let id = req.params.id || 'default';
 
-  state = convertQueryToString(state);
-  category = convertQueryToString(category);
-  startDate = convertQueryToString(startDate);
-  endDate = convertQueryToString(endDate);
+  if(id === 'default') {
+    state = convertQueryToString(state);
+    category = convertQueryToString(category);
+    startDate = convertQueryToString(startDate);
+    endDate = convertQueryToString(endDate);
+  }
 
   try {
-    const result = await pool.query(`SELECT *
-                                      FROM Capyborrow.all_items_display AS i
-                                      WHERE ($1::text IS NULL OR i.name ILIKE '%' || $1 || '%')
+    const result = (id !== 'default') ? await pool.query(`SELECT * FROM Capyborrow.all_items_display AS i
+                                        WHERE i.item_id = (${id});`) :
+
+                                        await pool.query(`SELECT *
+                                        FROM Capyborrow.all_items_display AS i
+                                        WHERE ($1::text IS NULL OR i.name ILIKE '%' || $1 || '%')
                                         AND ($2::int IS NULL OR i.owner_id = $2)
                                         AND ($3::int  IS NULL OR i.price >= $3)
                                         AND ($4::int  IS NULL OR i.price <= $4)
@@ -117,17 +123,8 @@ app.get('/item', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
 
-app.get('/item/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const result = await pool.query(`SELECT * FROM Capyborrow.all_items_display AS i
-                                      WHERE i.item_id = $1;`, [id]);
-    res.json(result.rows);
-  } catch(err) {
-    res.status(500).json({ error: err.message });
-  }
+  return null;
 });
 
 app.post('/item', async (req, res) => {
