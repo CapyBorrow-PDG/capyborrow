@@ -88,7 +88,7 @@ const convertQueryToString = (el) => {
   } else if (typeof newel === 'object') {
     newel = newel.flat().map((v) => `'${v}'`).join(', ');
   }
-  return el;
+  return newel;
 };
 
 app.get('/item', async (req, res) => {
@@ -100,6 +100,7 @@ app.get('/item', async (req, res) => {
   category = convertQueryToString(category);
   startDate = convertQueryToString(startDate);
   endDate = convertQueryToString(endDate);
+  console.log(minPrice, " ", maxPrice);
 
   try {
     const result = await pool.query(`SELECT *

@@ -40,6 +40,6 @@
 
 .values input[type="number"] {
   -moz-appearance: textfield;
-  width: 40px;
+  width: 50px;
   border: 1px solid var(--dark-turquoise);
 }
