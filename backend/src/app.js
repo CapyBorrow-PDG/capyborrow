@@ -171,26 +171,16 @@ module.exports = app;
 
 /* COLLECTION */
 
-app.get('/users/:userid/collections', async (req, res) => {
-  const { userid } = req.params;
-
-  try {
-    const result = await pool.query(`SELECT c.collection_id, c.name FROM Capyborrow.itemcollection AS c WHERE owner_id = $1;`, [userid]);
-    res.json(result.rows);
-  } catch(err) {
-    res.status(500).json({ error: err.message });
-  }
-  return null;
-});
-
-app.get('/users/:userid/collections/:cid', async (req, res) => {
-  const { userid, cid } = req.params;
+app.get('/users/:userid/collections{/:cid}', async (req, res) => {
+  const userid = req.params.userid;
+  let cid = req.params.cid || 'default';
   
   try {
-    const result = await pool.query(`SELECT i.*
-                                      FROM Capyborrow.all_items_display AS i
-                                      JOIN Capyborrow.collecteditem AS c USING(item_id)
-                                      WHERE c.collection_id = $1;`, [cid]);
+    const result = cid === 'default' ? await pool.query(`SELECT c.collection_id, c.name FROM Capyborrow.itemcollection AS c WHERE owner_id = $1;`, [userid])
+     : await pool.query(`SELECT i.*
+                          FROM Capyborrow.all_items_display AS i
+                          JOIN Capyborrow.collecteditem AS c USING(item_id)
+                          WHERE c.collection_id = $1;`, [cid]);
     res.json(result.rows);
   } catch(err) {
     res.status(500).json({ error: err.message });
