@@ -22,7 +22,14 @@
   row-gap: calc(3px + 0.5vh);
 }
 
-.titletext button {
+.titletext .darkbutton {
+  width: calc(100px + 2.5vw);
+  height: calc(50px + 1.5vw);
+  font-size: calc((35% + 0.5vw) * 2);
+  margin-top: 20px;
+}
+
+.titletext .darkbutton:hover {
   width: calc(100px + 2.5vw);
   height: calc(50px + 1.5vw);
   font-size: calc((35% + 0.5vw) * 2);

@@ -1,10 +1,13 @@
 .tab-headers {
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 90vw;
 }
 
 .tab-headers .tab-header {
-  padding: 10px;
+  padding: 6px;
+  font-size: calc(8px + 0.6vw);
 }
 
 .tab-headers .tab-header:not(:first-child) {
@@ -18,4 +21,5 @@
 
 .tab-content {
   padding: 20px;
+  min-height: 50vh;
 }

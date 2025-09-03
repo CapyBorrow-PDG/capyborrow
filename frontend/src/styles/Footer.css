@@ -6,6 +6,7 @@
   left: 0;
   bottom: 0;
   width: 100%;
+  height: fit-content;
   z-index: 3000;
   color: var(--dark-turquoise);
   background-color: var(--off-white);
