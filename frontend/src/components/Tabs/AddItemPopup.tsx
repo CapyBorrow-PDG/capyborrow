@@ -1,6 +1,6 @@
-import '../styles/AddItemPopup.css';
-import MyPopup from "./Popup.tsx";
-import Dropdown from "./Dropdown/Dropdown.tsx";
+import '../../styles/AddItemPopup.css';
+import MyPopup from "../Popup.tsx";
+import Dropdown from "../Dropdown/Dropdown.tsx";
 import { useState } from "react";
 
 const AddItemPopup = (props) => {
@@ -19,15 +19,6 @@ const AddItemPopup = (props) => {
       category2: "",
       picture: ""
     });
-
-  type article = {
-    item_id: number,
-    picture_url: string,
-    name: string,
-    state: string,
-    price: number,
-    is_available: boolean
-  }
 
   const states = ['very good', 'good', 'used'];
   const categories = ['none', 'Electronics', 'Books', 'Music', 'Cooking'];
@@ -64,26 +55,6 @@ const AddItemPopup = (props) => {
     }
   }
 
-  const testFunc = () => {
-    if(!form.name || !form.price || !currState || !cat1 || !cat2) {
-      console.log(form.name + " " + form.price + " " + currState);
-      alert("Please fill every mandatory field");
-    } else {
-      //const params = new URLSearchParams();
-
-      form.state = currState;
-      form.ownerId = props.userId;
-      if(cat1 !== "none") form.category1 = cat1;
-      if(cat2 !== "none") form.category2 = cat2;
-      if(tempImage) form.picture = tempImage;
-
-      console.log(form);
-    }
-  }
-
-  //add category1 dropdown with option "none"
-  //add category2 dropdown with option "none"
-  //ad location
   return(
     <div>
       <MyPopup open={props.open}>
@@ -149,7 +120,6 @@ const AddItemPopup = (props) => {
             <button className="lightbutton" onClick={props.close}>cancel</button>
           </div>
         </form>
-        <button className="lightbutton" onClick={testFunc}>test</button>
       </MyPopup>
     </div>
   );
