@@ -59,7 +59,6 @@ CREATE TABLE Capyborrow.review (
     author_id INT NOT NULL REFERENCES Capyborrow.user(user_id),
     rating INT NOT NULL CHECK (rating > 0 AND rating <= 5),
     comment VARCHAR(200)
-
 );
 
 -- EMPRUNT
@@ -96,8 +95,11 @@ CREATE TABLE Capyborrow.collecteditem (
 INSERT INTO Capyborrow.user(username, firstname, lastname, email, description)
 VALUES('Davtek', 'David', 'Berger', 'david.berger@heig-vd.ch', 'Je vous prete mes objets');
 
-INSERT INTO Capyborrow.user(firstname, lastname, email)
-VALUES('firstname', 'lastname', 'firstname.lastname@heig-vd.ch');
+INSERT INTO Capyborrow.user(username, firstname, lastname, email)
+VALUES('usernameXx', 'firstname', 'lastname', 'firstname.lastname@heig-vd.ch');
+
+INSERT INTO Capyborrow.user(username, firstname, lastname, email)
+VALUES('IHateEverything', 'John', 'Doe', 'John.Doe@gmail.com');
 
 INSERT INTO Capyborrow.user(email)
 VALUES('test@gmail.com');
@@ -126,6 +128,11 @@ VALUES('test collection', 2);
 INSERT INTO Capyborrow.collecteditem(item_id, collection_id)
 VALUES(2, 1);
 
+INSERT INTO Capyborrow.review(item_id, author_id, rating, comment)
+VALUES(1, 2, 4, 'Great article !');
+
+INSERT INTO Capyborrow.review(item_id, author_id, rating, comment)
+VALUES(1, 3, 2, 'Not as described.');
 
 -- VIEWS
 
@@ -175,3 +182,12 @@ SELECT DISTINCT ON (b.borrow_id)
     i.picture
 FROM Capyborrow.borrow AS b
 LEFT JOIN Capyborrow.all_items_display AS i USING(item_id);
+
+-- REVIEWS
+
+CREATE OR REPLACE VIEW Capyborrow.all_reviews AS
+SELECT DISTINCT ON (r.review_id)
+  r.*,
+  u.username
+FROM Capyborrow.review AS r
+LEFT JOIN Capyborrow.user AS u ON r.author_id = u.user_id;

@@ -204,3 +204,18 @@ app.post('/users/:userid/collections', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 })
+
+/* REVIEW */
+
+app.get('/item/:id/review', async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const result = await pool.query(`SELECT * FROM Capyborrow.all_reviews WHERE item_id = (${id});`);
+
+    res.json(result.rows);
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
+  return null;
+})
