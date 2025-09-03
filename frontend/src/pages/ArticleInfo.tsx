@@ -1,26 +1,52 @@
 import '../styles/ArticleInfo.css';
-import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Searchbar from '../components/Searchbar.tsx';
 import Calendar from '../components/Calendar.tsx';
 
 
 const ArticleInfo = () => {
-	const navigate = useNavigate();
-
 	const availableDates = [
-		new Date('2025-09-08'),
-		new Date('2025-09-09'),
-		new Date('2025-09-10'),
-		new Date('2025-08-11'),
-		new Date('2025-08-12'),
-		new Date('2025-10-13'),
+		new Date(2025, 10, 10),
+		new Date(2025, 10, 11),
+		new Date(2025, 10, 15),
+		new Date(2025, 10, 20),
+		new Date(2025, 10, 21),
+		new Date(2025, 10, 22)
 	];
 
+	const navigate = useNavigate();
 	const location = useLocation();
+
+	const params = useParams();
+
 	const { currSearch } = location.state || {};
 	//Add Search bar
 	const [search, setSearch] = useState(currSearch);
+	const {articleId} = params.id ? {articleId: params.id} : {articleId: "1"};
+
+	const [article, setArticle] = useState();
+	const [loading, setLoading] = useState(true);
+
+
+
+	useEffect(() => {
+		const fetchArticle = async () => {
+			setLoading(true);
+			try {
+				const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/item/${articleId}`);
+				const data = await res.json();
+				setArticle(data);
+			} catch (err) {
+				console.error("Error fetching article:", err);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		if (articleId) fetchArticle();
+	}, [articleId]);
+
 
 	return (
 		<div>
@@ -29,11 +55,11 @@ const ArticleInfo = () => {
 				<img src={"../assets/images/chargeur.jpg"} alt="Article" />
 				<div id="compact-section">
 					<div id="text-section">
-						<h2>Chargeur Téléphone USB-C</h2>
-						<h3><b>Price: </b>50p/day</h3>
-						<p>Posted by <i>username0</i></p>
-						<p><b>State: </b> good</p>
-						<p><b>Localisation: </b>Martigny, VS</p>
+						<h2>{article?.name}</h2>
+						<h3><b>Price: </b>{article?.price}p/day</h3>
+						<p>Posted by <i>{article?.owner}</i></p>
+						<p><b>State: </b>{article?.state}</p>
+						<p><b>Localisation: </b>{article?.location}</p>
 					</div>
 					<div id="top-button">
 						<button className="darkbutton" onClick={() => alert("Prout")}>Contact Owner</button>
@@ -44,7 +70,7 @@ const ArticleInfo = () => {
 
 				<div id="description-section">
 					<h2>Description</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque magni est eius exercitationem sint, ea corporis sed, vel praesentium eligendi neque iusto? Omnis quos nobis est ratione, deleniti laborum! Dolorem, laborum laboriosam. Iure iste tempore nemo, cumque libero debitis dolore doloremque at saepe animi dicta nihil, quis facilis vel, facere neque dolores deleniti in quisquam ipsum accusamus aperiam. Ad, quae aspernatur, unde dolorem maxime quod, nesciunt sequi nam voluptas facilis alias. Tempore repellendus quibusdam perferendis at eius nisi voluptates qui ipsam, nulla ipsa debitis. Itaque atque in unde aliquam, quo debitis neque voluptas facere soluta! Quisquam aspernatur animi ipsam sed.</p>
+					<p>{article?.description}</p>
 				</div>
 				<div id="calendar-section">
 					<h3>Disponibility</h3>
