@@ -2,10 +2,8 @@ DROP TABLE IF EXISTS Capyborrow.user CASCADE;
 DROP TABLE IF EXISTS Capyborrow.item CASCADE;
 DROP TABLE IF EXISTS Capyborrow.review CASCADE;
 DROP TABLE IF EXISTS Capyborrow.borrow CASCADE;
-DROP TABLE IF EXISTS Capyborrow.like CASCADE;
-DROP TABLE IF EXISTS Capyborrow.picture CASCADE;
-DROP TABLE IF EXISTS Capyborrow.profile_picture CASCADE;
-DROP TABLE IF EXISTS Capyborrow.item_picture CASCADE;
+DROP TABLE IF EXISTS Capyborrow.itemcollection CASCADE;
+DROP TABLE IF EXISTS Capyborrow.collecteditem CASCADE;
 
 --USER
 
@@ -68,13 +66,17 @@ CREATE TABLE Capyborrow.borrow (
 
 );
 
--- LIKE
+-- COLLECTIONS
 
-CREATE TABLE Capyborrow.like (
-    like_id SERIAL PRIMARY KEY,
-    item_id INT NOT NULL REFERENCES Capyborrow.item(item_id),
-    liker_id INT NOT NULL REFERENCES Capyborrow.user(user_id)
+CREATE TABLE Capyborrow.itemcollection (
+  collection_id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  owner_id INT NOT NULL REFERENCES Capyborrow.user(user_id)
+);
 
+CREATE TABLE Capyborrow.collecteditem (
+  item_id INT NOT NULL REFERENCES Capyborrow.item(item_id),
+  collection_id INT NOT NULL REFERENCES Capyborrow.itemcollection(collection_id)
 );
 
 
@@ -107,6 +109,11 @@ VALUES('Rice Cooker', 'riz', 50, 'good', 1, 'Electronics', '2025-09-05', '2025-0
 INSERT INTO Capyborrow.borrow(item_id, owner_id, borrower_id, start_date, end_date)
 VALUES(1, 1, 2, '2025-09-05', '2025-09-07');
 
+INSERT INTO Capyborrow.itemcollection(name, owner_id)
+VALUES('test collection', 2);
+
+INSERT INTO Capyborrow.collecteditem(item_id, collection_id)
+VALUES(2, 1);
 
 
 -- VIEWS (AJOUTEZ LES DONNÉES VOULUES)
@@ -197,3 +204,17 @@ SELECT DISTINCT ON (i.item_id)
     i.end_date,
     i.picture
 FROM Capyborrow.item AS i;
+
+-- ALL BORROWS
+CREATE OR REPLACE VIEW Capyborrow.all_borrows AS
+SELECT DISTINCT ON (b.borrow_id)
+    b.borrow_id,
+    b.item_id,
+    b.borrower_id,
+    i.name,
+    i.price,
+    i.state,
+    i.is_available,
+    i.picture
+FROM Capyborrow.borrow AS b
+LEFT JOIN Capyborrow.all_items_display AS i ON i.item_id = b.item_id;

@@ -32,7 +32,7 @@
   margin: 5px;
 }
 
-.profile-buttons * {
+.profile .profile-buttons * {
   width: 100%;
 }
 
@@ -81,4 +81,11 @@ input[type="file"] {
   font-size: calc((20% + 0.3vw) * 2);
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--off-white);
+}
+
+.collections-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
