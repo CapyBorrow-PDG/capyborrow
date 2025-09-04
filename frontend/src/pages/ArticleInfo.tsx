@@ -1,5 +1,5 @@
 import '../styles/ArticleInfo.css';
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Searchbar from '../components/Searchbar.tsx';
 import Calendar from '../components/Calendar.tsx';
@@ -8,6 +8,7 @@ import ProgressBar from '../components/ProgressBar.tsx';
 import { AiFillStar } from 'react-icons/ai';
 import AddToCollectionPopup from '../components/Popups/AddToCollectionPopup.tsx';
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from 'react-router-dom';
 
 const handleContactOwner = async (borrower_id, owner_id) => {
   if (borrower_id == owner_id) alert("You can't write to yourself");
@@ -22,6 +23,8 @@ const handleContactOwner = async (borrower_id, owner_id) => {
 }
 
 const ArticleInfo = () => {
+  const navigate = useNavigate();
+
 	const availableDates = [
 		new Date(2025, 10, 10),
 		new Date(2025, 10, 11),
@@ -166,7 +169,12 @@ const ArticleInfo = () => {
 						<p><b>Location: </b>{currArticle?.location}</p>
 					</div>
 					<div id="top-button">
-						<button className="darkbutton" onClick={() => handleContactOwner(currentUser?.id, currArticle?.owner_id)}>Contact Owner</button>
+						<button className="darkbutton" onClick={() => {
+              handleContactOwner(currentUser?.id, currArticle?.owner_id);
+              navigate('/profile');
+              }}>
+                Contact Owner
+              </button>
             <AddToCollectionPopup articleId={articleId} />
 					</div>
 					<button className="darkbutton" id="bottom-button" onClick={borrowDemand}>Borrow Article</button>

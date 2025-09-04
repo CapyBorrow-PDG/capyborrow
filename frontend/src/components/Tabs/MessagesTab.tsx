@@ -21,8 +21,6 @@ const MessagesTab = (props) => {
                 body: JSON.stringify({user_id: props.user.id})
             })
             const token = await res.json();
-            //console.log("token : ", token);
-            console.log("user to connect :", props.user.id.toString(), props.user.username);
             await client.connectUser({
                 id: props.user.id.toString(),
                 name: props.user.username ? props.user.username : props.user.email,
