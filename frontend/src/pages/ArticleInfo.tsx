@@ -30,6 +30,7 @@ const ArticleInfo = () => {
     description: string,
     price: number,
     username: string,
+    owner_id: number,
     state: string,
     picture: string,
     location: string
@@ -53,6 +54,7 @@ const ArticleInfo = () => {
   const [meanRating, setMeanRating] = useState(0);
   const [newRating, setNewRating] = useState(0);
   const [newComment, setNewComment] = useState("");
+  const [borrowDates, setBorrowDates] = useState([]);
 
 	useEffect(() => {
 		const fetchArticle = async () => {
@@ -79,7 +81,7 @@ const ArticleInfo = () => {
 	}, [articleId, reviews]);
 
   useEffect(() => {
-    const fetchUserId = async () => {
+    const fetchUser = async () => {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/users`)
       .then(res => res.json())
       .then(data => {
@@ -94,7 +96,7 @@ const ArticleInfo = () => {
       }).catch(err => console.log(err));
     }
 
-    fetchUserId();
+    fetchUser();
 
   }, [user, currentUser]);
 
@@ -117,6 +119,25 @@ const ArticleInfo = () => {
     window.location.reload();
   }
 
+  const borrowDemand = async () => {
+    let form = {
+      item_id: Number(articleId),
+      owner_id: currArticle?.owner_id,
+      borrower_id: currentUser?.id,
+      start_date: borrowDates[0],
+      end_date: borrowDates[1]
+    }
+    console.log(form);
+
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/borrows`, {
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      },
+      body: JSON.stringify(form)
+    }).then(data => {data.json();alert("demand sent");}).catch(err => console.log(err));
+  }
+
 	return (
 		<div>
 			<Searchbar onChange={() => {}} />
@@ -134,7 +155,7 @@ const ArticleInfo = () => {
 						<button className="darkbutton" onClick={() => alert("Prout")}>Contact Owner</button>
             <AddToCollectionPopup userid={currentUser?.id} articleId={articleId} />
 					</div>
-					<button className="darkbutton" id="bottom-button" onClick={() => alert("Prout")}>Borrow Article</button>
+					<button className="darkbutton" id="bottom-button" onClick={borrowDemand}>Borrow Article</button>
 				</div>
 
 				<div id="description-section">
@@ -143,7 +164,7 @@ const ArticleInfo = () => {
 				</div>
 				<div id="calendar-section">
 					<h3>Disponibility</h3>
-					<Calendar disponibility={availableDates} mode={false} />
+					<Calendar disponibility={availableDates} mode={false} onChange={([start,end]) => setBorrowDates([start,end])} />
 				</div>
 				
 				<div id="review-header">
