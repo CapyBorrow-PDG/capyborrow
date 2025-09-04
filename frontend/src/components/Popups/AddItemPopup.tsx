@@ -1,6 +1,6 @@
-import '../styles/AddItemPopup.css';
+import '../../styles/AddItemPopup.css';
 import MyPopup from "./Popup.tsx";
-import Dropdown from "./Dropdown/Dropdown.tsx";
+import Dropdown from "../Dropdown/Dropdown.tsx";
 import { useState } from "react";
 
 const AddItemPopup = (props) => {
@@ -19,15 +19,6 @@ const AddItemPopup = (props) => {
       category2: "",
       picture: ""
     });
-
-  type article = {
-    item_id: number,
-    picture_url: string,
-    name: string,
-    state: string,
-    price: number,
-    is_available: boolean
-  }
 
   const states = ['very good', 'good', 'used'];
   const categories = ['none', 'Electronics', 'Books', 'Music', 'Cooking'];
@@ -64,32 +55,12 @@ const AddItemPopup = (props) => {
     }
   }
 
-  const testFunc = () => {
-    if(!form.name || !form.price || !currState || !cat1 || !cat2) {
-      console.log(form.name + " " + form.price + " " + currState);
-      alert("Please fill every mandatory field");
-    } else {
-      //const params = new URLSearchParams();
-
-      form.state = currState;
-      form.ownerId = props.userId;
-      if(cat1 !== "none") form.category1 = cat1;
-      if(cat2 !== "none") form.category2 = cat2;
-      if(tempImage) form.picture = tempImage;
-
-      console.log(form);
-    }
-  }
-
-  //add category1 dropdown with option "none"
-  //add category2 dropdown with option "none"
-  //ad location
   return(
     <div>
       <MyPopup open={props.open}>
         <form className="post-form" onSubmit={handleSubmit}>
           <img className={`item-picture ${tempImage ? '': 'no-image'}`} src={tempImage} alt="item" />
-          <label htmlFor="item-picture" className="lightbutton rounded upload-file">Upload image</label>
+          <label htmlFor="item-picture" className="lightbutton rounded upload-file clickable">Upload image</label>
           <input type="file" id="item-picture" name="item-picture" accept="image/png, image/jpg" onChange={(e) => {if(e.target.files) setTempImage(URL.createObjectURL(e.target.files![0]))}} />
           
           <div className="post-category">
@@ -104,20 +75,9 @@ const AddItemPopup = (props) => {
             <label htmlFor="price">price</label>
             <input id="price" name="price" type="number" onChange={handleChange}></input>
           </div>
-          <Dropdown 
-            buttontext={currState}
-            content={
-              <div>
-                {
-                states.map((entry: string, index) => (
-                  <p key={index} className="clickable" onClick={() => {setCurrState(entry.toString())}} >{entry}</p>
-                ))
-                }
-              </div>
-              }
-          />
 
-          <div className="category-buttons">
+          <label htmlFor="category-buttons"> categories</label>
+          <div id="category-buttons" className="category-buttons">
             <Dropdown 
               buttontext={cat1}
               content={
@@ -144,12 +104,27 @@ const AddItemPopup = (props) => {
                 }
             />
           </div>
+          <label htmlFor="state-button">state</label>
+          <div id="state-button">
+            <Dropdown 
+            buttontext={currState}
+            content={
+              <div>
+                {
+                states.map((entry: string, index) => (
+                  <p key={index} className="clickable" onClick={() => {setCurrState(entry.toString())}} >{entry}</p>
+                ))
+                }
+              </div>
+              }
+          />
+          </div>
+          <br/>
           <div className="post-form-buttons">
-            <input className="darkbutton rounded" type="submit" value="Submit" />
-            <button className="lightbutton" onClick={props.close}>cancel</button>
+            <input className="darkbutton rounded clickable" type="submit" value="Submit" />
+            <button className="lightbutton clickable" onClick={props.close}>cancel</button>
           </div>
         </form>
-        <button className="lightbutton" onClick={testFunc}>test</button>
       </MyPopup>
     </div>
   );

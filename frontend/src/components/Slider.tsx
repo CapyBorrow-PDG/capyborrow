@@ -2,22 +2,15 @@ import '../styles/Slider.css';
 import Slider from 'react-slider';
 import { useEffect, useState } from 'react';
 
-const MIN = 0;
-const MAX = 1000;
-
 const MySlider = (props) => {
-  const [minval, setMinVal] = useState(MIN);
-  const [maxval, setMaxVal] = useState(MAX);
+  const [minval, setMinVal] = useState(props.startMin);
+  const [maxval, setMaxVal] = useState(props.startMax);
 
   const changeVals = (val: number[]) => {
     setMinVal(val[0]);
     setMaxVal(val[1]);
     props.onChange(val);
   }
-
-  useEffect(() => {
-    props.onChange([MIN, MAX]);
-  }, [props]);
 
   return(
     <div>
@@ -28,7 +21,7 @@ const MySlider = (props) => {
       </div>
       <Slider className="slider"
       value={[minval, maxval]} onChange={changeVals}
-      min={MIN} max={MAX}
+      min={props.MIN} max={props.MAX}
       step={5} />
     </div>
   );

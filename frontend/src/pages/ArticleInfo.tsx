@@ -1,50 +1,95 @@
 import '../styles/ArticleInfo.css';
-import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Searchbar from '../components/Searchbar.tsx';
 import Calendar from '../components/Calendar.tsx';
-
+import { Rating } from '@mui/material';
+import ProgressBar from '../components/ProgressBar.tsx';
+import { AiFillStar } from 'react-icons/ai';
+import AddToCollectionPopup from '../components/Popups/AddToCollectionPopup.tsx';
 
 const ArticleInfo = () => {
-	const navigate = useNavigate();
-
 	const availableDates = [
-		new Date('2025-09-08'),
-		new Date('2025-09-09'),
-		new Date('2025-09-10'),
-		new Date('2025-08-11'),
-		new Date('2025-08-12'),
-		new Date('2025-10-13'),
+		new Date(2025, 10, 10),
+		new Date(2025, 10, 11),
+		new Date(2025, 10, 15),
+		new Date(2025, 10, 20),
+		new Date(2025, 10, 21),
+		new Date(2025, 10, 22)
 	];
 
-	const location = useLocation();
-	const { currSearch } = location.state || {};
-	//Add Search bar
-	const [search, setSearch] = useState(currSearch);
+  type article = {
+    name: string,
+    description: string,
+    price: number,
+    username: string,
+    state: string,
+    picture: string,
+    location: string
+  }
+
+  type review = {
+    review_id: number,
+    rating: number,
+    username: string,
+    comment: string
+  }
+
+	const params = useParams();
+	const {articleId} = params.id ? {articleId: params.id} : {articleId: "1"};
+
+	const [currArticle, setCurrArticle] = useState<article>();
+  const [reviews, setReviews] = useState([]);
+  const [reviewPercentages, setReviewPercentages] = useState<Map<number, number>>();
+  const [meanRating, setMeanRating] = useState(0);
+
+	useEffect(() => {
+		const fetchArticle = async () => {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/item/${articleId}`)
+      .then(data => data.json())
+      .then(res => setCurrArticle(res[0]))
+      .catch(err => console.log(err));
+
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/item/${articleId}/review`)
+      .then(data => data.json())
+      .then(res => setReviews(res))
+      .catch(err => console.log(err));
+		};
+
+		if(articleId) fetchArticle();
+    if(reviews.length > 0) {
+      setMeanRating(reviews.map((el: review) => el.rating).reduce((prev, cur) => prev + cur) / reviews.length);
+
+      let percents: Map<number, number> = reviews.map((v: review) => v.rating)
+      .reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
+
+      setReviewPercentages(percents);
+    }
+	}, [articleId, reviews]);
 
 	return (
 		<div>
-			<Searchbar onChange={(e) => setSearch(e)} />
+			<Searchbar onChange={() => {}} />
 			<div id="container">
-				<img src={"../assets/images/chargeur.jpg"} alt="Article" />
+				<img src={currArticle?.picture} alt="Article" />
 				<div id="compact-section">
 					<div id="text-section">
-						<h2>Chargeur Téléphone USB-C</h2>
-						<h3><b>Price: </b>50p/day</h3>
-						<p>Posted by <i>username0</i></p>
-						<p><b>State: </b> good</p>
-						<p><b>Localisation: </b>Martigny, VS</p>
+						<h2>{currArticle?.name}</h2>
+						<h3><b>Price: </b>{currArticle?.price}p/day</h3>
+						<p>Posted by <i className="username clickable" onClick={() => {}} >{currArticle?.username}</i></p>
+						<p><b>State: </b>{currArticle?.state}</p>
+						<p><b>Location: </b>{currArticle?.location}</p>
 					</div>
 					<div id="top-button">
 						<button className="darkbutton" onClick={() => alert("Prout")}>Contact Owner</button>
-						<button className="darkbutton" onClick={() => alert("Prout")}>Add to collection</button>
+            <AddToCollectionPopup articleId={articleId} />
 					</div>
 					<button className="darkbutton" id="bottom-button" onClick={() => alert("Prout")}>Borrow Article</button>
 				</div>
 
 				<div id="description-section">
 					<h2>Description</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque magni est eius exercitationem sint, ea corporis sed, vel praesentium eligendi neque iusto? Omnis quos nobis est ratione, deleniti laborum! Dolorem, laborum laboriosam. Iure iste tempore nemo, cumque libero debitis dolore doloremque at saepe animi dicta nihil, quis facilis vel, facere neque dolores deleniti in quisquam ipsum accusamus aperiam. Ad, quae aspernatur, unde dolorem maxime quod, nesciunt sequi nam voluptas facilis alias. Tempore repellendus quibusdam perferendis at eius nisi voluptates qui ipsam, nulla ipsa debitis. Itaque atque in unde aliquam, quo debitis neque voluptas facere soluta! Quisquam aspernatur animi ipsam sed.</p>
+					<p>{currArticle?.description}</p>
 				</div>
 				<div id="calendar-section">
 					<h3>Disponibility</h3>
@@ -56,76 +101,43 @@ const ArticleInfo = () => {
 						<h2>Reviews</h2>
 					</div>
 					<div id="total-reviews">
-						<h4>Total Reviews: 2</h4>
+						<h4>Total Reviews: {reviews.length}</h4>
 					</div>
 					<hr id="review-divider" />
 				</div>
 
 
 				<div id="review-section">
-					<div className="review">
-						<h4>User1</h4>
-						<p className="comment">Great article!</p>
-						<h4>★★★★☆</h4>
-					</div>
-					<div className="review">
-						<h4>User2</h4>
-						<p className="comment">Not as described.</p>
-						<h4>★★☆☆☆</h4>
-					</div>
+          {
+            reviews?.map((rev: review) => (
+              <div key={rev.review_id} className="review">
+                <h4>{rev.username}</h4>
+                <p className="comment">{rev.comment}</p>
+                <Rating sx={{'& .MuiRating-iconFilled': {color: 'teal'}}} value={rev.rating} precision={0.5} readOnly />
+              </div>
+            ))
+          }
 				</div>
 				<div id="rating-summary">
-					<h4 id="global-rating">4 ★★★★☆</h4>
+          <div id="global-rating">
+            <h4 id="mean-rating">{meanRating}</h4>
+            <Rating sx={{'& .MuiRating-iconFilled': {color: 'teal'}}} value={meanRating} precision={0.5} readOnly />
+          </div>
 
-					<div className="rating-line">
-						<div className="side">5 ★</div>
-						<div className="middle">
-							<div className="bar-container">
-								<div className="bar-5"></div>
-							</div>
-						</div>
-						<div className="side right">0%</div>
-					</div>
-
-					<div className="rating-line">
-						<div className="side">4 ★</div>
-						<div className="middle">
-							<div className="bar-container">
-								<div className="bar-4"></div>
-							</div>
-						</div>
-						<div className="side right">50%</div>
-					</div>
-
-					<div className="rating-line">
-						<div className="side">3 ★</div>
-						<div className="middle">
-							<div className="bar-container">
-								<div className="bar-3"></div>
-							</div>
-						</div>
-						<div className="side right">0%</div>
-					</div>
-
-					<div className="rating-line">
-						<div className="side">2 ★</div>
-						<div className="middle">
-							<div className="bar-container">
-								<div className="bar-2"></div>
-							</div>
-						</div>
-						<div className="side right">50%</div>
-					</div>
-
-					<div className="rating-line">
-						<div className="side">1 ★</div>
-						<div className="middle">
-							<div className="bar-container">
-								<div className="bar-1"></div>
-							</div>
-						</div>
-						<div className="side right">0%</div>
-					</div>
+          {
+            [5, 4, 3, 2, 1].map((r) =>  {
+              let percent = reviewPercentages?.get(r)! * 100 / reviews.length || 0;
+                return(
+                  <div className="rating-line">
+                  <div className="side">{r} <AiFillStar /> </div>
+                  <div className="middle">
+                    <ProgressBar className="bar-container" percent={percent} color='teal' />
+                  </div>
+                  <div className="side right">{percent}%</div>
+                </div>
+                );
+              })
+          }
 				</div>
 			</div>
 		</div>

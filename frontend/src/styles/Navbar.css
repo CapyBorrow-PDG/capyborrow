@@ -27,11 +27,6 @@
 .nav {
   display: flex;
   color: var(--dark-turquoise);
-}
-
-.nav ul {
-  list-style: none;
-  display: flex;
   align-items: center;
   gap: 1rem;
   padding: 0px;
@@ -47,6 +42,8 @@
   display: flex;
   gap: 10px;
   padding: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
 button.darkbutton {
@@ -71,4 +68,44 @@ button.lightbutton:hover {
   background-color: var(--light-turquoise);
   color: var(--off-white);
   width: fit-content;
+}
+
+.profile-icon {
+  color: var(--dark-turquoise);
+  font-size: 30px;
+}
+
+.menu-icon {
+  display: none;
+}
+
+.menu-links {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 500px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .menu-links {
+    flex-direction: column;
+    border: 2px solid var(--dark-turquoise);
+    padding: 10px;
+    background-color: var(--off-white);
+    position: absolute;
+    top: 65%;
+    left: 130px;
+    opacity: 0;
+  }
+
+  .menu-links.open {
+    opacity: 1;
+  }
+
+  .menu-links a:not(:last-child) {
+    border-bottom: 2px solid var(--dark-turquoise);
+    padding: 3px;
+  }
 }

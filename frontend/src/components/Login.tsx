@@ -2,6 +2,7 @@ import '../styles/Navbar.css'
 import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from 'react-router-dom';
+import { BiUser } from 'react-icons/bi';
 
 function Login() {
   const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
@@ -38,13 +39,13 @@ function Login() {
   return (
     <div>
       {!isAuthenticated ? (
-        <div>
-        <button className="headerbutton darkbutton" onClick={() => loginWithRedirect()}>Log in</button>
-        <button className="headerbutton lightbutton" onClick={() => alert("can't sign up yet :(")}> Sign up</button>
+        <div className="buttons" >
+          <button className="headerbutton darkbutton" onClick={() => loginWithRedirect()}>Log in</button>
+          <button className="headerbutton lightbutton" onClick={() => alert("can't sign up yet :(")}> Sign up</button>
         </div>
       ) : (
-        <div>
-          <button className="headerbutton darkbutton" onClick={() => navigate('/profile')}> {user.email} </button>
+        <div className="buttons" >
+          <BiUser className="profile-icon clickable" onClick={() => navigate('/profile')} />
           <button className="headerbutton lightbutton" onClick={() => logout({ returnTo: window.location.origin })}>
             Logout
           </button>

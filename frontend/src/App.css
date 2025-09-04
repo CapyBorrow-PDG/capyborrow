@@ -48,7 +48,7 @@ h4 {
 
 .darkbutton:hover {
   background-color: var(--dark-turquoise);
-  color: var(--dark-turquoise);
+  color: var(--off-white);
 }
 
 .lightbutton {
