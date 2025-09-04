@@ -13,6 +13,12 @@ const Shop = () => {
   const MIN = 0;
   const MAX = 1000;
 
+  type locInfo = {
+    radius: number,
+    lat: number,
+    long: number
+  }
+
   const location = useLocation();
   const {currSearch} = location.state || {};
 
@@ -24,6 +30,7 @@ const Shop = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [startDate, setStartDate] = useState<string>();
   const [endDate, setEndDate] = useState<string>();
+  const [locationInfo, setLocationInfo] = useState<locInfo>();
   const [loading, setLoading] = useState(true);
 
   const toggleFilter = (list: string[], value: string, setList: (val: string[]) => void) => {
@@ -33,6 +40,19 @@ const Shop = () => {
       setList([...list, value]);
     }
   };
+
+  const compareCoordinates = (coord1: number[], coord2: number[]) : number => {
+    const earthRadius = 6371;
+    let lat1 = coord1[0] * Math.PI / 180;
+    let lat2 = coord2[0] * Math.PI / 180;
+    let long1 = coord1[1] * Math.PI / 180;
+    let long2 = coord2[1] * Math.PI / 180;
+    let a = Math.sin(((lat2-lat1) ) / 2) * Math.sin(((lat2-lat1) ) / 2)
+                      + Math.cos(lat1) * Math.cos(lat2)
+                      * Math.sin((long2-long1) / 2) * Math.sin((long2-long1) / 2);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return (earthRadius * c);
+  }
 
   useEffect(() => {
 
@@ -53,18 +73,22 @@ const Shop = () => {
 
       fetch(`${process.env.REACT_APP_BACKEND_URL}/item?${params.toString()}`)
       .then(res => res.json())
-      .then(data => {console.log("Fetched data:", data); setItems(data);})
+      .then(data => {
+        console.log("Fetched data:", data);
+        if(locationInfo) data = data.filter((el) => compareCoordinates([locationInfo.lat, locationInfo.long], [el.latitude, el.longitude]) <= (locationInfo.radius / 1000));
+        setItems(data);
+      })
       .catch(err => console.log("Fetched items error:", err))
       .then(() => setLoading(false));
     };
     fetchItems();
-  }, [currSearch, search, minPrice, maxPrice, states, categories, startDate, endDate]);
+  }, [currSearch, search, minPrice, maxPrice, states, categories, startDate, endDate, locationInfo]);
 
   return(
     <div>
       <Searchbar onChange={(e) => setSearch(e)}/>
       <div className="filterslist">
-        <LocationFilter />
+        <LocationFilter getChanges={setLocationInfo} />
         <div className="filterslist__buttons">
           <Dropdown buttontext="Availability" content={
             <div className="datepicker">

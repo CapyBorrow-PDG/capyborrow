@@ -1,9 +1,15 @@
 import '../../styles/AddItemPopup.css';
 import MyPopup from "./Popup.tsx";
 import Dropdown from "../Dropdown/Dropdown.tsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const AddItemPopup = (props) => {
+
+  const [searchListOpen, setSearchListOpen] = useState(false);
+  const [city, setCity] = useState('city');
+  const [canton, setCanton] = useState('state');
+  const [lat, setLat] = useState(0);
+  const [long, setLong] = useState(0);
 
   const [currState, setCurrState] = useState<string>("state");
   const [tempImage, setTempImage] = useState<any>();
@@ -17,7 +23,11 @@ const AddItemPopup = (props) => {
       ownerId: props.userId,
       category1: "",
       category2: "",
-      picture: ""
+      picture: "",
+      city: "",
+      canton_or_state: "",
+      latitude: 0,
+      longitude: 0
     });
 
   const states = ['very good', 'good', 'used'];
@@ -41,6 +51,11 @@ const AddItemPopup = (props) => {
       if(cat2 !== "none") form.category2 = cat2;
       form.picture = tempImage;
 
+      form.city = city;
+      form.canton_or_state = canton;
+      form.latitude = lat;
+      form.longitude = long;
+
       console.log("form: ", form);
       
       fetch(`${process.env.REACT_APP_BACKEND_URL}/item`, {
@@ -56,6 +71,31 @@ const AddItemPopup = (props) => {
     }
   }
 
+  const searchLoc = () => {
+      const query = (document.getElementById("location-input") as HTMLInputElement)?.value;
+      fetch('https://nominatim.openstreetmap.org/search?format=json&polygon=1&addressdetails=1&q=' + query)
+      .then(res => res.json())
+      .then(data => {
+        (document.getElementById("resultlist") as HTMLElement).innerHTML ='';
+        for(const result of data) {
+          const li = document.createElement('li');
+          li.className = "search-result clickable";
+          li.onclick = () => {
+            setLat(result.lat);
+            setLong(result.lon);
+            (document.getElementById("resultlist") as HTMLElement).innerHTML ='';
+            setSearchListOpen(false);
+            console.log(result.address);
+            setCity(result.address.town || result.address.state);
+            setCanton(result.address.state);
+          };
+          li.innerHTML = JSON.stringify(result.display_name);
+          document.getElementById("resultlist")?.appendChild(li);
+        }
+        setSearchListOpen(true);
+      });
+    }
+
   return(
     <div>
       <MyPopup open={props.open}>
@@ -64,6 +104,12 @@ const AddItemPopup = (props) => {
           <label htmlFor="item-picture" className="lightbutton rounded upload-file clickable">Upload image</label>
           <input type="file" id="item-picture" name="item-picture" accept="image/png, image/jpg" onChange={(e) => {if(e.target.files) setTempImage(URL.createObjectURL(e.target.files![0]))}} />
           
+          <div className="search">
+            <label htmlFor="location-input">location</label>
+            <input id="location-input" type="text" onChange={searchLoc}></input>
+            <ul id="resultlist" className={searchListOpen ? "" : "content-closed"}></ul>
+          </div>
+
           <div className="post-category">
             <label htmlFor="name">name</label>
             <input id="name" name="name" type="text" onChange={handleChange}></input>

@@ -8,6 +8,8 @@ const ArticleList = (props) => {
     name: string,
     state: string,
     price: number,
+    city: string,
+    canton_or_state: string,
     is_available: boolean
   }
 
@@ -19,8 +21,9 @@ const ArticleList = (props) => {
           key={item.item_id}
           id={item.item_id}
           image={item.picture} 
-          title={item.name} 
-          location={"Martigny, VS"}
+          title={item.name}
+          city={item.city}
+          canton={item.canton_or_state}
           state={item.state}
           price={item.price}
           av={item.is_available}>
