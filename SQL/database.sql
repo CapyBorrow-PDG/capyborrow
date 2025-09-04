@@ -34,21 +34,11 @@ CREATE TABLE Capyborrow.item (
     category2 VARCHAR(20),
     start_date DATE,
     end_date DATE,
-    picture VARCHAR(200) NOT NULL
-    --longitude REAL NOT NULL,
-    --latitude REAL NOT NULL
-
-);
-
--- GEOLOCATION
-
-CREATE TABLE Capyborrow.geolocation (
-  geolocation_id SERIAL PRIMARY KEY,
-  item_id INT NOT NULL REFERENCES Capyborrow.item(item_id),
-  city VARCHAR(100) NOT NULL,
-  canton_or_state VARCHAR(100) NOT NULL,
-  longitude REAL NOT NULL,
-  latitude REAL NOT NULL
+    picture VARCHAR(200) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    canton_or_state VARCHAR(100) NOT NULL,
+    longitude REAL NOT NULL,
+    latitude REAL NOT NULL
 );
 
 -- REVIEW
@@ -120,20 +110,20 @@ VALUES('IHateEverything', 'John', 'Doe', 'John.Doe@gmail.com');
 INSERT INTO Capyborrow.user(email)
 VALUES('test@gmail.com');
 
-INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture)
-VALUES('Aspirateur', 'ca nettoie ici', 50, 'very good', 1, 'Electronics', '2025-04-05', '2025-11-08', '../assets/images/aspirateur.png');
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture, city, canton_or_state, latitude, longitude)
+VALUES('Aspirateur', 'ca nettoie ici', 50, 'very good', 1, 'Electronics', '2025-04-05', '2025-11-08', '../assets/images/aspirateur.png', 'Martigny', 'Valais', 46.111592, 7.094935);
 
-INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture)
-VALUES('Appareil à Raclette', 'miam', 40, 'good', 2, 'Cooking', '2025-06-05', '2025-09-08', '../assets/images/raclette.jpg');
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture, city, canton_or_state, latitude, longitude)
+VALUES('Appareil à Raclette', 'miam', 40, 'good', 2, 'Cooking', '2025-06-05', '2025-09-08', '../assets/images/raclette.jpg', 'Lausanne', 'Vaud', 46.526992, 6.642765);
 
-INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture)
-VALUES('Chargeur USB-C', 'ca charge ici', 20, 'very good', 1, 'Electronics', '2025-05-05', '2025-10-08', '../assets/images/chargeur.jpg');
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture, city, canton_or_state, latitude, longitude)
+VALUES('Chargeur USB-C', 'ca charge ici', 20, 'very good', 1, 'Electronics', '2025-05-05', '2025-10-08', '../assets/images/chargeur.jpg', 'Vouvry', 'Valais', 46.338830, 6.888614);
 
-INSERT INTO Capyborrow.item(name, description, price, state, owner_id, start_date, end_date, picture)
-VALUES('Balai', 'ca nettoie ici', 10, 'used', 2, '2025-08-30', '2025-09-12', '../assets/images/balai.jpg');
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, start_date, end_date, picture, city, canton_or_state, latitude, longitude)
+VALUES('Balai', 'ca nettoie ici', 10, 'used', 2, '2025-08-30', '2025-09-12', '../assets/images/balai.jpg', 'Renens', 'Vaud', 46.540336, 6.592517);
 
-INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture)
-VALUES('Rice Cooker', 'riz', 50, 'good', 1, 'Electronics', '2025-09-05', '2025-09-08', '../assets/images/rice-cooker.jpg');
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture, city, canton_or_state, latitude, longitude)
+VALUES('Rice Cooker', 'riz', 50, 'good', 1, 'Electronics', '2025-09-05', '2025-09-08', '../assets/images/rice-cooker.jpg', 'Berne', 'Berne', 46.954022, 7.398747);
 
 INSERT INTO Capyborrow.borrow(item_id, owner_id, borrower_id, start_date, end_date, is_accepted)
 VALUES(1, 1, 2, '2025-09-05', '2025-09-07', true);
@@ -179,10 +169,11 @@ SELECT DISTINCT ON (i.item_id)
     i.start_date,
     i.end_date,
     i.picture,
-    g.city,
-    g.canton_or_state
+    i.city,
+    i.canton_or_state,
+    i.latitude,
+    i.longitude
 FROM Capyborrow.item AS i
-LEFT JOIN Capyborrow.geolocation AS g USING(item_id)
 LEFT JOIN Capyborrow.user AS u ON i.owner_id = u.user_id;
 
 -- ALL BORROWS

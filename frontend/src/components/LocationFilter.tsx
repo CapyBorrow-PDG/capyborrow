@@ -21,6 +21,7 @@ const LocationFilter = (props) => {
 
   //temporary function to replace with actual location
   const applyChanges = () => {
+    props.getChanges({radius, lat, long});
     toggleContent();
   }
 

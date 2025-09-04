@@ -12,7 +12,7 @@ const Article = (props) => {
         <img src={props.image} alt="article" />
       </div>
       <h2>{props.title}</h2>
-      <p className="location">{props.location}</p>
+      <p className="location">{props.city}, {props.canton}</p>
       <p>{props.state} state</p>
       <p className="price">{props.price}p/day</p>
     </div>
