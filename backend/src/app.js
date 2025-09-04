@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
+const { StreamChat } = require('stream-chat');
 
 const html = `<!DOCTYPE html>
 <html lang="en">
@@ -239,3 +240,42 @@ app.get('/item/:id/review', async (req, res) => {
   }
   return null;
 })
+
+
+/* MESSAGE  */
+
+const serverClient = StreamChat.getInstance(
+  process.env.STREAM_API_KEY,
+  process.env.STREAM_API_SECRET
+);
+
+app.post('/token', async (req, res) => {
+  const {user_id} = req.body;
+
+  try {
+    const token = serverClient.createToken(user_id.toString());
+    res.json(token);
+  } catch (err) {
+    console.err("Error creating token :", err);
+    res.status(500).json({ error: err.message });
+  }
+})
+
+app.post('/conversation', async (req, res) => {
+  const {user_id, owner_id} = req.body;
+  console.log("Creating conversation with :", {user_id, owner_id});
+    try {
+      await serverClient.upsertUser({ id: user_id.toString()});
+      await serverClient.upsertUser({ id: owner_id.toString()});
+      const channel = serverClient.channel('messaging', {
+        members: [user_id.toString(), owner_id.toString()],
+        created_by_id: user_id.toString()
+      });
+      await channel.create();
+      res.json({ channelId: channel.id });
+    } catch (err) {
+      console.error("Error creating conversation", err);
+      res.status(500).json({ error: "Error creating conversation"});
+    }
+})
+

@@ -7,6 +7,7 @@ import PostsTab from '../components/Tabs/PostsTab.tsx';
 import CollectionsTab from '../components/Tabs/CollectionsTab.tsx';
 import BorrowsTab from '../components/Tabs/BorrowsTab.tsx';
 import Searchbar from '../components/Searchbar.tsx';
+import MessagesTab from '../components/Tabs/MessagesTab.tsx';
 
 
 const Profile = () => {
@@ -15,6 +16,7 @@ const Profile = () => {
   type User = {
     id: Int16Array,
     image: string,
+    email: string,
     username: string,
     fname: string,
     lname: string,
@@ -40,6 +42,7 @@ const Profile = () => {
             setCurrentUser({
               id: dbUser.user_id,
               image: dbUser.profile_picture,
+              email: dbUser.email,
               username: dbUser.username,
               fname: dbUser.firstname,
               lname: dbUser.lastname,
@@ -79,7 +82,7 @@ const Profile = () => {
             content: <CollectionsTab user={currentUser} />
           },
           {header: <p>Messages</p>,
-            content: <p>there is tab 4</p>
+            content: <MessagesTab user={currentUser} />
           },
         ]} />
 

@@ -7,6 +7,20 @@ import { Rating } from '@mui/material';
 import ProgressBar from '../components/ProgressBar.tsx';
 import { AiFillStar } from 'react-icons/ai';
 import AddToCollectionPopup from '../components/Popups/AddToCollectionPopup.tsx';
+import { useAuth0 } from "@auth0/auth0-react";
+
+
+const handleContactOwner = async (borrower_id, owner_id) => {
+  if (borrower_id == owner_id) alert("You can't write to yourself");
+  
+  await fetch(`${process.env.REACT_APP_BACKEND_URL}/conversation`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({user_id: borrower_id, owner_id: owner_id})
+  })
+  .then(res => console.log("Channel created", res.json()))
+  .catch(err => console.error(err));
+}
 
 const ArticleInfo = () => {
 	const availableDates = [
@@ -22,6 +36,7 @@ const ArticleInfo = () => {
     name: string,
     description: string,
     price: number,
+    owner_id: number,
     username: string,
     state: string,
     picture: string,
@@ -35,6 +50,12 @@ const ArticleInfo = () => {
     comment: string
   }
 
+  type User = {
+    id: number,
+    username: string,
+    picture: string,
+  }
+
 	const params = useParams();
 	const {articleId} = params.id ? {articleId: params.id} : {articleId: "1"};
 
@@ -42,6 +63,8 @@ const ArticleInfo = () => {
   const [reviews, setReviews] = useState([]);
   const [reviewPercentages, setReviewPercentages] = useState<Map<number, number>>();
   const [meanRating, setMeanRating] = useState(0);
+  const {user} = useAuth0();
+  const [currentUser, setCurrentUser] = useState<User>();
 
 	useEffect(() => {
 		const fetchArticle = async () => {
@@ -65,7 +88,27 @@ const ArticleInfo = () => {
 
       setReviewPercentages(percents);
     }
+
 	}, [articleId, reviews]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/users`)
+      .then(res => res.json())
+      .then(data => {
+        const dbUser = data.find((u) => u.email === user?.email);
+        if (dbUser) {
+          setCurrentUser({
+            id: dbUser.user_id,
+            username: dbUser.username,
+            picture: dbUser.picture
+          });
+        }
+      }).catch(err => console.log(err));
+    }
+
+    fetchUser();
+  }, [user, currentUser]);
 
 	return (
 		<div>
@@ -81,7 +124,7 @@ const ArticleInfo = () => {
 						<p><b>Location: </b>{currArticle?.location}</p>
 					</div>
 					<div id="top-button">
-						<button className="darkbutton" onClick={() => alert("Prout")}>Contact Owner</button>
+						<button className="darkbutton" onClick={() => handleContactOwner(currentUser?.id, currArticle?.owner_id)}>Contact Owner</button>
             <AddToCollectionPopup articleId={articleId} />
 					</div>
 					<button className="darkbutton" id="bottom-button" onClick={() => alert("Prout")}>Borrow Article</button>
