@@ -1,4 +1,4 @@
-import '../styles/Popup.css';
+import '../../styles/Popup.css';
 
 const MyPopup = (props) => {
   return (props.open) ? (

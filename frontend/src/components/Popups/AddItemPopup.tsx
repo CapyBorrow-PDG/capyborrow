@@ -1,5 +1,5 @@
 import '../../styles/AddItemPopup.css';
-import MyPopup from "../Popup.tsx";
+import MyPopup from "./Popup.tsx";
 import Dropdown from "../Dropdown/Dropdown.tsx";
 import { useState } from "react";
 
@@ -60,7 +60,7 @@ const AddItemPopup = (props) => {
       <MyPopup open={props.open}>
         <form className="post-form" onSubmit={handleSubmit}>
           <img className={`item-picture ${tempImage ? '': 'no-image'}`} src={tempImage} alt="item" />
-          <label htmlFor="item-picture" className="lightbutton rounded upload-file">Upload image</label>
+          <label htmlFor="item-picture" className="lightbutton rounded upload-file clickable">Upload image</label>
           <input type="file" id="item-picture" name="item-picture" accept="image/png, image/jpg" onChange={(e) => {if(e.target.files) setTempImage(URL.createObjectURL(e.target.files![0]))}} />
           
           <div className="post-category">
@@ -75,20 +75,9 @@ const AddItemPopup = (props) => {
             <label htmlFor="price">price</label>
             <input id="price" name="price" type="number" onChange={handleChange}></input>
           </div>
-          <Dropdown 
-            buttontext={currState}
-            content={
-              <div>
-                {
-                states.map((entry: string, index) => (
-                  <p key={index} className="clickable" onClick={() => {setCurrState(entry.toString())}} >{entry}</p>
-                ))
-                }
-              </div>
-              }
-          />
 
-          <div className="category-buttons">
+          <label htmlFor="category-buttons"> categories</label>
+          <div id="category-buttons" className="category-buttons">
             <Dropdown 
               buttontext={cat1}
               content={
@@ -115,9 +104,25 @@ const AddItemPopup = (props) => {
                 }
             />
           </div>
+          <label htmlFor="state-button">state</label>
+          <div id="state-button">
+            <Dropdown 
+            buttontext={currState}
+            content={
+              <div>
+                {
+                states.map((entry: string, index) => (
+                  <p key={index} className="clickable" onClick={() => {setCurrState(entry.toString())}} >{entry}</p>
+                ))
+                }
+              </div>
+              }
+          />
+          </div>
+          <br/>
           <div className="post-form-buttons">
-            <input className="darkbutton rounded" type="submit" value="Submit" />
-            <button className="lightbutton" onClick={props.close}>cancel</button>
+            <input className="darkbutton rounded clickable" type="submit" value="Submit" />
+            <button className="lightbutton clickable" onClick={props.close}>cancel</button>
           </div>
         </form>
       </MyPopup>

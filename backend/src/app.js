@@ -176,8 +176,10 @@ app.get('/users/:userid/collections{/:cid}', async (req, res) => {
     const result = cid === 'default' ? await pool.query(`SELECT c.collection_id, c.name FROM Capyborrow.itemcollection AS c WHERE owner_id = $1;`, [userid])
      : await pool.query(`SELECT i.*
                           FROM Capyborrow.all_items_display AS i
-                          JOIN Capyborrow.collecteditem AS c USING(item_id)
-                          WHERE c.collection_id = $1;`, [cid]);
+                          LEFT JOIN Capyborrow.collecteditem AS c USING(item_id)
+                          LEFT JOIN Capyborrow.itemcollection AS co USING(collection_id)
+                          WHERE c.collection_id = $1
+                          AND co.owner_id = $2;`, [cid, userid]);
     res.json(result.rows);
   } catch(err) {
     res.status(500).json({ error: err.message });
@@ -204,6 +206,24 @@ app.post('/users/:userid/collections', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 })
+
+app.post('/users/:userid/collections/:cid', async (req, res) => {
+  const {userid, cid} = req.params;
+  const {item_id} = req.body;
+
+  try {
+    const result = await pool.query(`INSERT INTO
+      Capyborrow.collecteditem(item_id, collection_id)
+      VALUES($1, $2);`, [item_id, cid]);
+
+    if (!result.rows[0]) {
+      return res.status(500).json({ error: 'collection non créée' });
+    }
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 /* REVIEW */
 

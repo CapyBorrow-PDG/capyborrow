@@ -1,7 +1,7 @@
 import '../styles/LocationFilter.css';
 import { FaMapMarkerAlt } from "react-icons/fa";
 import {MapContainer, Marker, TileLayer, Circle, useMap, Popup } from 'react-leaflet';
-import MyPopup from '../components/Popup.tsx';
+import MyPopup from './Popups/Popup.tsx';
 import Dropdown from './Dropdown/Dropdown.tsx';
 import { useEffect, useState } from 'react';
 

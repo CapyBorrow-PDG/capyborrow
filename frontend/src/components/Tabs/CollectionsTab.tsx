@@ -1,6 +1,7 @@
 import Dropdown from "../Dropdown/Dropdown.tsx";
 import ArticleList from "../ArticleList.tsx";
 import { useEffect, useState } from "react";
+import CreateCollectionForm from "../CreateCollectionForm.tsx";
 
 
 
@@ -43,18 +44,6 @@ const CollectionsTab = (props) => {
 
   }, [props.user, currentCollectionInfo])
 
-  const createCollection = async () => {
-    const colname = (document.getElementById("collection-name-input") as HTMLInputElement).value;
-    const form = {name: colname};
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${props.user?.id.toString()}/collections`, {
-      method: 'POST',
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      },
-      body: JSON.stringify(form)
-    }).then(data => data.json()).catch(err => console.log(err));
-  }
-
   return (
     <div>
       <div className="collections-buttons">
@@ -63,10 +52,7 @@ const CollectionsTab = (props) => {
             <p key={col.collection_id} className="clickable" onClick={() => setCurrentCollectionInfo(col)} >{col.name}</p>
           ))
         } />
-        <form onSubmit={createCollection}>
-          <input type="text" id="collection-name-input" placeholder="new collection name"/>
-          <input type="submit" className="darkbutton clickable" value="create new collection" />
-        </form>
+        <CreateCollectionForm userid={props.user?.id} />
       </div>
       <ArticleList items={currentCollection} />
     </div>

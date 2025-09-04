@@ -6,6 +6,7 @@ import Calendar from '../components/Calendar.tsx';
 import { Rating } from '@mui/material';
 import ProgressBar from '../components/ProgressBar.tsx';
 import { AiFillStar } from 'react-icons/ai';
+import AddToCollectionPopup from '../components/Popups/AddToCollectionPopup.tsx';
 
 const ArticleInfo = () => {
 	const availableDates = [
@@ -66,7 +67,6 @@ const ArticleInfo = () => {
     }
 	}, [articleId, reviews]);
 
-
 	return (
 		<div>
 			<Searchbar onChange={() => {}} />
@@ -82,7 +82,7 @@ const ArticleInfo = () => {
 					</div>
 					<div id="top-button">
 						<button className="darkbutton" onClick={() => alert("Prout")}>Contact Owner</button>
-						<button className="darkbutton" onClick={() => alert("Prout")}>Add to collection</button>
+            <AddToCollectionPopup articleId={articleId} />
 					</div>
 					<button className="darkbutton" id="bottom-button" onClick={() => alert("Prout")}>Borrow Article</button>
 				</div>
