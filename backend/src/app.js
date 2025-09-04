@@ -154,18 +154,86 @@ app.post('/item', async (req, res) => {
 
 /* BORROW */
 
-app.get('/borrows/:userid', async (req, res) => {
+app.get('/borrows/demands/:userid', async (req, res) => {
+  const { userid } = req.params;
+  try {
+    const result = await pool.query(`SELECT * FROM Capyborrow.borrow_demands AS b
+                                      WHERE b.owner_id = $1;`, [userid]);
+    res.json(result.rows);
+  } catch(err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/borrows/user/:userid', async (req, res) => {
   const { userid } = req.params;
   try {
     const result = await pool.query(`SELECT * FROM Capyborrow.all_borrows AS b
                                       WHERE b.borrower_id = $1;`, [userid]);
     res.json(result.rows);
   } catch(err) {
+    console.log(err);
     res.status(500).json({ error: err.message });
   }
 });
 
-module.exports = app;
+app.post('/borrows', async (req, res) => {
+
+  let {item_id, owner_id, borrower_id, start_date, end_date} = req.body;
+
+  start_date = convertQueryToString(start_date);
+  end_date = convertQueryToString(end_date);
+
+  try {
+    const result = await pool.query(`INSERT INTO Capyborrow.borrow(item_id, owner_id, borrower_id, start_date, end_date)
+      VALUES($1, $2, $3, (${start_date}), (${end_date}));`, [item_id, owner_id, borrower_id]);
+
+    if (!result.rows[0]) {
+      return res.status(500).json({ error: 'emprunt non créé' });
+    }
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/borrows/:id', async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const result = await pool.query(`UPDATE Capyborrow.borrow
+      SET is_accepted = true
+      WHERE borrow_id = $1
+      RETURNING *;`, [id]);
+
+    if (!result.rows[0]) {
+      return res.status(500).json({ error: 'emprunt introuvable' });
+    }
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+})
+
+app.delete('/borrows/:id', async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const result = await pool.query(`DELETE FROM Capyborrow.borrow AS b
+      WHERE b.borrow_id = $1;`, [id]);
+
+    if (!result.rows[0]) {
+      return res.status(500).json({ error: 'emprunt introuvable' });
+    }
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 /* COLLECTION */
 
@@ -241,6 +309,26 @@ app.get('/item/:id/review', async (req, res) => {
   return null;
 })
 
+app.post('/item/:id/review', async (req, res) => {
+  const id = req.params.id;
+  let { author_id, rating, comment } = req.body;
+
+  comment = convertQueryToString(comment);
+
+  try {
+    const result = await pool.query(`INSERT INTO
+      Capyborrow.review(item_id, author_id, rating, comment)
+      VALUES($1, $2, $3, (${comment || null}));`, [id, author_id, rating]);
+
+    if (!result.rows[0]) {
+      return res.status(500).json({ error: 'review non créée' });
+    }
+    res.status(201).json(result.rows[0]);
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 /* MESSAGE  */
 
@@ -279,3 +367,4 @@ app.post('/conversation', async (req, res) => {
     }
 })
 
+module.exports = app;

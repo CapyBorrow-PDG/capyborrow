@@ -2,7 +2,6 @@ import MyPopup from './Popup.tsx';
 import Dropdown from '../Dropdown/Dropdown.tsx';
 import CreateCollectionForm from '../CreateCollectionForm.tsx';
 import { useState, useEffect } from "react";
-import { useAuth0 } from '@auth0/auth0-react';
 
 const AddToCollectionPopup = (props) => {
 
@@ -11,30 +10,13 @@ const AddToCollectionPopup = (props) => {
     name: string
   }
 
-  const {user} = useAuth0();
-
   const [open, setOpen] = useState(false);
   const [currentCollectionInfo, setCurrentCollectionInfo] = useState<collection>();
   const [userCollections, setUserCollections] = useState<collection[]>([]);
 
-  const [currentUserId, setCurrentUserId] = useState<number>();
-
   useEffect(() => {
-    const fetchUserId = async () => {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/users`)
-      .then(res => res.json())
-      .then(data => {
-        const dbUser = data.find((u) => u.email === user?.email);
-        if (dbUser) {
-          setCurrentUserId(dbUser.user_id);
-        }
-      }).catch(err => console.log(err));
-    }
-
-    fetchUserId();
-
     const getUserCollections = async () => {
-      let userid = currentUserId?.toString();
+      let userid = props.userid?.toString();
       fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${userid}/collections`)
       .then(data => data.json())
       .then(res => {
@@ -44,9 +26,9 @@ const AddToCollectionPopup = (props) => {
       .catch(err => console.log(err));
     }
   
-  if(currentUserId) getUserCollections();
+  if(props.userid) getUserCollections();
 
-  }, [currentUserId, user, currentCollectionInfo, userCollections]);
+  }, [props.userid, currentCollectionInfo, userCollections]);
 
   const addToCollection = async () => {
     
@@ -54,7 +36,7 @@ const AddToCollectionPopup = (props) => {
       item_id: props.articleId
     }
 
-    let userid = currentUserId?.toString();
+    let userid = props.userid?.toString();
     let colid = currentCollectionInfo?.collection_id;
 
     fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${userid}/collections/${colid}`, {
@@ -71,7 +53,7 @@ const AddToCollectionPopup = (props) => {
       <button className="collection-button darkbutton" onClick={() => setOpen(true)}>Add to collection</button>
       <MyPopup open={open}>
         <div className="collection-popup">
-          <CreateCollectionForm userid={currentUserId} />
+          <CreateCollectionForm userid={props.userid} />
           <form className="collection-form" onSubmit={addToCollection} >
             <p>Choose a collection</p>
             <Dropdown buttontext={currentCollectionInfo?.name || "collections"} content={

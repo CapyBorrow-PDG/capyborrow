@@ -1,0 +1,36 @@
+.borrow-demand {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 2px solid var(--dark-turquoise);
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+}
+
+.borrow-demand > :first-child {
+  background-color: var(--light-turquoise);
+  color: var(--off-white);
+  padding: 3px;
+}
+
+.borrow-demand .demand-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-end;
+}
+
+.borrow-demand .demand-buttons {
+  width: 100%;
+  display: flex;
+  gap: 5px;
+}
+
+.borrow-demand .demand-buttons * {
+  width: 48%;
+}
+
+.borrow-demand .demand-buttons *:hover {
+  width: 48%;
+}

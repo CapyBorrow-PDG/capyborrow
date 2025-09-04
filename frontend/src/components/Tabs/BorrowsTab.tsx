@@ -8,7 +8,7 @@ const BorrowsTab = (props) => {
     const getBorrowsUser = async () => {
       let userid = "";
       if(props.user) userid = props.user.id.toString();
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/borrows/${userid}`)
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/borrows/user/${userid}`)
       .then(data => data.json())
       .then(res => setBorrowsUser(res))
       .catch(err => console.log(err));
