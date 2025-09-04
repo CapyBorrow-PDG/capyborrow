@@ -7,6 +7,7 @@ import PostsTab from '../components/Tabs/PostsTab.tsx';
 import CollectionsTab from '../components/Tabs/CollectionsTab.tsx';
 import BorrowsTab from '../components/Tabs/BorrowsTab.tsx';
 import Searchbar from '../components/Searchbar.tsx';
+import DemandBorrowTab from '../components/Tabs/DemandBorrowTab.tsx';
 
 
 const Profile = () => {
@@ -74,6 +75,9 @@ const Profile = () => {
           },
           {header: <p>Borrowing history</p>,
             content: <BorrowsTab user={currentUser} />
+          },
+          {header: <p>Borrow demands</p>,
+            content: <DemandBorrowTab user={currentUser} />
           },
           {header: <p>Collections</p>,
             content: <CollectionsTab user={currentUser} />
