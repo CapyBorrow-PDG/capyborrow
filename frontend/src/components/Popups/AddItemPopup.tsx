@@ -21,7 +21,8 @@ const AddItemPopup = (props) => {
     });
 
   const states = ['very good', 'good', 'used'];
-  const categories = ['none', 'Electronics', 'Books', 'Music', 'Cooking'];
+  const categories = ['none', 'Electronics', 'Books', 'Music', 'Cooking', 'Sports', 'Outdoor',
+                      'Clothes', 'Travel', 'Entertainment', 'Toys', 'Tools', 'Art'];
 
   const handleChange = (e) => {
     setForm({...form, [e.target.name]: e.target.value});
