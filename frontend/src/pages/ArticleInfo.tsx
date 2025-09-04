@@ -7,6 +7,7 @@ import { Rating } from '@mui/material';
 import ProgressBar from '../components/ProgressBar.tsx';
 import { AiFillStar } from 'react-icons/ai';
 import AddToCollectionPopup from '../components/Popups/AddToCollectionPopup.tsx';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const ArticleInfo = () => {
 	const availableDates = [
@@ -17,6 +18,12 @@ const ArticleInfo = () => {
 		new Date(2025, 10, 21),
 		new Date(2025, 10, 22)
 	];
+
+  type User = {
+    id: number,
+    username: string,
+    picture: string,
+  }
 
   type article = {
     name: string,
@@ -35,13 +42,17 @@ const ArticleInfo = () => {
     comment: string
   }
 
+  const {user} = useAuth0();
 	const params = useParams();
 	const {articleId} = params.id ? {articleId: params.id} : {articleId: "1"};
+  const [currentUser, setCurrentUser] = useState<User>();
 
 	const [currArticle, setCurrArticle] = useState<article>();
   const [reviews, setReviews] = useState([]);
   const [reviewPercentages, setReviewPercentages] = useState<Map<number, number>>();
   const [meanRating, setMeanRating] = useState(0);
+  const [newRating, setNewRating] = useState(0);
+  const [newComment, setNewComment] = useState("");
 
 	useEffect(() => {
 		const fetchArticle = async () => {
@@ -67,6 +78,45 @@ const ArticleInfo = () => {
     }
 	}, [articleId, reviews]);
 
+  useEffect(() => {
+    const fetchUserId = async () => {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/users`)
+      .then(res => res.json())
+      .then(data => {
+        const dbUser = data.find((u) => u.email === user?.email);
+        if (dbUser) {
+          setCurrentUser({
+            id: dbUser.user_id,
+            username: dbUser.username,
+            picture: dbUser.picture
+          });
+        }
+      }).catch(err => console.log(err));
+    }
+
+    fetchUserId();
+
+  }, [user, currentUser]);
+
+  const postReview = async () => {
+
+    let form = {
+      author_id: currentUser?.id,
+      rating: newRating,
+      comment: newComment
+    }
+
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/item/${articleId!}/review`, {
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      },
+      body: JSON.stringify(form)
+    }).then(data => data.json()).catch(err => console.log(err));
+
+    window.location.reload();
+  }
+
 	return (
 		<div>
 			<Searchbar onChange={() => {}} />
@@ -82,7 +132,7 @@ const ArticleInfo = () => {
 					</div>
 					<div id="top-button">
 						<button className="darkbutton" onClick={() => alert("Prout")}>Contact Owner</button>
-            <AddToCollectionPopup articleId={articleId} />
+            <AddToCollectionPopup userid={currentUser?.id} articleId={articleId} />
 					</div>
 					<button className="darkbutton" id="bottom-button" onClick={() => alert("Prout")}>Borrow Article</button>
 				</div>
@@ -106,6 +156,15 @@ const ArticleInfo = () => {
 					<hr id="review-divider" />
 				</div>
 
+        <div id="review-add">
+          <form onSubmit={postReview}>
+            <h4>{currentUser?.username}</h4>
+            <Rating onChange={(ev, newval) => {setNewRating(newval!)}} sx={{'& .MuiRating-iconFilled': {color: 'teal'}}} precision={1} />
+            <textarea onChange={(e) => setNewComment(e.target.value)} cols={50} rows={3}></textarea>
+            <input className="darkbutton rounded clickable" type="submit" value="Submit" />
+          </form>
+        </div>
+
 
 				<div id="review-section">
           {
@@ -113,14 +172,14 @@ const ArticleInfo = () => {
               <div key={rev.review_id} className="review">
                 <h4>{rev.username}</h4>
                 <p className="comment">{rev.comment}</p>
-                <Rating sx={{'& .MuiRating-iconFilled': {color: 'teal'}}} value={rev.rating} precision={0.5} readOnly />
+                <Rating sx={{'& .MuiRating-iconFilled': {color: 'teal'}}} value={rev.rating} precision={1} readOnly />
               </div>
             ))
           }
 				</div>
 				<div id="rating-summary">
           <div id="global-rating">
-            <h4 id="mean-rating">{meanRating}</h4>
+            <h4 id="mean-rating">{meanRating.toPrecision(2)}</h4>
             <Rating sx={{'& .MuiRating-iconFilled': {color: 'teal'}}} value={meanRating} precision={0.5} readOnly />
           </div>
 
@@ -131,9 +190,9 @@ const ArticleInfo = () => {
                   <div className="rating-line">
                   <div className="side">{r} <AiFillStar /> </div>
                   <div className="middle">
-                    <ProgressBar className="bar-container" percent={percent} color='teal' />
+                    <ProgressBar className="bar-container" percent={percent.toPrecision(2)} color='teal' />
                   </div>
-                  <div className="side right">{percent}%</div>
+                  <div className="side right">{percent.toPrecision(2)}%</div>
                 </div>
                 );
               })

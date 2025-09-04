@@ -57,7 +57,7 @@ CREATE TABLE Capyborrow.review (
     review_id SERIAL PRIMARY KEY,
     item_id INT NOT NULL REFERENCES Capyborrow.item(item_id),
     author_id INT NOT NULL REFERENCES Capyborrow.user(user_id),
-    rating INT NOT NULL CHECK (rating > 0 AND rating <= 5),
+    rating REAL NOT NULL CHECK (rating > 0 AND rating <= 5),
     comment VARCHAR(200)
 );
 

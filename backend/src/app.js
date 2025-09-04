@@ -238,4 +238,25 @@ app.get('/item/:id/review', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
   return null;
+});
+
+app.post('/item/:id/review', async (req, res) => {
+  const id = req.params.id;
+  let { author_id, rating, comment } = req.body;
+
+  comment = convertQueryToString(comment);
+
+  try {
+    const result = await pool.query(`INSERT INTO
+      Capyborrow.review(item_id, author_id, rating, comment)
+      VALUES($1, $2, $3, (${comment || null}));`, [id, author_id, rating]);
+
+    if (!result.rows[0]) {
+      return res.status(500).json({ error: 'review non créée' });
+    }
+    res.status(201).json(result.rows[0]);
+  } catch(err) {
+    console.log(err.message);
+    res.status(500).json({ error: err.message });
+  }
 })
