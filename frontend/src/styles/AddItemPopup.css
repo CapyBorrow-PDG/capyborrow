@@ -43,3 +43,16 @@
 .post-form .post-form-buttons *:hover {
   width: 48%;
 }
+
+.search {
+  position: relative;
+}
+
+.search #resultlist {
+  position: absolute;
+  top: 90%;
+}
+
+.search #resultlist.content-closed {
+  display: none;
+}

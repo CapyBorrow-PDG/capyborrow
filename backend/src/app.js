@@ -128,16 +128,20 @@ app.get('/item{/:id}', async (req, res) => {
 });
 
 app.post('/item', async (req, res) => {
-  const {
-    name, description, price, state, ownerId, category1, category2, picture,
+  let {
+    name, description, price, state, ownerId, category1, category2, picture, city, canton_or_state, latitude, longitude
   } = req.body;
+
+  city = convertQueryToString(city);
+  canton_or_state = convertQueryToString(canton_or_state);
+
   try {
     const result = await pool.query(
       `INSERT INTO
-      Capyborrow.item(name, description, price, state, owner_id, category1, category2, picture)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8);`,
+      Capyborrow.item(name, description, price, state, owner_id, category1, category2, picture, city, canton_or_state, latitude, longitude)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);`,
       [name, description || null, price, state, ownerId,
-        category1 || null, category2 || null, picture],
+        category1 || null, category2 || null, picture, city, canton_or_state, latitude, longitude],
     );
 
     if (!result.rows[0]) {
@@ -145,6 +149,7 @@ app.post('/item', async (req, res) => {
     }
     res.status(201).json(result.rows[0]);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: err.message });
   }
 

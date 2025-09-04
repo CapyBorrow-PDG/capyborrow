@@ -6,7 +6,7 @@ import Dropdown from './Dropdown/Dropdown.tsx';
 import { useEffect, useState } from 'react';
 
 const LocationFilter = (props) => {
-  const [open, setOpen] = useState(false); //fix display results
+  const [open, setOpen] = useState(false);
   const [searchListOpen, setSearchListOpen] = useState(false);
   const [city, setCity] = useState('city');
   const [canton, setCanton] = useState('state');
