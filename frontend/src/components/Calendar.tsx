@@ -4,13 +4,14 @@ import "react-datepicker/dist/react-datepicker.css";
 
 function Calendar(props) {
 	const [dateRange, setDateRange] = useState("");
-	const [startDate, setStartDate] = useState(null);
-	const [endDate, setEndDate] = useState(null);
+	const [startDate, setStartDate] = useState<Date>();
+	const [endDate, setEndDate] = useState<Date>();
 
 	const onChange = (date) => {
 		const [start, end] = date;
 		setStartDate(start);
 		setEndDate(end);
+    props.onChange([start, end]);
 	};
 
 	useEffect(() => {

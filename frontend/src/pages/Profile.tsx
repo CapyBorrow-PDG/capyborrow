@@ -7,6 +7,8 @@ import PostsTab from '../components/Tabs/PostsTab.tsx';
 import CollectionsTab from '../components/Tabs/CollectionsTab.tsx';
 import BorrowsTab from '../components/Tabs/BorrowsTab.tsx';
 import Searchbar from '../components/Searchbar.tsx';
+import MessagesTab from '../components/Tabs/MessagesTab.tsx';
+import DemandBorrowTab from '../components/Tabs/DemandBorrowTab.tsx';
 
 
 const Profile = () => {
@@ -15,6 +17,7 @@ const Profile = () => {
   type User = {
     id: Int16Array,
     image: string,
+    email: string,
     username: string,
     fname: string,
     lname: string,
@@ -40,6 +43,7 @@ const Profile = () => {
             setCurrentUser({
               id: dbUser.user_id,
               image: dbUser.profile_picture,
+              email: dbUser.email,
               username: dbUser.username,
               fname: dbUser.firstname,
               lname: dbUser.lastname,
@@ -75,11 +79,14 @@ const Profile = () => {
           {header: <p>Borrowing history</p>,
             content: <BorrowsTab user={currentUser} />
           },
+          {header: <p>Borrow demands</p>,
+            content: <DemandBorrowTab user={currentUser} />
+          },
           {header: <p>Collections</p>,
             content: <CollectionsTab user={currentUser} />
           },
           {header: <p>Messages</p>,
-            content: <p>there is tab 4</p>
+            content: <MessagesTab user={currentUser} />
           },
         ]} />
 

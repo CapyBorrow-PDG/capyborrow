@@ -120,6 +120,20 @@
 	align-items: end;
 }
 
+#review-add {
+	grid-column-start: 1;
+	grid-column-end: 3;
+  justify-self: start;
+  margin: 2vh 2vw;
+}
+
+#review-add > * {
+	display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
 #review-title {
 	text-align: left;
 }
@@ -141,7 +155,7 @@
  */
 
 #review-section {
-	margin: 2% 5%;
+	margin: 2vh 2vw;
 	text-align: left;
 }
 

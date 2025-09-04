@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "react-chat": "^0.0.1-alpha1",
+    "react-chat-ui": "^0.4.0",
+    "stream-chat": "^9.19.0",
+    "stream-chat-react": "^13.6.1"
+  }
+}
