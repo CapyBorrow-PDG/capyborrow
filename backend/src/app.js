@@ -91,20 +91,26 @@ const convertQueryToString = (el) => {
   return newel;
 };
 
-app.get('/item', async (req, res) => {
+app.get('/item{/:id}', async (req, res) => {
   let {
     search, user, minPrice, maxPrice, state, category, startDate, endDate,
   } = req.query;
+  let id = req.params.id || 'default';
 
-  state = convertQueryToString(state);
-  category = convertQueryToString(category);
-  startDate = convertQueryToString(startDate);
-  endDate = convertQueryToString(endDate);
+  if(id === 'default') {
+    state = convertQueryToString(state);
+    category = convertQueryToString(category);
+    startDate = convertQueryToString(startDate);
+    endDate = convertQueryToString(endDate);
+  }
 
   try {
-    const result = await pool.query(`SELECT *
-                                      FROM Capyborrow.all_items_display AS i
-                                      WHERE ($1::text IS NULL OR i.name ILIKE '%' || $1 || '%')
+    const result = (id !== 'default') ? await pool.query(`SELECT * FROM Capyborrow.all_items_display AS i
+                                        WHERE i.item_id = (${id});`) :
+
+                                        await pool.query(`SELECT *
+                                        FROM Capyborrow.all_items_display AS i
+                                        WHERE ($1::text IS NULL OR i.name ILIKE '%' || $1 || '%')
                                         AND ($2::int IS NULL OR i.owner_id = $2)
                                         AND ($3::int  IS NULL OR i.price >= $3)
                                         AND ($4::int  IS NULL OR i.price <= $4)
@@ -117,17 +123,8 @@ app.get('/item', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
 
-app.get('/item/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const result = await pool.query(`SELECT * FROM Capyborrow.all_items_display AS i
-                                      WHERE i.item_id = $1;`, [id]);
-    res.json(result.rows);
-  } catch(err) {
-    res.status(500).json({ error: err.message });
-  }
+  return null;
 });
 
 app.post('/item', async (req, res) => {
@@ -179,8 +176,10 @@ app.get('/users/:userid/collections{/:cid}', async (req, res) => {
     const result = cid === 'default' ? await pool.query(`SELECT c.collection_id, c.name FROM Capyborrow.itemcollection AS c WHERE owner_id = $1;`, [userid])
      : await pool.query(`SELECT i.*
                           FROM Capyborrow.all_items_display AS i
-                          JOIN Capyborrow.collecteditem AS c USING(item_id)
-                          WHERE c.collection_id = $1;`, [cid]);
+                          LEFT JOIN Capyborrow.collecteditem AS c USING(item_id)
+                          LEFT JOIN Capyborrow.itemcollection AS co USING(collection_id)
+                          WHERE c.collection_id = $1
+                          AND co.owner_id = $2;`, [cid, userid]);
     res.json(result.rows);
   } catch(err) {
     res.status(500).json({ error: err.message });
@@ -206,4 +205,37 @@ app.post('/users/:userid/collections', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+})
+
+app.post('/users/:userid/collections/:cid', async (req, res) => {
+  const {userid, cid} = req.params;
+  const {item_id} = req.body;
+
+  try {
+    const result = await pool.query(`INSERT INTO
+      Capyborrow.collecteditem(item_id, collection_id)
+      VALUES($1, $2);`, [item_id, cid]);
+
+    if (!result.rows[0]) {
+      return res.status(500).json({ error: 'collection non créée' });
+    }
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/* REVIEW */
+
+app.get('/item/:id/review', async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const result = await pool.query(`SELECT * FROM Capyborrow.all_reviews WHERE item_id = (${id});`);
+
+    res.json(result.rows);
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
+  return null;
 })

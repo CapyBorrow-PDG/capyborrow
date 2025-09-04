@@ -1,12 +1,12 @@
 import '../styles/Shop.css';
 import MySlider from '../components/Slider.tsx';
-import Article from '../components/Article.tsx';
 import Dropdown from '../components/Dropdown/Dropdown.tsx';
 import LocationFilter from '../components/LocationFilter.tsx';
 import Checkbox from '../components/Checkbox.tsx';
 import Searchbar from '../components/Searchbar.tsx';
 import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
+import ArticleList from '../components/ArticleList.tsx';
 
 const Shop = () => {
 
@@ -15,15 +15,6 @@ const Shop = () => {
 
   const location = useLocation();
   const {currSearch} = location.state || {};
-
-  type article = {
-    item_id: number,
-    picture: string,
-    name: string,
-    state: string,
-    price: number,
-    is_available: boolean
-  }
 
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState(currSearch);
@@ -105,17 +96,7 @@ const Shop = () => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            items.map((item: article) => (
-              <Article 
-                key={item.item_id} //évite une erreur dans la console 
-                image={item.picture} 
-                title={item.name} 
-                location={"Martigny, VS"}
-                state={item.state}
-                price={item.price}
-                av={item.is_available}>
-                </Article>
-            ))
+            <ArticleList items={items} />
           )}
       </div>
     </div>
@@ -123,11 +104,3 @@ const Shop = () => {
 };
 
 export default Shop;
-
-
-/*
-<Article image={charger} title="Phone charger" location="Martigny, VS" state="very good" price="50" unav={false} />
-<Article image={charger} title="Phone charger" location="Martigny, VS" state="very good" price="50" unav={false} />
-<Article image={charger} title="Phone charger" location="Martigny, VS" state="very good" price="50" unav={false} />
-<Article image={charger} title="Phone charger" location="Martigny, VS" state="very good" price="50" unav={true} />
-*/

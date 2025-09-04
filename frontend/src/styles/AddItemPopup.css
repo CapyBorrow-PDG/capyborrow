@@ -1,11 +1,12 @@
 .post-form {
   background-color: var(--off-white);
-  width: 30vw;
+  width: 50vw;
   height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 30px;
+  gap: 10px;
   overflow-y: scroll;
 }
 
@@ -27,4 +28,18 @@
 .category-buttons {
   display: flex;
   gap: 5px;
+}
+
+.post-form .post-form-buttons {
+  display: flex;
+  gap: 3px;
+  width: 60%;
+}
+
+.post-form .post-form-buttons * {
+  width: 48%;
+}
+
+.post-form .post-form-buttons *:hover {
+  width: 48%;
 }

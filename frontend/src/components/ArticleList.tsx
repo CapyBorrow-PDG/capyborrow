@@ -17,6 +17,7 @@ const ArticleList = (props) => {
         props.items?.map((item: article) => (
         <Article 
           key={item.item_id}
+          id={item.item_id}
           image={item.picture} 
           title={item.name} 
           location={"Martigny, VS"}

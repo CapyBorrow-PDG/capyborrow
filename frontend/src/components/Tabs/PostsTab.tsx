@@ -1,4 +1,4 @@
-import AddItemPopup from "./AddItemPopup.tsx";
+import AddItemPopup from "../Popups/AddItemPopup.tsx";
 import ArticleList from "../ArticleList.tsx";
 import { useEffect, useState } from "react";
 
