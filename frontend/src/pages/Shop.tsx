@@ -33,6 +33,10 @@ const Shop = () => {
   const [locationInfo, setLocationInfo] = useState<locInfo>();
   const [loading, setLoading] = useState(true);
 
+  const statesList = ['very good', 'good', 'used'];
+  const categoriesList = ['none', 'Electronics', 'Books', 'Music',
+    'Cooking', 'Sport', 'Outdoor', 'Clothes', 'Travel', 'Entertainment', 'Toys', 'Tools', 'Art'];
+
   const toggleFilter = (list: string[], value: string, setList: (val: string[]) => void) => {
     if (list.includes(value)) {
       setList(list.filter(v => v !== value));
@@ -100,15 +104,18 @@ const Shop = () => {
           } />
           <Dropdown buttontext="price" content={<MySlider MIN={MIN} MAX={MAX} startMin={minPrice} startMax={maxPrice} onChange={(val) => {setMinPrice(val[0]);setMaxPrice(val[1])}} />} />
           <Dropdown buttontext="State" content={<div id="state-list" className="checkbox-list">
-            <Checkbox id="very-good" val="very good" onChange={() => toggleFilter(states, "very good", setStates)} checked={states.includes("very good")}/>
-            <Checkbox id="good" val="good" onChange={() => toggleFilter(states, "good", setStates)} checked={states.includes("good")} />
-            <Checkbox id="used" val="used" onChange={() => toggleFilter(states, "used", setStates)} checked={states.includes("used")} />
+            {
+              statesList.map((el) => (
+                <Checkbox val={el} onChange={() => toggleFilter(states, el, setStates)} checked={states.includes(el)}/>
+              ))
+            }
           </div>} />
           <Dropdown buttontext="Category" content={<div id="cat-list" className="checkbox-list">
-            <Checkbox id="electronics" val="Electronics" onChange={() => toggleFilter(categories, "Electronics", setCategories)} checked={categories.includes("Electronics")} />
-            <Checkbox id="books" val="Books" onChange={() => toggleFilter(categories, "Books", setCategories)} checked={categories.includes("Books")} />
-            <Checkbox id="music" val="Music" onChange={() => toggleFilter(categories, "Music", setCategories)} checked={categories.includes("Music")} />
-            <Checkbox id="cooking" val="Cooking" onChange={() => toggleFilter(categories, "Cooking", setCategories)} checked={categories.includes("Cooking")}/>
+            {
+              categoriesList.map((el) => (
+                <Checkbox val={el} onChange={() => toggleFilter(categories, el, setCategories)} checked={categories.includes(el)} />
+              ))
+            }
           </div>} />
         </div>
       </div>

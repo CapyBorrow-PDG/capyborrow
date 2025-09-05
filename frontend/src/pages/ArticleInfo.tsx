@@ -10,14 +10,6 @@ import AddToCollectionPopup from '../components/Popups/AddToCollectionPopup.tsx'
 import { useAuth0 } from '@auth0/auth0-react';
 
 const ArticleInfo = () => {
-	const availableDates = [
-		new Date(2025, 10, 10),
-		new Date(2025, 10, 11),
-		new Date(2025, 10, 15),
-		new Date(2025, 10, 20),
-		new Date(2025, 10, 21),
-		new Date(2025, 10, 22)
-	];
 
   type User = {
     id: number,
