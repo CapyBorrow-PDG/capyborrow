@@ -33,7 +33,8 @@ const ArticleInfo = () => {
     owner_id: number,
     state: string,
     picture: string,
-    location: string,
+    city: string,
+    canton_or_state: string,
     start_date: Date,
     end_date: Date
   }
@@ -151,7 +152,7 @@ const ArticleInfo = () => {
 						<h3><b>Price: </b>{currArticle?.price}p/day</h3>
 						<p>Posted by <i className="username clickable" onClick={() => {}} >{currArticle?.username}</i></p>
 						<p><b>State: </b>{currArticle?.state}</p>
-						<p><b>Location: </b>{currArticle?.location}</p>
+						<p><b>Location: </b>{currArticle?.city}, {currArticle?.canton_or_state}</p>
 					</div>
 					<div id="top-button">
 						<button className="darkbutton" onClick={() => alert("Prout")}>Contact Owner</button>
