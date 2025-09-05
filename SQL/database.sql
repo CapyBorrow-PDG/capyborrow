@@ -191,6 +191,8 @@ SELECT DISTINCT ON (b.borrow_id)
     b.item_id,
     b.borrower_id,
     b.is_accepted,
+    b.start_date,
+    b.end_date,
     i.name,
     i.price,
     i.state,

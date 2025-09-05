@@ -38,7 +38,6 @@ function Login() {
       {!isAuthenticated ? (
         <div className="buttons" >
           <button className="headerbutton darkbutton" onClick={() => loginWithRedirect()}>Log in</button>
-          <button className="headerbutton lightbutton" onClick={() => alert("can't sign up yet :(")}> Sign up</button>
         </div>
       ) : (
         <div className="buttons" >
