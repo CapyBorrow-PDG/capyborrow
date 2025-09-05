@@ -1,5 +1,5 @@
 import '../styles/ArticleInfo.css';
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Searchbar from '../components/Searchbar.tsx';
 import Calendar from '../components/Calendar.tsx';
@@ -7,24 +7,9 @@ import { Rating } from '@mui/material';
 import ProgressBar from '../components/ProgressBar.tsx';
 import { AiFillStar } from 'react-icons/ai';
 import AddToCollectionPopup from '../components/Popups/AddToCollectionPopup.tsx';
-import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from 'react-router-dom';
-
-const handleContactOwner = async (borrower_id, owner_id) => {
-  if (borrower_id == owner_id) alert("You can't write to yourself");
-  
-  await fetch(`${process.env.REACT_APP_BACKEND_URL}/conversation`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({user_id: borrower_id, owner_id: owner_id})
-  })
-  .then(res => console.log("Channel created", res.json()))
-  .catch(err => console.error(err));
-}
+import { useAuth0 } from '@auth0/auth0-react';
 
 const ArticleInfo = () => {
-  const navigate = useNavigate();
-
 	const availableDates = [
 		new Date(2025, 10, 10),
 		new Date(2025, 10, 11),
@@ -44,12 +29,14 @@ const ArticleInfo = () => {
     name: string,
     description: string,
     price: number,
-    owner_id: number,
     username: string,
     owner_id: number,
     state: string,
     picture: string,
-    location: string
+    city: string,
+    canton_or_state: string,
+    start_date: Date,
+    end_date: Date
   }
 
   type review = {
@@ -59,16 +46,15 @@ const ArticleInfo = () => {
     comment: string
   }
 
-
+  const {user} = useAuth0();
 	const params = useParams();
 	const {articleId} = params.id ? {articleId: params.id} : {articleId: "1"};
+  const [currentUser, setCurrentUser] = useState<User>();
 
 	const [currArticle, setCurrArticle] = useState<article>();
   const [reviews, setReviews] = useState([]);
   const [reviewPercentages, setReviewPercentages] = useState<Map<number, number>>();
   const [meanRating, setMeanRating] = useState(0);
-  const {user} = useAuth0();
-  const [currentUser, setCurrentUser] = useState<User>();
   const [newRating, setNewRating] = useState(0);
   const [newComment, setNewComment] = useState("");
   const [borrowDates, setBorrowDates] = useState([]);
@@ -95,7 +81,6 @@ const ArticleInfo = () => {
 
       setReviewPercentages(percents);
     }
-
 	}, [articleId, reviews]);
 
   useEffect(() => {
@@ -115,6 +100,7 @@ const ArticleInfo = () => {
     }
 
     fetchUser();
+
   }, [user, currentUser]);
 
   const postReview = async () => {
@@ -166,16 +152,11 @@ const ArticleInfo = () => {
 						<h3><b>Price: </b>{currArticle?.price}p/day</h3>
 						<p>Posted by <i className="username clickable" onClick={() => {}} >{currArticle?.username}</i></p>
 						<p><b>State: </b>{currArticle?.state}</p>
-						<p><b>Location: </b>{currArticle?.location}</p>
+						<p><b>Location: </b>{currArticle?.city}, {currArticle?.canton_or_state}</p>
 					</div>
 					<div id="top-button">
-						<button className="darkbutton" onClick={() => {
-              handleContactOwner(currentUser?.id, currArticle?.owner_id);
-              navigate('/profile');
-              }}>
-                Contact Owner
-              </button>
-            <AddToCollectionPopup articleId={articleId} />
+						<button className="darkbutton" onClick={() => alert("Prout")}>Contact Owner</button>
+            <AddToCollectionPopup userid={currentUser?.id} articleId={articleId} />
 					</div>
 					<button className="darkbutton" id="bottom-button" onClick={borrowDemand}>Borrow Article</button>
 				</div>
@@ -186,7 +167,7 @@ const ArticleInfo = () => {
 				</div>
 				<div id="calendar-section">
 					<h3>Disponibility</h3>
-					<Calendar disponibility={availableDates} mode={false} onChange={([start,end]) => setBorrowDates([start,end])} />
+					<Calendar disponibility={[currArticle?.start_date || '1970-01-01', currArticle?.end_date || '1970-01-01']} mode={false} onChange={([start,end]) => setBorrowDates([start,end])} />
 				</div>
 				
 				<div id="review-header">

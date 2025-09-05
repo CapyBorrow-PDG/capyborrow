@@ -24,13 +24,17 @@ function Calendar(props) {
 		}
 	}, [startDate, endDate]);
 
-	const today = new Date();
-	const availableDates = props.disponibility.map(date => new Date(date));
-	const filteredDates = availableDates.filter(date => date >= today);
+	const filterDates = (date) => {
+    if(date < new Date() || date < new Date(props.disponibility[0]) || date > new Date(props.disponibility[1])) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
 	return (
 		<div>
-			<DatePicker includeDates={filteredDates} selected={startDate} onChange={onChange} startDate={startDate} endDate={endDate} selectsRange inline />
+			<DatePicker filterDate={filterDates} selected={startDate} onChange={onChange} startDate={startDate} endDate={endDate} selectsRange inline />
 			<p>{dateRange}</p>
 		</div>
 	);
