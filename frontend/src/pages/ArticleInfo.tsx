@@ -11,7 +11,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
 
 const handleContactOwner = async (borrower_id, owner_id) => {
-  if (borrower_id == owner_id) alert("You can't write to yourself");
+  if (borrower_id === owner_id) alert("You can't write to yourself");
   
   await fetch(`${process.env.REACT_APP_BACKEND_URL}/conversation`, {
     method: "POST",
@@ -136,7 +136,6 @@ const ArticleInfo = () => {
       start_date: borrowDates[0],
       end_date: borrowDates[1]
     }
-    console.log(form);
 
     fetch(`${process.env.REACT_APP_BACKEND_URL}/borrows`, {
       method: 'POST',
@@ -219,15 +218,17 @@ const ArticleInfo = () => {
           </div>
 
           {
-            [5, 4, 3, 2, 1].map((r) =>  {
+            [5, 4, 3, 2, 1].map((r, index) =>  {
               let percent = reviewPercentages?.get(r)! * 100 / reviews.length || 0;
                 return(
-                  <div className="rating-line">
-                  <div className="side">{r} <AiFillStar /> </div>
-                  <div className="middle">
-                    <ProgressBar className="bar-container" percent={percent.toPrecision(2)} color='teal' />
+                  <div key={index}>
+                    <div className="rating-line">
+                    <div className="side">{r} <AiFillStar /> </div>
+                    <div className="middle">
+                      <ProgressBar className="bar-container" percent={percent.toPrecision(2)} color='teal' />
+                    </div>
+                    <div className="side right">{percent.toPrecision(2)}%</div>
                   </div>
-                  <div className="side right">{percent.toPrecision(2)}%</div>
                 </div>
                 );
               })

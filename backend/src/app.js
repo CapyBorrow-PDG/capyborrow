@@ -80,6 +80,25 @@ app.put('/users/:id', async (req, res) => {
   return null;
 });
 
+/* ADD POINTS */
+app.put('/users/:id/credit', async (req, res) => {
+  const {user_id, points} = req.body;
+  
+  try {
+    const result = await pool.query(`UPDATE Capyborrow.user
+                                      SET points = $1
+                                    WHERE user_id = $2
+                                    RETURNING *;`, [points, user_id]);
+    
+    if (!result.rows[0]) {
+      return res.status(404).json({ error: 'Utilisateur introvable' });
+    }
+    res.status(200).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message});
+  }
+});
+
 /* ITEM */
 
 const convertQueryToString = (el) => {
@@ -122,6 +141,7 @@ app.get('/item{/:id}', async (req, res) => {
                                         `, [search || null, user || null, minPrice || null, maxPrice || null]);
     res.json(result.rows);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: err.message });
   }
 
@@ -130,7 +150,7 @@ app.get('/item{/:id}', async (req, res) => {
 
 app.post('/item', async (req, res) => {
   let {
-    name, description, price, state, ownerId, category1, category2, picture, city, canton_or_state, latitude, longitude
+    name, description, price, state, ownerId, category1, category2, start_date, end_date, picture, city, canton_or_state, latitude, longitude
   } = req.body;
 
   city = convertQueryToString(city);
@@ -139,10 +159,10 @@ app.post('/item', async (req, res) => {
   try {
     const result = await pool.query(
       `INSERT INTO
-      Capyborrow.item(name, description, price, state, owner_id, category1, category2, picture, city, canton_or_state, latitude, longitude)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);`,
+      Capyborrow.item(name, description, price, state, owner_id, category1, category2, start_date, end_date, picture, city, canton_or_state, latitude, longitude)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14);`,
       [name, description || null, price, state, ownerId,
-        category1 || null, category2 || null, picture, city, canton_or_state, latitude, longitude],
+        category1 || null, category2 || null, start_date || null, end_date || null, picture, city, canton_or_state, latitude, longitude],
     );
 
     if (!result.rows[0]) {

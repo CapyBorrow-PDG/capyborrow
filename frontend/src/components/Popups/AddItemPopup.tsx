@@ -1,9 +1,26 @@
 import '../../styles/AddItemPopup.css';
 import MyPopup from "./Popup.tsx";
 import Dropdown from "../Dropdown/Dropdown.tsx";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const AddItemPopup = (props) => {
+
+  type formData = {
+      name: string,
+      description: string,
+      price: number,
+      state: string,
+      ownerId: number,
+      category1: string,
+      category2: string,
+      start_date: Date,
+      end_date: Date,
+      picture: string,
+      city: string,
+      canton_or_state: string,
+      latitude: number,
+      longitude: number
+    }
 
   const [searchListOpen, setSearchListOpen] = useState(false);
   const [city, setCity] = useState('city');
@@ -15,33 +32,21 @@ const AddItemPopup = (props) => {
   const [tempImage, setTempImage] = useState<any>();
   const [cat1, setCat1] = useState<string>("category");
   const [cat2, setCat2] = useState<string>("category");
-  const [form, setForm] = useState({
-      name: "",
-      description: "",
-      price: 0,
-      state: "",
-      ownerId: props.userId,
-      category1: "",
-      category2: "",
-      picture: "",
-      city: "",
-      canton_or_state: "",
-      latitude: 0,
-      longitude: 0
-    });
+  const [startDate, setStartDate] = useState<string>();
+  const [endDate, setEndDate] = useState<string>();
+  const [form, setForm] = useState<formData>();
 
   const states = ['very good', 'good', 'used'];
   const categories = ['none', 'Electronics', 'Books', 'Music', 'Cooking', 'Sports', 'Outdoor',
                       'Clothes', 'Travel', 'Entertainment', 'Toys', 'Tools', 'Art'];
 
   const handleChange = (e) => {
-    setForm({...form, [e.target.name]: e.target.value});
+    setForm({...form!, [e.target.name]: e.target.value});
   }
 
   const handleSubmit = async (e) => {
-    if(!form.name || !form.price || !currState || !cat1 || !cat2 || !tempImage) {
-      console.log(form.name + " " + form.price + " " + currState);
-      alert("Please fill every mandatory field");
+    if(!form?.name || !form?.price || !currState || !cat1 || !cat2 || !tempImage || !city || !canton) {
+      alert("Please fill every mandatory field marked with an *");
     } else {
       e.preventDefault();
 
@@ -56,7 +61,8 @@ const AddItemPopup = (props) => {
       form.latitude = lat;
       form.longitude = long;
 
-      console.log("form: ", form);
+      form.start_date = new Date(startDate!);
+      form.end_date = new Date(endDate!);
       
       fetch(`${process.env.REACT_APP_BACKEND_URL}/item`, {
         method: "POST",
@@ -64,10 +70,9 @@ const AddItemPopup = (props) => {
           "Content-type": "application/json; charset=UTF-8"
         },
         body: JSON.stringify(form)
-      }).then(data => data.json()).then(res => console.log(res)).catch(err => console.log(err));
+      }).then(data => data.json()).catch(err => console.log(err));
 
       props.close();
-      window.location.reload();
     }
   }
 
@@ -85,7 +90,6 @@ const AddItemPopup = (props) => {
             setLong(result.lon);
             (document.getElementById("resultlist") as HTMLElement).innerHTML ='';
             setSearchListOpen(false);
-            console.log(result.address);
             setCity(result.address.town || result.address.state);
             setCanton(result.address.state);
           };
@@ -101,17 +105,29 @@ const AddItemPopup = (props) => {
       <MyPopup open={props.open}>
         <form className="post-form" onSubmit={handleSubmit}>
           <img className={`item-picture ${tempImage ? '': 'no-image'}`} src={tempImage} alt="item" />
-          <label htmlFor="item-picture" className="lightbutton rounded upload-file clickable">Upload image</label>
+          <label htmlFor="item-picture" className="lightbutton rounded upload-file clickable">Upload image*</label>
           <input type="file" id="item-picture" name="item-picture" accept="image/png, image/jpg" onChange={(e) => {if(e.target.files) setTempImage(URL.createObjectURL(e.target.files![0]))}} />
           
           <div className="search">
-            <label htmlFor="location-input">location</label>
+            <label htmlFor="location-input">location*</label>
             <input id="location-input" type="text" onChange={searchLoc}></input>
             <ul id="resultlist" className={searchListOpen ? "" : "content-closed"}></ul>
           </div>
 
+          <div className="post-category post-dates">
+            <div className="post-date">
+              <label htmlFor="start_date">Available from:</label>
+              <input id="start_date" name="start_date" type="date" onChange={(e) => setStartDate(e.target.value)}></input>
+            </div>
+
+            <div className="post-date">
+              <label htmlFor="end_date">Available until:</label>
+              <input id="end_date" name="end_date" type="date" onChange={(e) => setEndDate(e.target.value)}></input>
+            </div>
+          </div>
+
           <div className="post-category">
-            <label htmlFor="name">name</label>
+            <label htmlFor="name">name*</label>
             <input id="name" name="name" type="text" onChange={handleChange}></input>
           </div>
           <div className="post-category">
@@ -119,11 +135,11 @@ const AddItemPopup = (props) => {
             <input id="description" name="description" type="text" onChange={handleChange}></input>
           </div>
           <div className="post-category">
-            <label htmlFor="price">price</label>
+            <label htmlFor="price">price*</label>
             <input id="price" name="price" type="number" onChange={handleChange}></input>
           </div>
 
-          <label htmlFor="category-buttons"> categories</label>
+          <label htmlFor="category-buttons"> categories*</label>
           <div id="category-buttons" className="category-buttons">
             <Dropdown 
               buttontext={cat1}
@@ -151,7 +167,7 @@ const AddItemPopup = (props) => {
                 }
             />
           </div>
-          <label htmlFor="state-button">state</label>
+          <label htmlFor="state-button">state*</label>
           <div id="state-button">
             <Dropdown 
             buttontext={currState}
@@ -167,7 +183,8 @@ const AddItemPopup = (props) => {
           />
           </div>
           <br/>
-          <div className="post-form-buttons">
+          <label htmlFor="post-form-buttons">fields marked with * are mandatory</label>
+          <div id="post-form-buttons" className="post-form-buttons">
             <input className="darkbutton rounded clickable" type="submit" value="Submit" />
             <button className="lightbutton clickable" onClick={props.close}>cancel</button>
           </div>

@@ -9,9 +9,11 @@ import BorrowsTab from '../components/Tabs/BorrowsTab.tsx';
 import Searchbar from '../components/Searchbar.tsx';
 import MessagesTab from '../components/Tabs/MessagesTab.tsx';
 import DemandBorrowTab from '../components/Tabs/DemandBorrowTab.tsx';
+import { useNavigate } from 'react-router-dom';
 
 
 const Profile = () => {
+  const navigate = useNavigate();
   const {user, isAuthenticated} = useAuth0();
   
   type User = {
@@ -64,7 +66,7 @@ const Profile = () => {
         <p>{currentUser?.fname} {currentUser?.lname}</p>
         <p>{currentUser?.points} points</p>
         <div className="profile-buttons">
-          <button className="darkbutton" onClick={()=>{}}>+ purchase points</button>
+          <button className="darkbutton" onClick={()=> navigate('/credit')}>+ purchase points</button>
           <div className="update-button">
             <button className="lightbutton" onClick={() => {setOpen(true)}}>update profile</button>
             <UpdateProfilePopup open={open} close={() => setOpen(false)}

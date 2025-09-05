@@ -12,7 +12,6 @@ function Login() {
 
     const checkUser = async () => {
         if (!isAuthenticated || !user) return;
-        console.log(user);
         try {
             const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users`);
             const data = await res.json();
@@ -20,14 +19,12 @@ function Login() {
             const exist = data.some(u => u.email === user.email);
 
             if (!exist) {
-                console.log("New user");
                 await fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({email: user.email, username: user.name})
                 });
             } else {
-                console.log("Old user");
             }
         } catch (err) {
             console.error("Error", err);
