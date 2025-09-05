@@ -196,6 +196,8 @@ SELECT DISTINCT ON (b.borrow_id)
     i.name,
     i.price,
     i.state,
+    i.city,
+    i.canton_or_state,
     i.is_available,
     i.picture
 FROM Capyborrow.borrow AS b
