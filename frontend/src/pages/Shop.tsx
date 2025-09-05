@@ -78,7 +78,6 @@ const Shop = () => {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/item?${params.toString()}`)
       .then(res => res.json())
       .then(data => {
-        console.log("Fetched data:", data);
         if(locationInfo) data = data.filter((el) => compareCoordinates([locationInfo.lat, locationInfo.long], [el.latitude, el.longitude]) <= (locationInfo.radius / 1000));
         setItems(data);
       })
