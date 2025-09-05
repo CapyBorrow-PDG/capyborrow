@@ -27,3 +27,7 @@
 .creditButton button {
 	width: 80%;
 }
+
+.creditButton button:hover {
+	width: 80%;
+}
