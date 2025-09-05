@@ -8,8 +8,22 @@ import ProgressBar from '../components/ProgressBar.tsx';
 import { AiFillStar } from 'react-icons/ai';
 import AddToCollectionPopup from '../components/Popups/AddToCollectionPopup.tsx';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
+
+const handleContactOwner = async (borrower_id, owner_id) => {
+  if (borrower_id == owner_id) alert("You can't write to yourself");
+  
+  await fetch(`${process.env.REACT_APP_BACKEND_URL}/conversation`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({user_id: borrower_id, owner_id: owner_id})
+  })
+  .then(res => console.log("Channel created", res.json()))
+  .catch(err => console.error(err));
+}
 
 const ArticleInfo = () => {
+  const navigate = useNavigate();
 
   type User = {
     id: number,
@@ -147,7 +161,12 @@ const ArticleInfo = () => {
 						<p><b>Location: </b>{currArticle?.city}, {currArticle?.canton_or_state}</p>
 					</div>
 					<div id="top-button">
-						<button className="darkbutton" onClick={() => alert("Prout")}>Contact Owner</button>
+						<button className="darkbutton" onClick={() => {
+              handleContactOwner(currentUser?.id, currArticle?.owner_id);
+              navigate('/profile');
+              }}>
+                Contact Owner
+              </button>
             <AddToCollectionPopup userid={currentUser?.id} articleId={articleId} />
 					</div>
 					<button className="darkbutton" id="bottom-button" onClick={borrowDemand}>Borrow Article</button>
