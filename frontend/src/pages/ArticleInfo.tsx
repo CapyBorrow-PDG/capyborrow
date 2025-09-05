@@ -11,7 +11,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
 
 const handleContactOwner = async (borrower_id, owner_id) => {
-  if (borrower_id == owner_id) alert("You can't write to yourself");
+  if (borrower_id === owner_id) alert("You can't write to yourself");
   
   await fetch(`${process.env.REACT_APP_BACKEND_URL}/conversation`, {
     method: "POST",

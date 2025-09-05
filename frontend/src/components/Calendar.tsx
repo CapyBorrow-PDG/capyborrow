@@ -24,17 +24,23 @@ function Calendar(props) {
 		}
 	}, [startDate, endDate]);
 
-	/* const filterDates = (date) => {
-    if(date < new Date() || date < new Date(props.disponibility[0]) || date > new Date(props.disponibility[1])) {
+	const filterDates = (date) => {
+
+    if(date < new Date()){
+      return false;
+    }else if(props.disponibility[0] === '1970-01-01' || props.disponibility[1] === '1970-01-01') {
+      return true;
+    }
+    else if(date < new Date(props.disponibility[0]) || date > new Date(props.disponibility[1])) {
       return false;
     } else {
       return true;
     }
-  } */
+  }
 
 	return (
 		<div>
-			<DatePicker selected={startDate} onChange={onChange} startDate={startDate} endDate={endDate} selectsRange inline />
+			<DatePicker filterDate={filterDates} selected={startDate} onChange={onChange} startDate={startDate} endDate={endDate} selectsRange inline />
 			<p>{dateRange}</p>
 		</div>
 	);
