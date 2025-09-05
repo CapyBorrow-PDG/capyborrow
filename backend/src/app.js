@@ -80,6 +80,25 @@ app.put('/users/:id', async (req, res) => {
   return null;
 });
 
+/* ADD POINTS */
+app.put('/users/:id/credit', async (req, res) => {
+  const {user_id, new_points} = req.body;
+  console.log({user_id, new_points});
+  try {
+    const result = await pool.query(`UPDATE Capyborrow.user
+                                      SET points = $1
+                                    WHERE user_id = $2
+                                    RETURNING *;`, [new_points, user_id]);
+    
+    if (!result.rows[0]) {
+      return res.status(404).json({ error: 'Utilisateur introvable'});
+    }
+    res.status(200).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message});
+  }
+});
+
 /* ITEM */
 
 const convertQueryToString = (el) => {
