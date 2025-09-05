@@ -110,6 +110,9 @@ VALUES('IHateEverything', 'John', 'Doe', 'John.Doe@gmail.com');
 INSERT INTO Capyborrow.user(email)
 VALUES('test@gmail.com');
 
+INSERT INTO Capyborrow.user(username, firstname, email)
+VALUES('Brunax', 'Bruno', 'emily.baqerizo@gmail.com');
+
 INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture, city, canton_or_state, latitude, longitude)
 VALUES('Aspirateur', 'ca nettoie ici', 50, 'very good', 1, 'Electronics', '2025-04-05', '2025-11-08', '../assets/images/aspirateur.png', 'Martigny', 'Valais', 46.111592, 7.094935);
 
@@ -124,6 +127,10 @@ VALUES('Balai', 'ca nettoie ici', 10, 'used', 2, '2025-08-30', '2025-09-12', '..
 
 INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture, city, canton_or_state, latitude, longitude)
 VALUES('Rice Cooker', 'riz', 50, 'good', 1, 'Electronics', '2025-09-05', '2025-09-08', '../assets/images/rice-cooker.jpg', 'Berne', 'Berne', 46.954022, 7.398747);
+
+INSERT INTO Capyborrow.item(name, description, price, state, owner_id, category1, start_date, end_date, picture, city, canton_or_state, latitude, longitude)
+VALUES('Raquette de ping pong', 'Deux superbes raquettes de ping pong', 30, 'very good', 5, 'Sports', '2025-09-05', '2025-09-13', '../assets/images/ping-pong.jpg', 'Lausanne', 'Vaud', 46.526992, 6.642765);
+
 
 INSERT INTO Capyborrow.borrow(item_id, owner_id, borrower_id, start_date, end_date, is_accepted)
 VALUES(1, 1, 2, '2025-09-05', '2025-09-07', true);
