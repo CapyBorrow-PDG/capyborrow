@@ -66,6 +66,23 @@ CREATE TABLE Capyborrow.borrow (
     borrow_ended BOOLEAN NOT NULL DEFAULT false --pour gérer les item rendu en retard
 );
 
+CREATE OR REPLACE FUNCTION check_date_func()
+RETURNS TRIGGER
+AS $$
+BEGIN
+  IF (NEW.end_date < NEW.start_date) OR (NEW.start_date < CURRENT_DATE) THEN
+    RAISE EXCEPTION SQLSTATE '45000' USING MESSAGE = 'Error: end_date cannot be earlier than start_date.';
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER check_date
+BEFORE INSERT ON Capyborrow.borrow
+FOR EACH ROW
+EXECUTE FUNCTION check_date_func();
+
+
 -- COLLECTIONS
 
 CREATE TABLE Capyborrow.itemcollection (
