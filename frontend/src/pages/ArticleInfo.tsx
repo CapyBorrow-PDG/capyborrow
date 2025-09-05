@@ -144,8 +144,6 @@ const ArticleInfo = () => {
       end_date: borrowDates[1]
     }
 
-    console.log(form);
-
     fetch(`${process.env.REACT_APP_BACKEND_URL}/borrows`, {
       method: 'POST',
       headers: {
