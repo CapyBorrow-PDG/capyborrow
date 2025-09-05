@@ -49,7 +49,7 @@ const DemandBorrowTab = (props) => {
   };
 
   return(
-    <div>
+    <div className="demands">
       {
         demands?.map((d: demand) => (
           <div className="borrow-demand">

@@ -1,3 +1,8 @@
+.demands {
+  display: flex;
+  gap: 10px;
+}
+
 .borrow-demand {
   display: flex;
   flex-direction: column;
