@@ -32,6 +32,7 @@ const ArticleInfo = () => {
   }
 
   type article = {
+    item_id: number,
     name: string,
     description: string,
     price: number,
@@ -41,8 +42,8 @@ const ArticleInfo = () => {
     picture: string,
     city: string,
     canton_or_state: string,
-    start_date: Date,
-    end_date: Date
+    start_date: string,
+    end_date: string
   }
 
   type review = {
@@ -58,12 +59,13 @@ const ArticleInfo = () => {
   const [currentUser, setCurrentUser] = useState<User>();
 
 	const [currArticle, setCurrArticle] = useState<article>();
+  const [pic, setPic] = useState('../assets/images/noimage.png');
   const [reviews, setReviews] = useState([]);
   const [reviewPercentages, setReviewPercentages] = useState<Map<number, number>>();
   const [meanRating, setMeanRating] = useState(0);
   const [newRating, setNewRating] = useState(0);
   const [newComment, setNewComment] = useState("");
-  const [borrowDates, setBorrowDates] = useState([]);
+  const [borrowDates, setBorrowDates] = useState<string[]>([]);
 
 	useEffect(() => {
 		const fetchArticle = async () => {
@@ -102,12 +104,17 @@ const ArticleInfo = () => {
             picture: dbUser.picture
           });
         }
+        if(!currArticle?.picture.includes("blob")) {
+          setPic(currArticle?.picture!);
+        } else {
+          setPic('../assets/images/noimage.png');
+        }
       }).catch(err => console.log(err));
     }
 
     fetchUser();
 
-  }, [user, currentUser]);
+  }, [user, currentUser, currArticle]);
 
   const postReview = async () => {
 
@@ -137,6 +144,8 @@ const ArticleInfo = () => {
       end_date: borrowDates[1]
     }
 
+    console.log(form);
+
     fetch(`${process.env.REACT_APP_BACKEND_URL}/borrows`, {
       method: 'POST',
       headers: {
@@ -150,7 +159,7 @@ const ArticleInfo = () => {
 		<div>
 			<Searchbar onChange={() => {}} />
 			<div id="container">
-				<img src={currArticle?.picture} alt="Article" />
+				<img src={pic} alt="Article" />
 				<div id="compact-section">
 					<div id="text-section">
 						<h2>{currArticle?.name}</h2>
@@ -177,7 +186,7 @@ const ArticleInfo = () => {
 				</div>
 				<div id="calendar-section">
 					<h3>Disponibility</h3>
-					<Calendar disponibility={[currArticle?.start_date || '1970-01-01', currArticle?.end_date || '1970-01-01']} mode={false} onChange={([start,end]) => setBorrowDates([start,end])} />
+					<Calendar item_id={currArticle?.item_id} disponibility={[currArticle?.start_date || '1970-01-01', currArticle?.end_date || '1970-01-01']} mode={false} onChange={([start,end]) => setBorrowDates([start,end])} />
 				</div>
 				
 				<div id="review-header">

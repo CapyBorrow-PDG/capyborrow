@@ -203,6 +203,18 @@ app.get('/borrows/user/:userid', async (req, res) => {
   }
 });
 
+app.get('/borrows/item/:itemid', async (req, res) => {
+  const { itemid } = req.params;
+  try {
+    const result = await pool.query(`SELECT * FROM Capyborrow.all_borrows AS b
+                                      WHERE b.item_id = $1;`, [itemid]);
+    res.json(result.rows);
+  } catch(err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.post('/borrows', async (req, res) => {
 
   let {item_id, owner_id, borrower_id, start_date, end_date} = req.body;
