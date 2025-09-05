@@ -104,15 +104,15 @@ const Shop = () => {
           <Dropdown buttontext="price" content={<MySlider MIN={MIN} MAX={MAX} startMin={minPrice} startMax={maxPrice} onChange={(val) => {setMinPrice(val[0]);setMaxPrice(val[1])}} />} />
           <Dropdown buttontext="State" content={<div id="state-list" className="checkbox-list">
             {
-              statesList.map((el) => (
-                <Checkbox val={el} onChange={() => toggleFilter(states, el, setStates)} checked={states.includes(el)}/>
+              statesList.map((el, index) => (
+                <Checkbox key={index} val={el} onChange={() => toggleFilter(states, el, setStates)} checked={states.includes(el)}/>
               ))
             }
           </div>} />
           <Dropdown buttontext="Category" content={<div id="cat-list" className="checkbox-list">
             {
-              categoriesList.map((el) => (
-                <Checkbox val={el} onChange={() => toggleFilter(categories, el, setCategories)} checked={categories.includes(el)} />
+              categoriesList.map((el, index) => (
+                <Checkbox key={index} val={el} onChange={() => toggleFilter(categories, el, setCategories)} checked={categories.includes(el)} />
               ))
             }
           </div>} />
