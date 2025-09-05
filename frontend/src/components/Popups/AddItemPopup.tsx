@@ -63,8 +63,6 @@ const AddItemPopup = (props) => {
 
       form.start_date = new Date(startDate!);
       form.end_date = new Date(endDate!);
-
-      console.log("form: ", form);
       
       fetch(`${process.env.REACT_APP_BACKEND_URL}/item`, {
         method: "POST",
@@ -72,7 +70,7 @@ const AddItemPopup = (props) => {
           "Content-type": "application/json; charset=UTF-8"
         },
         body: JSON.stringify(form)
-      }).then(data => data.json()).then(res => console.log(res)).catch(err => console.log(err));
+      }).then(data => data.json()).catch(err => console.log(err));
 
       props.close();
     }
@@ -92,7 +90,6 @@ const AddItemPopup = (props) => {
             setLong(result.lon);
             (document.getElementById("resultlist") as HTMLElement).innerHTML ='';
             setSearchListOpen(false);
-            console.log(result.address);
             setCity(result.address.town || result.address.state);
             setCanton(result.address.state);
           };

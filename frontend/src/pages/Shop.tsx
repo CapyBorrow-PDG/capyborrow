@@ -78,7 +78,6 @@ const Shop = () => {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/item?${params.toString()}`)
       .then(res => res.json())
       .then(data => {
-        console.log("Fetched data:", data);
         if(locationInfo) data = data.filter((el) => compareCoordinates([locationInfo.lat, locationInfo.long], [el.latitude, el.longitude]) <= (locationInfo.radius / 1000));
         setItems(data);
       })
@@ -105,15 +104,15 @@ const Shop = () => {
           <Dropdown buttontext="price" content={<MySlider MIN={MIN} MAX={MAX} startMin={minPrice} startMax={maxPrice} onChange={(val) => {setMinPrice(val[0]);setMaxPrice(val[1])}} />} />
           <Dropdown buttontext="State" content={<div id="state-list" className="checkbox-list">
             {
-              statesList.map((el) => (
-                <Checkbox val={el} onChange={() => toggleFilter(states, el, setStates)} checked={states.includes(el)}/>
+              statesList.map((el, index) => (
+                <Checkbox key={index} val={el} onChange={() => toggleFilter(states, el, setStates)} checked={states.includes(el)}/>
               ))
             }
           </div>} />
           <Dropdown buttontext="Category" content={<div id="cat-list" className="checkbox-list">
             {
-              categoriesList.map((el) => (
-                <Checkbox val={el} onChange={() => toggleFilter(categories, el, setCategories)} checked={categories.includes(el)} />
+              categoriesList.map((el, index) => (
+                <Checkbox key={index} val={el} onChange={() => toggleFilter(categories, el, setCategories)} checked={categories.includes(el)} />
               ))
             }
           </div>} />
