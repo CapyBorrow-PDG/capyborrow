@@ -16,6 +16,20 @@
   flex-direction: column;
 }
 
+.post-category.post-dates {
+  align-items: center;
+  gap: 5px;
+}
+
+.post-date {
+  display: flex;
+  gap: 5px;
+}
+
+.post-date * {
+  color: var(--dark-turquoise);
+}
+
 .item-picture {
   max-width: 40%;
   border-radius: 10px;
