@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS Capyborrow;
+
 DROP TABLE IF EXISTS Capyborrow.user CASCADE;
 DROP TABLE IF EXISTS Capyborrow.item CASCADE;
 DROP TABLE IF EXISTS Capyborrow.geolocation CASCADE;
@@ -134,7 +136,7 @@ VALUES('Raquette de ping pong', 'Deux superbes raquettes de ping pong', 30, 'ver
 
 
 INSERT INTO Capyborrow.borrow(item_id, owner_id, borrower_id, start_date, end_date, is_accepted)
-VALUES(1, 1, 2, '2025-09-05', '2025-09-07', true);
+VALUES(1, 1, 2, '2025-10-05', '2025-10-10', true);
 
 INSERT INTO Capyborrow.itemcollection(name, owner_id)
 VALUES('test collection', 2);
