@@ -32,7 +32,9 @@ function Login() {
     };
     checkUser();
   }, [isAuthenticated, user])
-
+  
+  //ATTENTION! Pour le logout, nous n'avons qu'une seule adresse de redirection dans auth0, et nous avons mis localhost:3000 pour faciliter votre correction
+  //l'adresse utilisé avant était celle du site. Nous avons essayé de modifier ceci avec des variables d'environnement pour gérer les deux, sans succès.
   return (
     <div>
       {!isAuthenticated ? (
